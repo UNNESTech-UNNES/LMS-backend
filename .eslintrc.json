@@ -1,0 +1,31 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "node": true,
+    "jest": true
+  },
+  "extends": "eslint:recommended",
+  "parser": "@babel/eslint-parser",
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "requireConfigFile": false,
+    "babelOptions": {
+      "plugins": ["@babel/plugin-syntax-import-assertions"]
+    }
+  },
+  "plugins": ["jsdocs"],
+  "rules": {
+    "semi": ["error", "always"],
+    "quotes": ["error", "single", { "avoidEscape": true }],
+    "jsx-quotes": ["error", "prefer-single"],
+    "linebreak-style": ["error", "unix"],
+    "no-console": "warn",
+    "comma-dangle": ["error", "never"],
+    "no-unused-expressions": "error",
+    "no-constant-binary-expression": "error",
+    "jsdoc/no-undefined-types": "warn",
+    "no-unused-vars": ["warn", { "args": "all", "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }]
+  }
+}
