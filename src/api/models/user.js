@@ -11,8 +11,8 @@ import isMobilePhone from "validator/lib/isMobilePhone.js";
  * @property {boolean} verified
  * @property {string} password
  * @property {string} phone_number
- * @property {Date} createdAt
- * @property {Date} updatedAt
+ * @property {Date} created_at
+ * @property {Date} updated_at
  */
 
 export const Models = {};
