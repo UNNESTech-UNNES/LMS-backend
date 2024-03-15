@@ -14,7 +14,10 @@ export function getUserById(id) {
 /** @param {string} email */
 export function getUserByEmail(email) {
   return User.findOne({
-    where: { email, verified: true },
+    where: {
+      email,
+      // verified: true
+    },
   });
 }
 
