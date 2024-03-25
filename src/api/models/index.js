@@ -10,8 +10,8 @@ import config from "../../db/config/database.js";
  * @property {Sequelize} Sequelize
  * @property {ReturnType<typeof import('./user.js').default>} User
  * @property {ReturnType<typeof import('./course.js').default>} Course
- * @property {ReturnType<typeof import('./course_category.js').default>} CourseCategory
  * @property {ReturnType<typeof import('./instructor.js').default>} Instructor
+ * @property {ReturnType<typeof import('./course_category.js').default>} CourseCategory
  */
 
 /** @typedef {keyof Omit<Database, 'sequelize' | 'Sequelize'>} ModelName */

@@ -1,5 +1,5 @@
 import { Model } from "sequelize";
-import isMobilePhone from "validator/lib/isMobilePhone";
+import isMobilePhone from "validator/lib/isMobilePhone.js";
 
 /**
  * @typedef InstructorAttributes

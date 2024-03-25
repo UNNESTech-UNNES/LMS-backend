@@ -1,12 +1,12 @@
 import { Model } from "sequelize";
 
 /**
- * @typedef CourseContentAttributes
+ * @typedef OtpAttributes
  * @property {string} id
- * @property {string} name
- * @property {number} order_index
- * @property {boolean} is_public
- * @property {string} course_chapter_id
+ * @property {string} otp
+ * @property {boolean} used
+ * @property {string} user_id
+ * @property {Date} expired_at
  * @property {Date} created_at
  * @property {Date} updated_at
  */
@@ -19,7 +19,7 @@ export const Models = {};
  */
 
 export default (sequelize, DataTypes) => {
-  class Course_content extends Model {
+  class Otp extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -30,34 +30,30 @@ export default (sequelize, DataTypes) => {
       // define association here
     }
   }
-  Course_content.init(
+  Otp.init(
     {
-      name: {
+      otp: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      order_index: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-      },
-      is_public: {
+      used: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
-        defaultValue: true,
+        defaultValue: false,
       },
-      course_chapter_id: {
+      user_id: {
         type: DataTypes.UUID,
+        allowNull: false,
+      },
+      expired_at: {
+        type: DataTypes.DATE,
         allowNull: false,
       },
     },
     {
       sequelize,
-      modelName: "CourseContent",
-      tableName: "Course_contents",
-      underscored: true,
-      createdAt: "created_at",
-      updatedAt: "updated_at",
+      modelName: "Otp",
     }
   );
-  return Course_content;
+  return Otp;
 };

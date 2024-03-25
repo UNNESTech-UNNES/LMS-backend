@@ -32,7 +32,10 @@ export default (sequelize, DataTypes) => {
      * @param {Record<import('./index.js').ModelName,any>} models
      */
     static associate(models) {
-      // define association here
+      this.belongsTo(models.CourseCategory, {
+        foreignKey: "course_category_id",
+        as: "course_category",
+      });
     }
   }
   Course.init(

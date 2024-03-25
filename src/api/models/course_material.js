@@ -35,7 +35,7 @@ export default (sequelize, DataTypes) => {
   Course_material.init(
     {
       label: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: false,
       },
       order_index: {
@@ -48,17 +48,20 @@ export default (sequelize, DataTypes) => {
       },
       url: {
         type: DataTypes.TEXT,
+        allowNull: true,
       },
       heading: {
         type: DataTypes.TEXT,
+        allowNull: true,
       },
       text_value: {
         type: DataTypes.TEXT,
+        allowNull: true,
       },
     },
     {
       sequelize,
-      modelName: "Course_material",
+      modelName: "CourseMaterial",
       tableName: "Course_materials",
       underscored: true,
       createdAt: "created_at",

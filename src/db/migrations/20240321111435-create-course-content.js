@@ -20,6 +20,7 @@ module.exports = {
       is_public: {
         type: Sequelize.BOOLEAN,
         allowNull: false,
+        defaultValue: true,
       },
       course_chapter_id: {
         type: Sequelize.UUID,

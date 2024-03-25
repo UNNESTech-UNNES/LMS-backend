@@ -32,30 +32,14 @@ export default (sequelize, DataTypes) => {
   }
   Course_chapter.init(
     {
-      name: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      duration: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-      },
-      order_index: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-      },
-      course_id: {
-        type: DataTypes.UUID,
-        allowNull: false,
-        references: {
-          model: "Course",
-          key: "id",
-        },
-      },
+      name: DataTypes.STRING,
+      duration: DataTypes.INTEGER,
+      order_index: DataTypes.INTEGER,
+      course_id: DataTypes.UUID,
     },
     {
       sequelize,
-      modelName: "Course_chapter",
+      modelName: "CourseChapter",
       tableName: "Course_chapters",
       underscored: true,
       createdAt: "created_at",

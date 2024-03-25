@@ -8,15 +8,15 @@ import { Model } from "sequelize";
  * @property {Date} created_at
  * @property {Date} updated_at
  */
-
 export const Models = {};
 
 /**
  * @param {import('sequelize').Sequelize} sequelize
  * @param {import('sequelize').DataTypes} DataTypes
  */
+
 export default (sequelize, DataTypes) => {
-  class Course_category extends Model {
+  class CourseCategory extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -24,28 +24,30 @@ export default (sequelize, DataTypes) => {
      * @param {Record<import('./index.js').ModelName,any>} models
      */
     static associate(models) {
-      // define association here
+      this.hasMany(models.Course, {
+        foreignKey: "category_id",
+      });
     }
   }
-  Course_category.init(
+  CourseCategory.init(
     {
       name: {
         type: DataTypes.STRING,
         allowNull: false,
       },
       image: {
-        type: DataTypes.TEXT,
-        allowNull: true,
+        type: DataTypes.STRING,
+        allowNull: false,
       },
     },
     {
       sequelize,
-      modelName: "Course_category",
+      modelName: "CourseCategory",
       tableName: "Course_categories",
       underscored: true,
       createdAt: "created_at",
       updatedAt: "updated_at",
     }
   );
-  return Course_category;
+  return CourseCategory;
 };

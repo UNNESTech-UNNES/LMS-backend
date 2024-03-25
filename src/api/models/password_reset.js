@@ -1,12 +1,11 @@
 import { Model } from "sequelize";
 
 /**
- * @typedef CourseContentAttributes
+ * @typedef PasswordResetAttributes
  * @property {string} id
- * @property {string} name
- * @property {number} order_index
- * @property {boolean} is_public
- * @property {string} course_chapter_id
+ * @property {string} token
+ * @property {boolean} used
+ * @property {string} user_id
  * @property {Date} created_at
  * @property {Date} updated_at
  */
@@ -19,7 +18,7 @@ export const Models = {};
  */
 
 export default (sequelize, DataTypes) => {
-  class Course_content extends Model {
+  class Password_reset extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -30,34 +29,30 @@ export default (sequelize, DataTypes) => {
       // define association here
     }
   }
-  Course_content.init(
+  Password_reset.init(
     {
-      name: {
+      token: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      order_index: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-      },
-      is_public: {
+      used: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
-        defaultValue: true,
+        defaultValue: false,
       },
-      course_chapter_id: {
+      user_id: {
         type: DataTypes.UUID,
         allowNull: false,
       },
     },
     {
       sequelize,
-      modelName: "CourseContent",
-      tableName: "Course_contents",
+      modelName: "Password_reset",
+      tableName: "Password_resets",
       underscored: true,
       createdAt: "created_at",
       updatedAt: "updated_at",
     }
   );
-  return Course_content;
+  return Password_reset;
 };
