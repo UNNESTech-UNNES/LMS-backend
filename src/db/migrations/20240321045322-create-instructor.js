@@ -13,13 +13,21 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      nip: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: {
+          name: "nip",
+          msg: "NIP already exists. Please use another NIP",
+        },
+      },
       image: {
         type: Sequelize.STRING,
         allowNull: true,
       },
       position: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       verified: {
         type: Sequelize.BOOLEAN,
@@ -28,6 +36,10 @@ module.exports = {
       },
       description: {
         type: Sequelize.TEXT,
+        allowNull: false,
+      },
+      password: {
+        type: Sequelize.STRING,
         allowNull: false,
       },
       email: {
@@ -40,7 +52,7 @@ module.exports = {
         allowNull: false,
         unique: true,
       },
-      telegram: {
+      social_media: {
         type: Sequelize.STRING,
         allowNull: true,
       },
@@ -48,7 +60,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
       },
-      updated_t: {
+      updated_at: {
         allowNull: false,
         type: Sequelize.DATE,
       },

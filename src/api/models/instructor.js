@@ -5,10 +5,12 @@ import isMobilePhone from "validator/lib/isMobilePhone.js";
  * @typedef InstructorAttributes
  * @property {string} id
  * @property {string} name
+ * @property {string} nip
  * @property {string | null} image
  * @property {string} position
  * @property {boolean} verified
  * @property {string} description
+ * @property {string} password
  * @property {string} email
  * @property {string} phone_number
  * @property {object} social_media
@@ -41,13 +43,17 @@ export default (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      nip: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
       image: {
         type: DataTypes.STRING,
         allowNull: true,
       },
       position: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       verified: {
         type: DataTypes.BOOLEAN,
@@ -56,6 +62,10 @@ export default (sequelize, DataTypes) => {
       },
       description: {
         type: DataTypes.TEXT,
+        allowNull: false,
+      },
+      password: {
+        type: DataTypes.STRING,
         allowNull: false,
       },
       email: {
