@@ -14,4 +14,6 @@ export default (app) => {
 
   router.post("/register", authController.register);
   router.post("/login", authController.login);
+  router.post("/instructor/register", authController.registerInstructor);
+  router.post("/instructor/login", authController.loginAsInstructor);
 };
