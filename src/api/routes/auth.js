@@ -16,4 +16,7 @@ export default (app) => {
   router.post("/login", authController.login);
   router.post("/instructor/register", authController.registerInstructor);
   router.post("/instructor/login", authController.loginAsInstructor);
+
+  router.post("/otp", authController.sendOtpRequest);
+  router.post("/otp/verify", authController.verifyOtp);
 };
