@@ -158,3 +158,63 @@ export async function verifyOtp(req, res) {
     res.status(500).json({ message: "Internal server error" });
   }
 }
+
+/**
+ * @type {Types.Controller}
+ * @returns {Promise<void>}
+ */
+export async function sendVerifyToResetPassword(req, res) {
+  const { email } = req.body;
+
+  try {
+    await authService.sendVerifyToResetPassword(email);
+
+    res.status(201).json({ message: "Account verification sent successfully" });
+  } catch (err) {
+    if (err instanceof ApplicationError) {
+      res.status(err.statusCode).json({ message: err.message });
+      return;
+    }
+    res.status(500).json({ message: "Internal server error" });
+  }
+}
+
+/**
+ * @type {Types.Controller}
+ * @returns {Promise<void>}
+ */
+export async function checkLinkToResetPassword(req, res) {
+  const { token } = req.params;
+
+  try {
+    await authService.checkLinkToResetPassword(token);
+
+    res.status(200).json({ message: "Verification is valid" });
+  } catch (err) {
+    if (err instanceof ApplicationError) {
+      res.status(err.statusCode).json({ message: err.message });
+      return;
+    }
+    res.status(500).json({ message: "Internal server error" });
+  }
+}
+
+/**
+ * @type {Types.Controller}
+ * @returns {Promise<void>}
+ */
+export async function changePassword(req, res) {
+  const payload = req.body;
+
+  try {
+    await authService.changePassword(payload);
+
+    res.status(200).json({ message: "Password changed successfully" });
+  } catch (err) {
+    if (err instanceof ApplicationError) {
+      res.status(err.statusCode).json({ message: err.message });
+      return;
+    }
+    res.status(500).json({ message: "Internal server error" });
+  }
+}
