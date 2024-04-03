@@ -26,7 +26,14 @@ export default (sequelize, DataTypes) => {
      * @param {Record<import('./index.js').ModelName,any>} models
      */
     static associate(models) {
-      // define association here
+      this.belongsTo(models.User, {
+        foreignKey: "user_id",
+        as: "user",
+      });
+      // this.belongsTo(models.Instructor, {
+      //   foreignKey: "user_id",
+      //   as: "instructor",
+      // });
     }
   }
   Password_reset.init(

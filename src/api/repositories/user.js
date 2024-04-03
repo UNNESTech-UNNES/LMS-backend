@@ -16,7 +16,7 @@ export function getUserByEmail(email) {
   return User.findOne({
     where: {
       email,
-      // verified: true
+      verified: true,
     },
   });
 }

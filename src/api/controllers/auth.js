@@ -125,8 +125,8 @@ export async function loginAsInstructor(req, res) {
  * @returns {Promise<void>}
  */
 export async function sendOtpRequest(req, res) {
-  const { email } = req.body;
-  const { id: userId } = res.locals.user;
+  const { email, id: userId } = req.body;
+  // const { id: userId } = res.locals.user;
 
   try {
     await authService.sendOtpRequest(email, userId);

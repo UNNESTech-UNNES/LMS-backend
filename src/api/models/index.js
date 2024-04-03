@@ -54,6 +54,9 @@ async function initializeDatabase() {
     }
   }
 
+  db.sequelize = sequelize;
+  db.Sequelize = Sequelize;
+
   return /** @type {Database} */ (/** @type {unknown} */ (db));
 }
 
