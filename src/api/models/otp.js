@@ -31,11 +31,6 @@ export default (sequelize, DataTypes) => {
         foreignKey: "user_id",
         as: "user",
       });
-
-      this.belongsTo(models.Instructor, {
-        foreignKey: "user_id",
-        as: "instructor",
-      });
     }
   }
   Otp.init(

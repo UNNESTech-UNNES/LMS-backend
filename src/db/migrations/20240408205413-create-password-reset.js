@@ -2,32 +2,29 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("Course_materials", {
+    await queryInterface.createTable("Password-resets", {
       id: {
         allowNull: false,
         primaryKey: true,
         type: Sequelize.UUID,
         defaultValue: Sequelize.literal("gen_random_uuid()"),
       },
-      label: {
-        type: Sequelize.TEXT,
+      used: {
+        type: Sequelize.BOOLEAN,
         allowNull: false,
+        defaultValue: false,
       },
-      order_index: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-      },
-      type: {
+      token: {
         type: Sequelize.STRING,
+        allowNull: false,
       },
-      url: {
-        type: Sequelize.TEXT,
+      expired_at: {
+        type: Sequelize.DATE,
+        allowNull: false,
       },
-      heading: {
-        type: Sequelize.TEXT,
-      },
-      text_value: {
-        type: Sequelize.TEXT,
+      user_id: {
+        type: Sequelize.UUID,
+        allowNull: false,
       },
       created_at: {
         allowNull: false,
@@ -40,6 +37,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("Course_materials");
+    await queryInterface.dropTable("Password-resets");
   },
 };

@@ -108,9 +108,7 @@ export async function sendOtpRequest(email, userId) {
 export async function verifyOtp(payload) {
   const { otp, email } = payload;
   try {
-    const verifyOtpDataUser = await otpRepository.getDataOtpVerificationByOtpForUser(otp, email);
-    const verifyOtpDataInstructor = await otpRepository.getDataOtpVerificationByOtpForInstructor(otp, email);
-    const verifyOtpData = verifyOtpDataUser || verifyOtpDataInstructor;
+    const verifyOtpData = await otpRepository.getDataOtpVerificationByOtpForUser(otp, email);
 
     if (!verifyOtpData) {
       throw new ApplicationError("OTP not found", 404);
@@ -135,9 +133,8 @@ export async function verifyOtp(payload) {
  */
 export async function sendVerifyToResetPassword(email) {
   try {
-    const checkUser = await userRepository.getUserByEmail(email);
-    const checkInstructor = await instructorRepository.getInstructorByEmail(email);
-    const user = checkUser || checkInstructor;
+    const user = await userRepository.getUserByEmail(email);
+
     if (!user) {
       throw new ApplicationError("User not found", 404);
     }
@@ -197,7 +194,6 @@ export async function changePassword(payload) {
 
     await sequelize.transaction(async (transaction) => {
       await userRepository.updatedUser(userId, updatePassword, transaction);
-      await instructorRepository.updatedInstructor(userId, updatePassword, transaction);
       await resetPasswordRepository.updateUsedPasswordResetLink(token, transaction);
     });
   } catch (err) {

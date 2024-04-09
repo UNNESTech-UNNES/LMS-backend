@@ -37,7 +37,7 @@ export async function setUsedTrueByUserId(user_id, transaction) {
     { used: true },
     {
       where: { user_id, expired_at: { [Op.gt]: new Date() } },
-      transaction,
+      transaction: transaction,
     }
   );
 }

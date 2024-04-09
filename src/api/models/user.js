@@ -22,6 +22,7 @@ export const Models = {};
  * @param {import('sequelize').DataTypes} DataTypes
  */
 export default (sequelize, DataTypes) => {
+  /** @extends {Model<UserAttributes>} */
   class User extends Model {
     /**
      * Helper method for defining associations.
@@ -35,12 +36,13 @@ export default (sequelize, DataTypes) => {
         foreignKey: "user_id",
       });
 
-      // this.hasMany(models.PasswordReset, {
-      //   foreignKey: "user_id",
-      // });
+      this.hasMany(models.PasswordReset, {
+        foreignKey: "user_id",
+      });
     }
   }
   User.init(
+    // @ts-ignore
     {
       name: {
         type: DataTypes.STRING,
