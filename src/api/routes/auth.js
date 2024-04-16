@@ -12,9 +12,12 @@ export default (app) => {
 
   app.use("/auth", router);
 
-  router.post("/register", authController.register);
   router.post("/login", authController.login);
-  router.post("/instructor/login", authController.loginAsInstructor);
+
+  router.post("/register", authController.register);
+  router.post("/student/register", authController.registerStudent);
+  router.post("/instructor/register", authController.registerInstructor);
+  router.post("/admin/register", authController.registerAdmin);
 
   router.post("/otp", authController.sendOtpRequest);
   router.post("/otp/verify", authController.verifyOtp);

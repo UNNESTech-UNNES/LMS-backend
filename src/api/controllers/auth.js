@@ -2,26 +2,88 @@ import { ApplicationError } from "../../libs/error.js";
 import * as Types from "../../libs/types/common.js";
 import * as userService from "../services/user.js";
 import * as authService from "../services/auth.js";
-import * as instructorService from "../services/instructor.js";
 import * as Models from "../models/user.js";
-import * as instructorModels from "../models/instructor.js";
 
 /**
- * Authentication for User
+ * Registration
  */
 
 /**
+ * Register new user
  * @type {Types.Controller}
  * @returns {void}
  */
-
 export async function register(req, res) {
   const body = req.body;
+  const payload = { ...body, role: "USER" };
 
   try {
-    const data = await userService.createUser(body);
+    const data = await userService.createUser(payload);
 
-    res.status(201).json({ message: "User created", data });
+    res.status(201).json({ message: "User registered", data });
+  } catch (err) {
+    if (err instanceof ApplicationError) {
+      res.status(err.statusCode).json({ message: err.message });
+      return;
+    }
+    res.status(500).json({ message: "Internal server error" });
+  }
+}
+
+/**
+ * Register new student
+ * @type {Types.Controller}
+ * @returns {void}
+ */
+export async function registerStudent(req, res) {
+  const body = req.body;
+  const payload = { ...body, role: "STUDENT" };
+
+  try {
+    const data = await userService.createUser(payload);
+    res.status(201).json({ message: "Student registered", data });
+  } catch (err) {
+    if (err instanceof ApplicationError) {
+      res.status(err.statusCode).json({ message: err.message });
+      return;
+    }
+    res.status(500).json({ message: "Internal server error" });
+  }
+}
+
+/**
+ * Register new instructor
+ * @type {Types.Controller}
+ * @returns {void}
+ */
+export async function registerInstructor(req, res) {
+  const body = req.body;
+  const payload = { ...body, role: "INSTRUCTOR" };
+
+  try {
+    const data = await userService.createUser(payload);
+    res.status(201).json({ message: "Instructor registered", data });
+  } catch (err) {
+    if (err instanceof ApplicationError) {
+      res.status(err.statusCode).json({ message: err.message });
+      return;
+    }
+    res.status(500).json({ message: "Internal server error" });
+  }
+}
+
+/**
+ * Register new admin
+ * @type {Types.Controller}
+ * @returns {void}
+ */
+export async function registerAdmin(req, res) {
+  const body = req.body;
+  const payload = { ...body, role: "ADMIN" };
+
+  try {
+    const data = await userService.createUser(payload);
+    res.status(201).json({ message: "Admin registered", data });
   } catch (err) {
     if (err instanceof ApplicationError) {
       res.status(err.statusCode).json({ message: err.message });
@@ -62,59 +124,36 @@ export async function login(req, res) {
   }
 }
 
-/**
- * Authentication for Instructor
- */
+// /**
+//  * @type {Types.Controller}
+//  * @returns {Promise<void>}
+//  */
+// export async function loginAsInstructor(req, res) {
+//   try {
+//     const { email, nip, password } = req.body;
+//     const instructor = email ? await instructorService.getInstructorByEmail(email) : await instructorService.getInstructorByNip(nip);
 
-/**
- * @type {Types.Controller}
- * @returns {void}
- */
-export async function registerInstructor(req, res) {
-  const body = req.body;
+//     const isMatch = await authService.isPasswordMatch(password, instructor.dataValues.password);
 
-  try {
-    const data = await instructorService.createInstructor(body);
-    res.status(201).json({ message: "Instructor created", data });
-  } catch (err) {
-    if (err instanceof ApplicationError) {
-      res.status(err.statusCode).json({ message: err.message });
-      return;
-    }
-    res.status(500).json({ message: "Internal server error" });
-  }
-}
+//     if (!isMatch) {
+//       res.status(401).json({ message: "Password is not match" });
+//       return;
+//     }
 
-/**
- * @type {Types.Controller}
- * @returns {Promise<void>}
- */
-export async function loginAsInstructor(req, res) {
-  try {
-    const { email, nip, password } = req.body;
-    const instructor = email ? await instructorService.getInstructorByEmail(email) : await instructorService.getInstructorByNip(nip);
+//     const token = await authService.generateToken(instructor.dataValues.id);
 
-    const isMatch = await authService.isPasswordMatch(password, instructor.dataValues.password);
+//     /** @type {instructorModels.InstructorAttributes & {token:string}} */
+//     const instructorWithToken = { ...instructor.dataValues, token };
 
-    if (!isMatch) {
-      res.status(401).json({ message: "Password is not match" });
-      return;
-    }
-
-    const token = await authService.generateToken(instructor.dataValues.id);
-
-    /** @type {instructorModels.InstructorAttributes & {token:string}} */
-    const instructorWithToken = { ...instructor.dataValues, token };
-
-    res.status(200).json({ message: "Login success", data: instructorWithToken });
-  } catch (err) {
-    if (err instanceof ApplicationError) {
-      res.status(err.statusCode).json({ message: err.message });
-      return;
-    }
-    res.status(500).json({ message: "Internal server error" });
-  }
-}
+//     res.status(200).json({ message: "Login success", data: instructorWithToken });
+//   } catch (err) {
+//     if (err instanceof ApplicationError) {
+//       res.status(err.statusCode).json({ message: err.message });
+//       return;
+//     }
+//     res.status(500).json({ message: "Internal server error" });
+//   }
+// }
 
 /**
  * OTP Verification

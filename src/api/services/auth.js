@@ -3,7 +3,6 @@ import bcrypt from "bcrypt";
 import { Model } from "sequelize";
 import { JWT_SECRET } from "../../libs/env.js";
 import * as userService from "../services/user.js";
-import * as instructorService from "../services/instructor.js";
 import * as userRepository from "../repositories/user.js";
 import * as instructorRepository from "../repositories/instructor.js";
 import * as resetPasswordRepository from "../repositories/password-reset.js";
@@ -150,6 +149,7 @@ export async function sendVerifyToResetPassword(email) {
         user_id: user.dataValues.id,
         expired_at: nextHourDate,
       };
+      console.log("This process is successful");
 
       const verifyToReset = await resetPasswordRepository.setPasswordReset(payload, transaction);
 

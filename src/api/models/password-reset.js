@@ -47,7 +47,7 @@ export default (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "PasswordReset",
-      tableName: "Password_resets",
+      tableName: "Password-resets",
       createdAt: "created_at",
       updatedAt: "updated_at",
       underscored: true,

@@ -51,14 +51,14 @@ export async function isAuthorized(req, res, next) {
  * @returns {void}
  */
 export function isAdmin(_req, res, next) {
-  const { admin } = /** @type {Models.UserAttributes} */ (res.locals.user);
+  const { role } = /** @type {Models.UserAttributes} */ (res.locals.user);
 
-  if (!admin) {
+  if (role !== "SUPER_ADMIN" && role !== "ADMIN") {
     res.status(403).json({ message: "Only admin is allowed for this endpoint" });
     return;
   }
 
-  res.locals.isAdmin = admin;
+  res.locals.role = role;
 
   next();
 }

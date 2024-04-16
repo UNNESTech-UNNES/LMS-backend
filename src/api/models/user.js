@@ -6,7 +6,7 @@ import isMobilePhone from "validator/lib/isMobilePhone.js";
  * @property {string} id
  * @property {string} name
  * @property {string | null} image
- * @property {boolean} admin
+ * @property {Roles} role
  * @property {string} email
  * @property {boolean} verified
  * @property {string} password
@@ -16,6 +16,10 @@ import isMobilePhone from "validator/lib/isMobilePhone.js";
  */
 
 export const Models = {};
+
+const ROLES = /** @type {const} */ (["USER", "STUDENT", "INSTRUCTOR", "ADMIN", "SUPER_ADMIN"]);
+
+/** @typedef {(typeof ROLES)[number]} Roles */
 
 /**
  * @param {import('sequelize').Sequelize} sequelize
@@ -52,10 +56,9 @@ export default (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: true,
       },
-      admin: {
-        type: DataTypes.BOOLEAN,
+      role: {
+        type: DataTypes.ENUM(...ROLES),
         allowNull: false,
-        defaultValue: false,
       },
       email: {
         type: DataTypes.STRING,

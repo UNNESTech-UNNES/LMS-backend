@@ -21,6 +21,20 @@ export function getUserByEmail(email) {
   });
 }
 
+/**
+ * @param {string} email
+ * @param {string} role
+ */
+export function getUserByEmailAndRole(email, role) {
+  return User.findOne({
+    where: {
+      email,
+      role,
+      verified: true,
+    },
+  });
+}
+
 /** @param {string} email */
 export function getUnverifiedUserByEmail(email) {
   return User.findOne({
