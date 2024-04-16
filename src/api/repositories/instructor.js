@@ -16,7 +16,7 @@ export function getInstructorByEmail(email) {
   return Instructor.findOne({
     where: {
       email,
-      // verified: true
+      verified: true,
     },
   });
 }
@@ -26,7 +26,7 @@ export function getInstructorByNip(nip) {
   return Instructor.findOne({
     where: {
       nip,
-      // verified: true
+      verified: true,
     },
   });
 }

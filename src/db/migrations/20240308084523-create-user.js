@@ -17,10 +17,10 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: true,
       },
-      admin: {
-        type: Sequelize.STRING,
+      role: {
+        type: Sequelize.ENUM("USER", "STUDENT", "INSTRUCTOR", "ADMIN", "SUPER_ADMIN"),
         allowNull: false,
-        defaultValue: false,
+        defaultValue: "USER",
       },
       email: {
         type: Sequelize.STRING,

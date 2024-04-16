@@ -3,12 +3,10 @@ import { Model } from "sequelize";
 /**
  * @typedef CourseMaterialAttributes
  * @property {string} id
- * @property {string} label
+ * @property {string} name
  * @property {number} order_index
- * @property {string} type
- * @property {string} url
- * @property {string} heading
- * @property {string} text_value
+ * @property {boolean} is_public
+ * @property {string} course_chapter_id
  * @property {Date} created_at
  * @property {Date} updated_at
  */
@@ -34,29 +32,22 @@ export default (sequelize, DataTypes) => {
   }
   Course_material.init(
     {
-      label: {
-        type: DataTypes.TEXT,
+      name: {
+        type: DataTypes.STRING,
         allowNull: false,
       },
       order_index: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      type: {
-        type: DataTypes.STRING,
+      is_public: {
+        type: DataTypes.BOOLEAN,
         allowNull: false,
+        defaultValue: true,
       },
-      url: {
-        type: DataTypes.TEXT,
-        allowNull: true,
-      },
-      heading: {
-        type: DataTypes.TEXT,
-        allowNull: true,
-      },
-      text_value: {
-        type: DataTypes.TEXT,
-        allowNull: true,
+      course_chapter_id: {
+        type: DataTypes.UUID,
+        allowNull: false,
       },
     },
     {

@@ -16,7 +16,21 @@ export function getUserByEmail(email) {
   return User.findOne({
     where: {
       email,
-      // verified: true
+      verified: true,
+    },
+  });
+}
+
+/**
+ * @param {string} email
+ * @param {string} role
+ */
+export function getUserByEmailAndRole(email, role) {
+  return User.findOne({
+    where: {
+      email,
+      role,
+      verified: true,
     },
   });
 }

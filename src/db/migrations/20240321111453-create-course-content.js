@@ -9,20 +9,27 @@ module.exports = {
         type: Sequelize.UUID,
         defaultValue: Sequelize.literal("gen_random_uuid()"),
       },
-      name: {
-        type: Sequelize.STRING,
+      label: {
+        type: Sequelize.TEXT,
         allowNull: false,
       },
       order_index: {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
-      is_public: {
-        type: Sequelize.BOOLEAN,
-        allowNull: false,
-        defaultValue: true,
+      type: {
+        type: Sequelize.STRING,
       },
-      course_chapter_id: {
+      url: {
+        type: Sequelize.TEXT,
+      },
+      heading: {
+        type: Sequelize.TEXT,
+      },
+      text_value: {
+        type: Sequelize.TEXT,
+      },
+      course_material_id: {
         type: Sequelize.UUID,
         allowNull: false,
       },

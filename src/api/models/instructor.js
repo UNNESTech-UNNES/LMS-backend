@@ -34,7 +34,13 @@ export default (sequelize, DataTypes) => {
      * @param {Record<import('./index.js').ModelName,any>} models
      */
     static associate(models) {
-      // define association here
+      this.hasMany(models.Otp, {
+        foreignKey: "user_id",
+      });
+
+      // this.hasMany(models.PasswordReset, {
+      //   foreignKey: "user_id",
+      // });
     }
   }
   Instructor.init(

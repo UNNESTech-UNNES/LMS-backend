@@ -47,9 +47,10 @@ export async function getUnverifiedUserByEmail(email) {
 
 /** @param {Models.UserAttributes} payload */
 export async function createUser(payload) {
-  const { email, phone_number, password } = payload;
+  const { email, password } = payload;
+  console.log(payload);
 
-  const parsedPayload = omitPropertiesFromObject(payload, ["id", "admin", "verified", "password", "created_at", "updated_at"]);
+  const parsedPayload = omitPropertiesFromObject(payload, ["id", "verified", "password", "created_at", "updated_at"]);
   try {
     // create encrypted password
     const encryptedPassword = await authService.hashPassword(password);
@@ -63,7 +64,7 @@ export async function createUser(payload) {
     /** @type {Awaited<ReturnType<typeof userRepository.createUser>>} */
     let user;
 
-    // check if unverified user exist with email or phone number
+    // check if unverified user exist with email
     const unverifiedUser = await userRepository.getUnverifiedUserByEmail(email);
 
     if (unverifiedUser) {

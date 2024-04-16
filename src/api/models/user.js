@@ -6,7 +6,7 @@ import isMobilePhone from "validator/lib/isMobilePhone.js";
  * @property {string} id
  * @property {string} name
  * @property {string | null} image
- * @property {boolean} admin
+ * @property {Roles} role
  * @property {string} email
  * @property {boolean} verified
  * @property {string} password
@@ -17,11 +17,16 @@ import isMobilePhone from "validator/lib/isMobilePhone.js";
 
 export const Models = {};
 
+const ROLES = /** @type {const} */ (["USER", "STUDENT", "INSTRUCTOR", "ADMIN", "SUPER_ADMIN"]);
+
+/** @typedef {(typeof ROLES)[number]} Roles */
+
 /**
  * @param {import('sequelize').Sequelize} sequelize
  * @param {import('sequelize').DataTypes} DataTypes
  */
 export default (sequelize, DataTypes) => {
+  /** @extends {Model<UserAttributes>} */
   class User extends Model {
     /**
      * Helper method for defining associations.
@@ -31,10 +36,17 @@ export default (sequelize, DataTypes) => {
      * @param {Record<import('./index.js').ModelName,any>} models
      */
     static associate(models) {
-      // define association here
+      this.hasMany(models.Otp, {
+        foreignKey: "user_id",
+      });
+
+      this.hasMany(models.PasswordReset, {
+        foreignKey: "user_id",
+      });
     }
   }
   User.init(
+    // @ts-ignore
     {
       name: {
         type: DataTypes.STRING,
@@ -44,10 +56,9 @@ export default (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: true,
       },
-      admin: {
-        type: DataTypes.BOOLEAN,
+      role: {
+        type: DataTypes.ENUM(...ROLES),
         allowNull: false,
-        defaultValue: false,
       },
       email: {
         type: DataTypes.STRING,

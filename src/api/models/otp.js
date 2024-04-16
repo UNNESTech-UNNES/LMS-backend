@@ -27,7 +27,10 @@ export default (sequelize, DataTypes) => {
      * @param {Record<import('./index.js').ModelName,any>} models
      */
     static associate(models) {
-      // define association here
+      this.belongsTo(models.User, {
+        foreignKey: "user_id",
+        as: "user",
+      });
     }
   }
   Otp.init(
@@ -53,6 +56,10 @@ export default (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "Otp",
+      tableName: "Otps",
+      underscored: true,
+      createdAt: "created_at",
+      updatedAt: "updated_at",
     }
   );
   return Otp;
