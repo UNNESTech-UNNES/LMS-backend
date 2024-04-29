@@ -18,9 +18,13 @@ module.exports = {
         allowNull: false,
         unique: true,
       },
-      author_id: {
-        type: Sequelize.STRING,
+      price: {
+        type: Sequelize.INTEGER,
         allowNull: false,
+      },
+      rating: {
+        type: Sequelize.DECIMAL,
+        allowNull: true,
       },
       image: {
         type: Sequelize.STRING,
@@ -30,9 +34,25 @@ module.exports = {
         type: Sequelize.BOOLEAN,
         allowNull: false,
       },
-      price: {
-        type: Sequelize.INTEGER,
+      author_id: {
+        type: Sequelize.UUID,
         allowNull: false,
+        references: {
+          model: "Users",
+          key: "id",
+        },
+      },
+      instructor_id: {
+        type: Sequelize.ARRAY(Sequelize.STRING),
+        allowNull: false,
+      },
+      course_category_id: {
+        type: Sequelize.UUID,
+        allowNull: false,
+        references: {
+          model: "Course_categories",
+          key: "id",
+        },
       },
       description: {
         type: Sequelize.TEXT,
@@ -40,21 +60,16 @@ module.exports = {
       },
       target_audience: {
         type: Sequelize.ARRAY(Sequelize.STRING),
-        allowNull: false,
       },
       telegram: {
         type: Sequelize.STRING,
-        allowNull: true,
-      },
-      course_category_id: {
-        type: Sequelize.UUID,
         allowNull: false,
       },
-      createdAt: {
+      created_at: {
         allowNull: false,
         type: Sequelize.DATE,
       },
-      updatedAt: {
+      updated_at: {
         allowNull: false,
         type: Sequelize.DATE,
       },

@@ -1,4 +1,4 @@
-// import * as UserModel from "../../api/models/user.js";
+import * as UserModel from "../../api/models/user.js";
 
 /**
  * Function type for middleware.
@@ -40,7 +40,9 @@
  *
  * @template {Middleware<ExtractLocalsMiddleware<T>>} [T=Middleware] Default is.
  *   Default is `Middleware`
- *
+ * @typedef {Controller<
+ *   Middleware<{ user: UserModel.UserAttributes } & ExtractLocalsMiddleware<T>>
+ * >} AuthorizedController
  */
 
 /** @typedef {import('express').Request['query']} RequestQuery */

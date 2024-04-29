@@ -3,6 +3,7 @@ import cors from "cors";
 import { HOST_PORT } from "./libs/env.js";
 import root from "./api/routes/index.js";
 import auth from "./api/routes/auth.js";
+import course from "./api/routes/courses.js";
 import courseCategories from "./api/routes/course-categories.js";
 
 function main() {
@@ -11,6 +12,7 @@ function main() {
 
   root(app);
   auth(app);
+  course(app);
   courseCategories(app);
 
   app.listen(HOST_PORT, () => {

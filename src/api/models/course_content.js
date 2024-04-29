@@ -8,7 +8,8 @@ import { Model } from "sequelize";
  * @property {string} type
  * @property {string} url
  * @property {string} heading
- * @property {string} text_value
+ * @property {string} content
+ * @property {string} course_material_id
  * @property {Date} created_at
  * @property {Date} updated_at
  */
@@ -29,14 +30,17 @@ export default (sequelize, DataTypes) => {
      * @param {Record<import('./index.js').ModelName,any>} models
      */
     static associate(models) {
-      // define association here
+      this.belongsTo(models.CourseMaterial, {
+        foreignKey: "course_material_id",
+        as: "course_material",
+      });
     }
   }
   Course_content.init(
     {
       label: {
         type: DataTypes.TEXT,
-        allowNull: false,
+        allowNull: true,
       },
       order_index: {
         type: DataTypes.INTEGER,
@@ -54,7 +58,7 @@ export default (sequelize, DataTypes) => {
         type: DataTypes.TEXT,
         allowNull: true,
       },
-      text_value: {
+      content: {
         type: DataTypes.TEXT,
         allowNull: true,
       },

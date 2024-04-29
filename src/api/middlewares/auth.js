@@ -6,7 +6,7 @@ import * as Types from "../../libs/types/common.js";
 
 /**
  * Check if user is authorized.
- * @type {Types.Middleware<{user: Models.UserAttributes | ModelsI.InstructorAttributes}>}
+ * @type {Types.Middleware<{user: Models.UserAttributes}>}
  * @returns {Promise<void>}
  */
 export async function isAuthorized(req, res, next) {
@@ -45,7 +45,7 @@ export async function isAuthorized(req, res, next) {
  *
  * @type {Types.Middleware<
  *   Types.ExtractLocalsMiddleware<typeof isAuthorized> & {
- *     isAdmin: boolean;
+ *     role: Models.UserAttributes["role"];
  *   }
  * >}
  * @returns {void}
@@ -53,7 +53,7 @@ export async function isAuthorized(req, res, next) {
 export function isAdmin(_req, res, next) {
   const { role } = /** @type {Models.UserAttributes} */ (res.locals.user);
 
-  if (role !== "SUPER_ADMIN" && role !== "ADMIN") {
+  if (role !== "SUPER_ADMIN" && role !== "ADMIN" && role !== "INSTRUCTOR") {
     res.status(403).json({ message: "Only admin is allowed for this endpoint" });
     return;
   }
