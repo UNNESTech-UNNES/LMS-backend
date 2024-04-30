@@ -16,6 +16,7 @@ import config from "../../db/config/database.js";
  * @property {ReturnType<typeof import('./course_chapter.js').default>} CourseChapter
  * @property {ReturnType<typeof import('./course_material.js').default>} CourseMaterial
  * @property {ReturnType<typeof import('./course_content.js').default>} CourseContent
+ * @property {ReturnType<typeof import('./course_material_completion.js').default>} CourseMaterialCompletion
  * @property {ReturnType<typeof import('./user_course_enrollment.js').default>} UserCourseEnrollment
  * @property {ReturnType<typeof import('./otp.js').default>} Otp
  * @property {ReturnType<typeof import('./password-reset.js').default>} PasswordReset
@@ -61,4 +62,4 @@ async function initializeDatabase() {
   return /** @type {Database} */ (/** @type {unknown} */ (db));
 }
 
-export const { sequelize, User, UserCourseEnrollment, Course, CourseCategory, CourseChapter, CourseContent, CourseMaterial, Instructor, InstructorContribution, Otp, PasswordReset } = await initializeDatabase();
+export const { sequelize, User, UserCourseEnrollment, Course, CourseCategory, CourseChapter, CourseMaterial, CourseContent, CourseMaterialCompletion, Instructor, InstructorContribution, Otp, PasswordReset } = await initializeDatabase();
