@@ -4,6 +4,7 @@ import { parseArrayStringToArray, omitPropertiesFromObject } from "../../libs/ut
 import * as courseRepository from "../repositories/course.js";
 import * as courseChapterRepository from "../repositories/course_chapter.js";
 import * as courseMaterialRepository from "../repositories/course_material.js";
+import * as userCourseEnrollment from "../repositories/user_course_enrollment.js";
 import * as Types from "../../libs/types/common.js";
 import { da } from "@faker-js/faker";
 
@@ -40,41 +41,31 @@ export async function getCourses(params, isAdminOrInstructor = false) {
  * @param {string} id
  * @param {string | null} [userId=null] Default is `null`
  */
-// export async function getCourseById(id, userId = null) {
-//   try {
-//     /** @type {Awaited<ReturnType<typeof courseRepository.getCourseById>>} */
-//     let course = null;
+export async function getCourseById(id, userId = null) {
+  try {
+    /** @type {Awaited<ReturnType<typeof courseRepository.getCourseById>>} */
+    let course = null;
 
-//     if(userId){
-//       const existingUserCourse = await userCourseRepository.getUserCourseByCourseId(id, userId);
+    if (userId) {
+      const existingUserCourse = await userCourseEnrollment.getUserCourseByUserIdAndCourseId(userId, id);
 
-//       // If logged in user has already enrolled in the course
-//       if(existingUserCourse){
-//         // course = await courseRepository.getCourseById();
-//       } else {
-//         // If logged in user has not enrolled in the course
-//         course = await courseRepository.getCourseById(id);
+      // If logged in user has already enrolled in the course
+      if (existingUserCourse) {
+        course = await courseRepository.getCourseWithUserStatus(id, userId);
+      }
+    } else {
+      // If user is not logged in || If logged in user has not enrolled in the course
+      course = await courseRepository.getCourseById(id);
+    }
+    if (!course) {
+      throw new ApplicationError("Course not found", 404);
+    }
 
-//         const courseIsPremium = course?.dataValues?.premium;
-
-//         if(courseIsPremium){
-//           // Remove premium content from course except for the first chapter
-//           course?.dataValues.course_chapter.forEach(
-//             ({dataValues: {order_index, course_material}}) => {
-//               if(order_index >1){
-//                 course_material.forEach(
-//                   ({dataValues:}) => delete dataValues.course_content
-//                 )
-//               }
-//             }
-//           )
-//         }
-//       }
-//     }
-//   } catch (err) {
-//     throw generateApplicationError(err, "Error while getting chapter", 500);
-//   }
-// }
+    return course;
+  } catch (err) {
+    throw generateApplicationError(err, "Error while getting chapter", 500);
+  }
+}
 
 /**
  * @param {any} payload

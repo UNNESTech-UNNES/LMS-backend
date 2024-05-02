@@ -1,12 +1,13 @@
 import Sequelize from "sequelize";
-import { sequelize, Course, CourseCategory, CourseChapter, CourseMaterial, CourseContent } from "../models/index.js";
+import { sequelize, Course, CourseCategory, CourseChapter, CourseMaterial, CourseContent, CourseMaterialCompletion, UserCourseEnrollment } from "../models/index.js";
 import * as Types from "../../libs/types/common.js";
 import * as Models from "../models/course.js";
+import { getUserCourseByUserIdAndCourseId } from "./user_course_enrollment.js";
 
 export function getCourses() {
   return Course.findAll({
     include: ["course_category"],
-    attributes: { include: [getTotalDuration(), getTotalMaterials()] },
+    attributes: { include: [getTotalDuration(), getTotalMaterials(), getUserTotalCompletedMaterials()] },
   });
 }
 
@@ -42,7 +43,7 @@ export async function getCoursesByFilter(whereOptions, sortByNewest) {
     where: whereOptions,
     include: ["course_category"],
     ...(sortByNewest && { order: [["created_at", "DESC"]] }),
-    attributes: { include: [getTotalDuration(), getTotalMaterials()] },
+    attributes: { include: [getTotalDuration(), getTotalMaterials(), getUserTotalCompletedMaterials()] },
   });
 }
 
@@ -67,6 +68,65 @@ export function getCourseById(id) {
       ["course_chapter", "course_material", "order_index", "ASC"],
     ],
     attributes: { include: [getTotalDuration(), getTotalMaterials()] },
+  });
+}
+
+/** @param {string} userId */
+export function getUserCourses(userId) {
+  return Course.findAll({
+    include: [
+      {
+        model: UserCourseEnrollment,
+        as: "user_course_enrollment",
+        where: { user_id: userId },
+        attributes: [],
+      },
+      {
+        model: CourseCategory,
+        as: "course_category",
+      },
+    ],
+    attributes: {
+      include: [getTotalDuration(true), getTotalMaterials(true), getUserTotalCompletedMaterials()],
+    },
+    replacements: { user_id: userId },
+  });
+}
+
+/**
+ * @param {string} id
+ * @param {string} userId
+ */
+export function getCourseWithUserStatus(id, userId) {
+  return Course.findByPk(id, {
+    include: [
+      "course_category",
+      {
+        model: CourseChapter,
+        as: "course_chapter",
+        include: [
+          {
+            model: CourseMaterial,
+            as: "course_material",
+            include: [
+              {
+                model: CourseMaterialCompletion,
+                as: "course_material_completion",
+                where: { user_id: userId },
+              },
+            ],
+          },
+        ],
+      },
+    ],
+    order: [
+      ["course_chapter", "order_index", "ASC"],
+      ["course_chapter", "course_material", "order_index", "ASC"],
+    ],
+    attributes: {
+      include: [getTotalDuration(), getTotalMaterials(), getUserTotalCompletedMaterials()],
+    },
+    replacements: { user_id: userId },
   });
 }
 
@@ -152,5 +212,35 @@ export function getTotalMaterials(fromUserPaymentModel = false) {
       "integer"
     ),
     "total_materials",
+  ];
+}
+
+/** @returns {Sequelize.ProjectionAlias} */
+function getUserTotalCompletedMaterials() {
+  return [
+    sequelize.cast(
+      sequelize.literal(
+        `(
+          SELECT COUNT(*)
+
+          FROM "Course_material_completions" AS cmc
+
+          JOIN "Course_materials" AS cm
+          ON cmc.course_material_id = cm.id
+
+          JOIN "Course_chapters" AS cc
+          ON cm.course_chapter_id = cc.id
+
+          JOIN "Courses" AS c
+          ON cc.course_id = c.id
+
+          WHERE cmc.user_id = :user_id
+          AND cmc.completed = true
+          AND c.id = "Course".id
+        )`
+      ),
+      "integer"
+    ),
+    "total_completed_materials",
   ];
 }
