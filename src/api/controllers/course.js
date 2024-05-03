@@ -1,6 +1,7 @@
 import * as courseService from "../services/course.js";
 import * as Types from "../../libs/types/common.js";
 import { isLoggedIn } from "../middlewares/auth.js";
+import { uploadCloudinary } from "../middlewares/upload.js";
 import { ApplicationError } from "../../libs/error.js";
 
 /**
@@ -30,22 +31,23 @@ export async function getCourses(req, res) {
  * @type {Types.Controller<typeof isLoggedIn>}
  * @returns {Promise<void>}
  */
-// export async function getCourseById(req, res) {
-//   try {
-//     const { id } = req.params;
-//     const userId = res.locals.user ? res.locals.user.id : null;
-//     const data = await courseService.getCourseById(id, userId);
-//   } catch (err) {
-//     if (err instanceof ApplicationError) {
-//       res.status(err.statusCode).json({ message: err.message });
-//       return;
-//     }
-//     res.status(500).json({ message: "Internal server error" });
-//   }
-// }
+export async function getCourseById(req, res) {
+  try {
+    const { id } = req.params;
+    const userId = res.locals.user ? res.locals.user.id : null;
+    const data = await courseService.getCourseById(id, userId);
+    res.status(200).json({ data });
+  } catch (err) {
+    if (err instanceof ApplicationError) {
+      res.status(err.statusCode).json({ message: err.message });
+      return;
+    }
+    res.status(500).json({ message: "Internal server error" });
+  }
+}
 
 /**
- * @type {Types.Controller<typeof isLoggedIn>}
+ * @type {Types.AuthorizedController<typeof uploadCloudinary>}
  * @returns {Promise<void>}
  */
 export async function createCourse(req, res) {
@@ -70,14 +72,14 @@ export async function createCourse(req, res) {
 }
 
 /**
- * @type {Types.Controller<typeof isLoggedIn>}
+ * @type {Types.AuthorizedController<typeof uploadCloudinary>}
  * @returns {Promise<void>}
  */
 export async function updateCourse(req, res) {
   const { body } = req;
   const { id } = req.params;
 
-  const image = req.locals.image;
+  const image = res.locals.image;
 
   const bodyWithImage = { ...body, image: image };
 

@@ -54,18 +54,18 @@ export function getCourseById(id) {
       "course_category",
       {
         model: CourseChapter,
-        as: "course_chapter",
+        as: "chapters",
         include: [
           {
             model: CourseMaterial,
-            as: "course_material",
+            as: "materials",
           },
         ],
       },
     ],
     order: [
-      ["course_chapter", "order_index", "ASC"],
-      ["course_chapter", "course_material", "order_index", "ASC"],
+      ["chapters", "order_index", "ASC"],
+      ["chapters", "materials", "order_index", "ASC"],
     ],
     attributes: { include: [getTotalDuration(), getTotalMaterials()] },
   });
@@ -234,7 +234,7 @@ function getUserTotalCompletedMaterials() {
           JOIN "Courses" AS c
           ON cc.course_id = c.id
 
-          WHERE cmc.user_id = :user_id
+          WHERE cmc.user_id = user_id
           AND cmc.completed = true
           AND c.id = "Course".id
         )`

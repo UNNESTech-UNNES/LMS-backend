@@ -63,7 +63,7 @@ export async function getCourseById(id, userId = null) {
 
     return course;
   } catch (err) {
-    throw generateApplicationError(err, "Error while getting chapter", 500);
+    throw generateApplicationError(err, "Error while getting course", 500);
   }
 }
 

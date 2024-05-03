@@ -8,7 +8,7 @@ import * as CourseMaterialModel from "./course_material.js";
  * @property {number} duration
  * @property {number} order_index
  * @property {string} course_id
- * @property {Model<CourseMaterialModel.CourseMaterialAttributes>[]} course_material
+ * @property {Model<CourseMaterialModel.CourseMaterialAttributes>[]} materials
  * @property {Date} created_at
  * @property {Date} updated_at
  */
@@ -31,7 +31,7 @@ export default (sequelize, DataTypes) => {
     static associate(models) {
       this.hasMany(models.CourseMaterial, {
         foreignKey: "course_chapter_id",
-        as: "course_materials",
+        as: "materials",
       });
 
       this.belongsTo(models.Course, {
