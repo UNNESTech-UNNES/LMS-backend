@@ -1,4 +1,5 @@
 import { Model } from "sequelize";
+import * as CourseContentModel from "./course_content.js";
 
 /**
  * @typedef CourseMaterialAttributes
@@ -7,6 +8,7 @@ import { Model } from "sequelize";
  * @property {number} order_index
  * @property {boolean} is_public
  * @property {string} course_chapter_id
+ * @property {Model<CourseContentModel.CourseContentAttributes>[]} course_content
  * @property {Date} created_at
  * @property {Date} updated_at
  */
@@ -19,6 +21,7 @@ export const Models = {};
  */
 
 export default (sequelize, DataTypes) => {
+  /** @extends {Model<CourseMaterialAttributes>} */
   class Course_material extends Model {
     /**
      * Helper method for defining associations.
@@ -27,10 +30,18 @@ export default (sequelize, DataTypes) => {
      * @param {Record<import('./index.js').ModelName,any>} models
      */
     static associate(models) {
-      // define association here
+      this.hasMany(models.CourseContent, {
+        foreignKey: "course_material_id",
+        as: "course_content",
+      });
+
+      this.belongsTo(models.CourseChapter, {
+        foreignKey: "course_chapter_id",
+      });
     }
   }
   Course_material.init(
+    // @ts-ignore
     {
       name: {
         type: DataTypes.STRING,

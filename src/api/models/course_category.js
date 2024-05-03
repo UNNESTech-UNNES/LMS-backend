@@ -5,6 +5,7 @@ import { Model } from "sequelize";
  * @property {string} id
  * @property {string} name
  * @property {string} image
+ * @property {string} description
  * @property {Date} created_at
  * @property {Date} updated_at
  */
@@ -25,7 +26,7 @@ export default (sequelize, DataTypes) => {
      */
     static associate(models) {
       this.hasMany(models.Course, {
-        foreignKey: "category_id",
+        foreignKey: "course_category_id",
       });
     }
   }
@@ -38,6 +39,10 @@ export default (sequelize, DataTypes) => {
       image: {
         type: DataTypes.STRING,
         allowNull: false,
+      },
+      description: {
+        type: DataTypes.TEXT,
+        allowNull: true,
       },
     },
     {

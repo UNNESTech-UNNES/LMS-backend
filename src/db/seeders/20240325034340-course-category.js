@@ -10,16 +10,19 @@ module.exports = {
         id: "d290f1ee-6c54-4b01-90e6-d701748f0851",
         name: "Sistem Informasi",
         image: "https://source.unsplash.com/random",
+        description: "Deskripsi Sistem Informasi",
       },
       {
         id: "d290f1ee-6c54-4b01-90e6-d701748f0852",
         name: "Teknik Informatika",
         image: "https://source.unsplash.com/random",
+        description: "Deskripsi Teknik Informatika",
       },
       {
         id: "d290f1ee-6c54-4b01-90e6-d701748f0853",
         name: "Teknik Elektro",
         image: "https://source.unsplash.com/random",
+        description: "Deskripsi Teknik Elektro",
       },
     ];
 
@@ -32,11 +35,7 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    /**
-     * Add commands to revert seed here.
-     *
-     * Example:
-     * await queryInterface.bulkDelete('People', null, {});
-     */
+    // @ts-ignore
+    return queryInterface.bulkDelete("Course_categories", null, {});
   },
 };

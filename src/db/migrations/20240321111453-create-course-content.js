@@ -11,7 +11,7 @@ module.exports = {
       },
       label: {
         type: Sequelize.TEXT,
-        allowNull: false,
+        allowNull: true,
       },
       order_index: {
         type: Sequelize.INTEGER,

@@ -1,18 +1,22 @@
 import { Model } from "sequelize";
+import * as CourseChapterModel from "./course_chapter.js";
 
 /**
  * @typedef CourseAttributes
  * @property {string} id
  * @property {string} name
  * @property {string} code
- * @property {string} author_id
+ * @property {number} price
+ * @property {number} rating
  * @property {string} image
  * @property {boolean} premium
- * @property {number} price
+ * @property {string} author_id
+ * @property {string[]} instructor_id
+ * @property {string} course_category_id
  * @property {string} description
  * @property {string[]} target_audience
  * @property {string} telegram
- * @property {string} course_category_id
+ * @property {Model<CourseChapterModel.CourseChapterAttributes>[]} course_chapter
  * @property {Date} created_at
  * @property {Date} updated_at
  */
@@ -24,14 +28,35 @@ export const Models = {};
  * @param {import('sequelize').DataTypes} DataTypes
  */
 export default (sequelize, DataTypes) => {
+  /** @extends {Model<CourseAttributes>} */
   class Course extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
-     * @param {Record<import('./index.js').ModelName,any>} models
+     * @param {Record<import('./index.js').ModelName, any>} models
      */
     static associate(models) {
+      this.hasMany(models.UserCourseEnrollment, {
+        foreignKey: "course_id",
+        as: "enrollments",
+      });
+
+      this.hasMany(models.CourseChapter, {
+        foreignKey: "course_id",
+        as: "chapters",
+      });
+
+      this.hasMany(models.InstructorContribution, {
+        foreignKey: "course_id",
+        as: "contributions",
+      });
+
+      this.belongsTo(models.User, {
+        foreignKey: "author_id",
+        as: "author",
+      });
+
       this.belongsTo(models.CourseCategory, {
         foreignKey: "course_category_id",
         as: "course_category",
@@ -39,6 +64,7 @@ export default (sequelize, DataTypes) => {
     }
   }
   Course.init(
+    // @ts-ignore
     {
       name: {
         type: DataTypes.STRING,
@@ -49,12 +75,16 @@ export default (sequelize, DataTypes) => {
         allowNull: false,
         unique: {
           name: "code",
-          msg: "Code must be unique",
+          msg: "Code must be unique.",
         },
       },
-      author_id: {
-        type: DataTypes.UUID,
+      price: {
+        type: DataTypes.INTEGER,
         allowNull: false,
+      },
+      rating: {
+        type: DataTypes.DECIMAL,
+        allowNull: true,
       },
       image: {
         type: DataTypes.STRING,
@@ -63,10 +93,17 @@ export default (sequelize, DataTypes) => {
       premium: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
-        defaultValue: false,
       },
-      price: {
-        type: DataTypes.INTEGER,
+      author_id: {
+        type: DataTypes.UUID,
+        allowNull: false,
+      },
+      instructor_id: {
+        type: DataTypes.ARRAY(DataTypes.STRING),
+        allowNull: false,
+      },
+      course_category_id: {
+        type: DataTypes.UUID,
         allowNull: false,
       },
       description: {
@@ -79,10 +116,6 @@ export default (sequelize, DataTypes) => {
       },
       telegram: {
         type: DataTypes.STRING,
-        allowNull: true,
-      },
-      course_category_id: {
-        type: DataTypes.UUID,
         allowNull: false,
       },
     },

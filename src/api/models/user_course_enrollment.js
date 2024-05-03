@@ -1,14 +1,11 @@
 import { Model } from "sequelize";
-import * as CourseMaterialModel from "./course_material.js";
 
 /**
- * @typedef CourseChapterAttributes
+ * @typedef UserCourseEnrollmentAttributes
  * @property {string} id
- * @property {string} name
- * @property {number} duration
- * @property {number} order_index
+ * @property {string} user_id
  * @property {string} course_id
- * @property {Model<CourseMaterialModel.CourseMaterialAttributes>[]} course_material
+ * @property {boolean} onboarded
  * @property {Date} created_at
  * @property {Date} updated_at
  */
@@ -19,53 +16,50 @@ export const Models = {};
  * @param {import('sequelize').Sequelize} sequelize
  * @param {import('sequelize').DataTypes} DataTypes
  */
-
 export default (sequelize, DataTypes) => {
-  class Course_chapter extends Model {
+  /** @extends {Model<UserCourseEnrollmentAttributes>} */
+  class UserCourseEnrollment extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
-     * @param {Record<import('./index.js').ModelName,any>} models
+     *
+     * @param {Record<import('./index.js').ModelName, any>} models
      */
     static associate(models) {
-      this.hasMany(models.CourseMaterial, {
-        foreignKey: "course_chapter_id",
-        as: "course_materials",
+      this.belongsTo(models.User, {
+        foreignKey: "user_id",
       });
-
       this.belongsTo(models.Course, {
         foreignKey: "course_id",
       });
     }
   }
-  Course_chapter.init(
+  UserCourseEnrollment.init(
+    // @ts-ignore
     {
-      name: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      duration: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-      },
-      order_index: {
-        type: DataTypes.INTEGER,
+      user_id: {
+        type: DataTypes.UUID,
         allowNull: false,
       },
       course_id: {
         type: DataTypes.UUID,
         allowNull: false,
       },
+      onboarded: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      },
     },
     {
       sequelize,
-      modelName: "CourseChapter",
-      tableName: "Course_chapters",
-      underscored: true,
+      modelName: "UserCourseEnrollment",
+      tableName: "User_Course_Enrollments",
       createdAt: "created_at",
       updatedAt: "updated_at",
+      underscored: true,
     }
   );
-  return Course_chapter;
+  return UserCourseEnrollment;
 };
