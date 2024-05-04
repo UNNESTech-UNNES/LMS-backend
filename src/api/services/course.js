@@ -52,11 +52,14 @@ export async function getCourseById(id, userId = null) {
       // If logged in user has already enrolled in the course
       if (existingUserCourse) {
         course = await courseRepository.getCourseWithUserStatus(id, userId);
+      } else {
+        course = await courseRepository.getCourseById(id);
       }
     } else {
-      // If user is not logged in || If logged in user has not enrolled in the course
+      // If user is not logged in
       course = await courseRepository.getCourseById(id);
     }
+
     if (!course) {
       throw new ApplicationError("Course not found", 404);
     }

@@ -26,7 +26,7 @@ module.exports = {
       heading: {
         type: Sequelize.TEXT,
       },
-      text_value: {
+      content: {
         type: Sequelize.TEXT,
       },
       course_material_id: {

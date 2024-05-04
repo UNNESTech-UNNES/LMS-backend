@@ -140,11 +140,11 @@ export function createCourse(payload) {
         include: [
           {
             model: CourseMaterial,
-            as: "course_materials",
+            as: "materials",
             include: [
               {
                 model: CourseContent,
-                as: "course_content",
+                as: "contents",
               },
             ],
           },

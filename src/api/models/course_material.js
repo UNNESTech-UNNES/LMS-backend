@@ -32,11 +32,12 @@ export default (sequelize, DataTypes) => {
     static associate(models) {
       this.hasMany(models.CourseContent, {
         foreignKey: "course_material_id",
-        as: "course_content",
+        as: "contents",
       });
 
       this.belongsTo(models.CourseChapter, {
         foreignKey: "course_chapter_id",
+        as: "chapter",
       });
     }
   }

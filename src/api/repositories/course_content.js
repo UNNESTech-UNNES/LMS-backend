@@ -1,5 +1,5 @@
 import Sequelize from "sequelize";
-import { sequelize, CourseContent } from "../models/index.js";
+import { sequelize, CourseContent, CourseMaterial, CourseChapter } from "../models/index.js";
 import * as Models from "../models/course_content.js";
 import { Op } from "sequelize";
 
@@ -26,10 +26,20 @@ export function getContentById(id) {
 }
 
 /** @param {string} materialId */
-export function getContentsByMaterialId(materialId) {
-  return CourseContent.findAll({
-    where: { course_material_id: materialId },
-    attributes: ["id"],
+export function getContentsByMaterialId(materialId = "77c5763a-173d-41ca-8a4e-721f2059e77f") {
+  return CourseMaterial.findByPk(materialId, {
+    include: [
+      "chapter",
+      {
+        model: CourseContent,
+        as: "contents",
+        where: { course_material_id: materialId },
+      },
+      {
+        model: CourseChapter,
+        as: "chapter",
+      },
+    ],
   });
 }
 
