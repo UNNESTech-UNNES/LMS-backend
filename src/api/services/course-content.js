@@ -6,7 +6,7 @@ import * as contentRepository from "../repositories/course_content.js";
  */
 export async function getContentsByMaterialId(materialId) {
   try {
-    const contents = await contentRepository.getContentsByMaterialId(materialId);
+    const contents = await contentRepository.getContentsByMaterialIdToShow(materialId);
     if (!contents) {
       throw new ApplicationError("Contents not found", 404);
     }

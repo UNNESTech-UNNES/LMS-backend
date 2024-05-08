@@ -26,7 +26,15 @@ export function getContentById(id) {
 }
 
 /** @param {string} materialId */
-export function getContentsByMaterialId(materialId = "77c5763a-173d-41ca-8a4e-721f2059e77f") {
+export function getContentsByMaterialId(materialId) {
+  return CourseContent.findAll({
+    where: { course_material_id: materialId },
+    attributes: ["id"],
+  });
+}
+
+/** @param {string} materialId */
+export function getContentsByMaterialIdToShow(materialId) {
   return CourseMaterial.findByPk(materialId, {
     include: [
       "chapter",

@@ -1,5 +1,5 @@
 import Sequelize from "sequelize";
-import { sequelize, Course, CourseCategory, CourseChapter, CourseMaterial, CourseContent, CourseMaterialCompletion, UserCourseEnrollment } from "../models/index.js";
+import { sequelize, Course, CourseCategory, CourseChapter, CourseMaterial, CourseContent, CourseMaterialCompletion, Quiz, QuizQuestion, UserCourseEnrollment } from "../models/index.js";
 import * as Types from "../../libs/types/common.js";
 import * as Models from "../models/course.js";
 import { getUserCourseByUserIdAndCourseId } from "./user_course_enrollment.js";
@@ -27,6 +27,10 @@ export function getCoursesWithDetails() {
           {
             model: CourseMaterial,
             as: "course_material",
+          },
+          {
+            model: Quiz,
+            as: "quizzes",
           },
         ],
       },
@@ -59,6 +63,10 @@ export function getCourseById(id) {
           {
             model: CourseMaterial,
             as: "materials",
+          },
+          {
+            model: Quiz,
+            as: "quizzes",
           },
         ],
       },
@@ -145,6 +153,16 @@ export function createCourse(payload) {
               {
                 model: CourseContent,
                 as: "contents",
+              },
+            ],
+          },
+          {
+            model: Quiz,
+            as: "quizzes",
+            include: [
+              {
+                model: QuizQuestion,
+                as: "questions",
               },
             ],
           },

@@ -1,5 +1,6 @@
 import { Model } from "sequelize";
 import * as CourseMaterialModel from "./course_material.js";
+import * as QuizModel from "./quiz.js";
 
 /**
  * @typedef CourseChapterAttributes
@@ -9,6 +10,7 @@ import * as CourseMaterialModel from "./course_material.js";
  * @property {number} order_index
  * @property {string} course_id
  * @property {Model<CourseMaterialModel.CourseMaterialAttributes>[]} materials
+ * @property {Model<QuizModel.QuizAttributes>[]} quizzes
  * @property {Date} created_at
  * @property {Date} updated_at
  */
@@ -32,6 +34,11 @@ export default (sequelize, DataTypes) => {
       this.hasMany(models.CourseMaterial, {
         foreignKey: "course_chapter_id",
         as: "materials",
+      });
+
+      this.hasMany(models.Quiz, {
+        foreignKey: "course_chapter_id",
+        as: "quizzes",
       });
 
       this.belongsTo(models.Course, {

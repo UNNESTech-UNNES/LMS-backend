@@ -4,6 +4,10 @@ import { parseArrayStringToArray, omitPropertiesFromObject } from "../../libs/ut
 import * as courseRepository from "../repositories/course.js";
 import * as courseChapterRepository from "../repositories/course_chapter.js";
 import * as courseMaterialRepository from "../repositories/course_material.js";
+import * as courseContentRepository from "../repositories/course_content.js";
+import * as quizRepository from "../repositories/quiz.js";
+import * as quizQuestionRepository from "../repositories/question.js";
+import * as courseMaterialService from "./course-material.js";
 import * as userCourseEnrollment from "../repositories/user_course_enrollment.js";
 import * as Types from "../../libs/types/common.js";
 import { da } from "@faker-js/faker";
@@ -100,12 +104,12 @@ export async function createCourse(payload, userId) {
  * @param {string} id
  */
 export async function updateCourse(payload, id) {
-  const { course_chapter, target_audience } = payload;
+  const { chapters, target_audience } = payload;
 
   const parsedPayload = omitPropertiesFromObject(payload, ["id", "created_at", "updated_at"]);
 
   try {
-    const parsedCourseChapters = /** @type {any[]} */ (parseArrayStringToArray(course_chapter));
+    const parsedCourseChapters = /** @type {any[]} */ (parseArrayStringToArray(chapters));
 
     const parsedTargetAudience = /** @type {any[]} */ (parseArrayStringToArray(target_audience));
 
@@ -135,58 +139,8 @@ export async function updateCourse(payload, id) {
 
     await course.update(parsedPayloadArrayString);
 
-    for (const chapter of parsedCourseChapters) {
-      /** @type {{ id:string; course_material:any[] }} */
-      const { id: chapterId, course_material } = chapter;
-
-      // Retrieve the list of materials from the database
-      const existingMaterials = chapterId ? await courseMaterialRepository.getMaterialsByChapterId(id) : [];
-
-      // Delete any materials that are not in the updated list
-      const materialIdsInPayload = /** @type {string[]} */ (course_material.map(({ id }) => id));
-
-      // Get the list of material ids that are not in the updated list
-      const materialIdsToDelete = existingMaterials.filter(({ dataValues: { id } }) => !materialIdsInPayload.includes(id)).map(({ dataValues: { id } }) => id);
-
-      await courseMaterialRepository.destroyMaterial(materialIdsToDelete);
-
-      const courseChapter = chapterId ? await courseChapterRepository.getChapterById(chapterId) : null;
-
-      if (courseChapter) {
-        await courseChapterRepository.updateChapter(chapter, chapterId);
-
-        for (const material of course_material) {
-          const { id: materialId } = material;
-
-          if (materialId) {
-            const courseMaterial = await courseMaterialRepository.getMaterialById(materialId);
-            if (courseMaterial) {
-              await courseMaterialRepository.updateMaterial(material, materialId);
-            } else {
-              const parsedMaterialWithChapterId = {
-                ...material,
-                course_chapter_id: chapterId,
-              };
-
-              const newMaterial = await courseMaterialRepository.createMaterial(parsedMaterialWithChapterId);
-
-              // await courseMaterialStatusRepository.backfillCourseMaterialStatus(id, newMaterial.dataValues.id);
-            }
-          }
-        }
-      } else {
-        const newChapter = await courseChapterRepository.createChapter(chapter);
-
-        for (const material of course_material) {
-          const newMaterial = await courseMaterialRepository.createMaterial({
-            ...material,
-            course_chapter_id: newChapter.dataValues.id,
-          });
-
-          // await courseMaterialRepository.backfillCourseMaterialStatus(id, newMaterial.dataValues.id);
-        }
-      }
-    }
+    // Update the chapters
+    await courseMaterialService.updateChapter(parsedCourseChapters, id);
 
     const updatedCourse = await courseRepository.getCourseById(id);
 
@@ -201,6 +155,40 @@ export async function updateCourse(payload, id) {
  */
 export async function destroyCourse(id) {
   try {
+    // Delete course chapters
+    const existingChapters = await courseChapterRepository.getChaptersByCourseId(id);
+    const chapterIds = /** @type {string[]} */ (existingChapters.map(({ dataValues: { id } }) => id));
+
+    // Delete course materials
+    for (const chapterId of chapterIds) {
+      const existingMaterials = await courseMaterialRepository.getMaterialsByChapterId(chapterId);
+      const materialIds = existingMaterials.map(({ dataValues: { id } }) => id);
+
+      // Delete course contents
+      for (const materialId of materialIds) {
+        const existingContents = await courseContentRepository.getContentsByMaterialId(materialId);
+        const contentIds = existingContents.map(({ dataValues: { id } }) => id);
+
+        await courseContentRepository.destroyContents(contentIds);
+      }
+      await courseMaterialRepository.destroyMaterial(materialIds);
+
+      // Delete quizzes
+      const existingQuizzes = await quizRepository.getQuizzesByChapterId(chapterId);
+      const quizIds = existingQuizzes.map(({ dataValues: { id } }) => id);
+
+      // Delete quiz questions
+      for (const quizId of quizIds) {
+        const existingQuestions = await quizQuestionRepository.getQuestionsByQuizId(quizId);
+        const questionIds = existingQuestions.map(({ dataValues: { id } }) => id);
+
+        await quizQuestionRepository.destroyQuestions(questionIds);
+      }
+      await quizRepository.destroyQuizzes(quizIds);
+    }
+
+    await courseChapterRepository.destroyChapter(chapterIds);
+
     return await courseRepository.deleteCourse(id);
   } catch (err) {
     throw generateApplicationError(err, "Error while deleting course", 500);
