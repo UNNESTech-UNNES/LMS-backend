@@ -84,7 +84,7 @@ export async function updateCourse(req, res) {
   const bodyWithImage = { ...body, image: image };
 
   try {
-    const course = await courseService.updateCourse(id, bodyWithImage);
+    const course = await courseService.updateCourse(bodyWithImage, id);
 
     res.status(200).json({ message: "Course updated successfully", data: course });
   } catch (err) {

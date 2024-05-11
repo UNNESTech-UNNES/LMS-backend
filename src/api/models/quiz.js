@@ -1,14 +1,16 @@
 import { Model } from "sequelize";
-import * as CourseContentModel from "./course_content.js";
+import * as QuizQuestionModel from "./quiz_question.js";
 
 /**
- * @typedef CourseMaterialAttributes
+ * @typedef QuizAttributes
  * @property {string} id
- * @property {string} name
- * @property {number} order_index
- * @property {boolean} is_public
  * @property {string} course_chapter_id
- * @property {Model<CourseContentModel.CourseContentAttributes>[]} course_content
+ * @property {string} title
+ * @property {string} description
+ * @property {boolean} is_public
+ * @property {number} order_index
+ * @property {boolean} retake
+ * @property {Model<QuizQuestionModel.QuizQuestionAttributes>[]} questions
  * @property {Date} created_at
  * @property {Date} updated_at
  */
@@ -19,10 +21,9 @@ export const Models = {};
  * @param {import('sequelize').Sequelize} sequelize
  * @param {import('sequelize').DataTypes} DataTypes
  */
-
 export default (sequelize, DataTypes) => {
-  /** @extends {Model<CourseMaterialAttributes>} */
-  class Course_material extends Model {
+  /** @extends {Model<QuizAttributes>} */
+  class Quiz extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -30,46 +31,54 @@ export default (sequelize, DataTypes) => {
      * @param {Record<import('./index.js').ModelName,any>} models
      */
     static associate(models) {
-      this.hasMany(models.CourseContent, {
-        foreignKey: "course_material_id",
-        as: "contents",
-      });
-
       this.belongsTo(models.CourseChapter, {
         foreignKey: "course_chapter_id",
         as: "chapter",
       });
+
+      this.hasMany(models.QuizQuestion, {
+        foreignKey: "quiz_id",
+        as: "questions",
+      });
     }
   }
-  Course_material.init(
+  Quiz.init(
     // @ts-ignore
     {
-      name: {
-        type: DataTypes.STRING,
+      course_chapter_id: {
+        type: DataTypes.UUID,
         allowNull: false,
       },
-      order_index: {
-        type: DataTypes.INTEGER,
+      title: {
+        type: DataTypes.TEXT,
         allowNull: false,
+      },
+      description: {
+        type: DataTypes.TEXT,
       },
       is_public: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: true,
       },
-      course_chapter_id: {
-        type: DataTypes.UUID,
+      order_index: {
+        type: DataTypes.NUMBER,
         allowNull: false,
+      },
+      retake: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: true,
       },
     },
     {
       sequelize,
-      modelName: "CourseMaterial",
-      tableName: "Course_materials",
+      modelName: "Quiz",
+      tableName: "Quizzes",
       underscored: true,
       createdAt: "created_at",
       updatedAt: "updated_at",
     }
   );
-  return Course_material;
+  return Quiz;
 };

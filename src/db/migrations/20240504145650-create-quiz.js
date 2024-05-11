@@ -2,32 +2,42 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("User_Course_Enrollments", {
+    await queryInterface.createTable("Quizzes", {
       id: {
         allowNull: false,
         primaryKey: true,
         type: Sequelize.UUID,
         defaultValue: Sequelize.literal("gen_random_uuid()"),
       },
-      user_id: {
+      course_chapter_id: {
         type: Sequelize.UUID,
         allowNull: false,
         references: {
-          model: "Users",
+          model: "Course_chapters",
           key: "id",
         },
       },
-      course_id: {
-        type: Sequelize.UUID,
+      title: {
+        type: Sequelize.TEXT,
         allowNull: false,
-        references: {
-          model: "Courses",
-          key: "id",
-        },
-        onDelete: "CASCADE",
       },
-      onboarded: {
+      description: {
+        type: Sequelize.TEXT,
+        allowNull: true,
+      },
+      is_public: {
         type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: true,
+      },
+      order_index: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
+      retake: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: true,
       },
       created_at: {
         allowNull: false,
@@ -40,6 +50,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("User_Course_Enrollments");
+    await queryInterface.dropTable("Quizzes");
   },
 };
