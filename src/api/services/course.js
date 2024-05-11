@@ -142,7 +142,7 @@ export async function updateCourse(payload, id) {
     // Update the chapters
     await courseMaterialService.updateChapter(parsedCourseChapters, id);
 
-    const updatedCourse = await courseRepository.getCourseById(id);
+    const updatedCourse = await courseRepository.getCourseByIdToPreview(id);
 
     return updatedCourse;
   } catch (err) {

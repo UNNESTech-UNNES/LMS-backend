@@ -79,6 +79,46 @@ export function getCourseById(id) {
   });
 }
 
+/** @param {string} id */
+export function getCourseByIdToPreview(id) {
+  return Course.findByPk(id, {
+    include: [
+      "course_category",
+      {
+        model: CourseChapter,
+        as: "chapters",
+        include: [
+          {
+            model: CourseMaterial,
+            as: "materials",
+            include: [
+              {
+                model: CourseContent,
+                as: "contents",
+              },
+            ],
+          },
+          {
+            model: Quiz,
+            as: "quizzes",
+            include: [
+              {
+                model: QuizQuestion,
+                as: "questions",
+              },
+            ],
+          },
+        ],
+      },
+    ],
+    order: [
+      ["chapters", "order_index", "ASC"],
+      ["chapters", "materials", "order_index", "ASC"],
+    ],
+    attributes: { include: [getTotalDuration(), getTotalMaterials()] },
+  });
+}
+
 /** @param {string} userId */
 export function getUserCourses(userId) {
   return Course.findAll({
