@@ -55,6 +55,15 @@ export default (sequelize, DataTypes) => {
       this.hasMany(models.InstructorContribution, {
         foreignKey: "user_id",
       });
+
+      this.hasMany(models.Class, {
+        foreignKey: "instructor_id",
+        as: "instructor",
+      });
+
+      this.hasMany(models.UserClassStatus, {
+        foreignKey: "user_id",
+      });
     }
   }
   User.init(

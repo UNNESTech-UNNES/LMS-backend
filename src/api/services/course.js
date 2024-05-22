@@ -7,7 +7,7 @@ import * as courseMaterialRepository from "../repositories/course_material.js";
 import * as courseContentRepository from "../repositories/course_content.js";
 import * as quizRepository from "../repositories/quiz.js";
 import * as quizQuestionRepository from "../repositories/question.js";
-import * as courseMaterialService from "./course-material.js";
+import * as courseChapterService from "./course-chapter.js";
 import * as userCourseEnrollment from "../repositories/user_course_enrollment.js";
 import * as Types from "../../libs/types/common.js";
 import { da } from "@faker-js/faker";
@@ -71,6 +71,38 @@ export async function getCourseById(id, userId = null) {
     return course;
   } catch (err) {
     throw generateApplicationError(err, "Error while getting course", 500);
+  }
+}
+
+/**
+ * @param {string} id
+ * @param {Types.RequestQuery} params
+ */
+export async function getUserCourses(id, params) {
+  try {
+    const queryFilters = await getCourseFilterQuery(params);
+
+    // @ts-ignore
+    const sortByNewest = params.filter?.includes?.("new");
+
+    let userCourses = await (queryFilters ? courseRepository.getUserCoursesWithFilter(id, queryFilters, sortByNewest) : courseRepository.getUserCourses(id));
+
+    // @ts-ignore
+    const trimmedMyCourseType = params.type?.trim?.();
+
+    const hasMyCourseTypeFilter = trimmedMyCourseType && ["ongoing", "completed"].includes(trimmedMyCourseType);
+    if (hasMyCourseTypeFilter) {
+      userCourses = userCourses.filter(({ dataValues: { total_materials, total_completed_materials } }) => {
+        const isOngoing = total_materials > total_completed_materials;
+        const isCompleted = total_materials === total_completed_materials;
+
+        return trimmedMyCourseType === "ongoing" ? isOngoing : isCompleted;
+      });
+    }
+
+    return userCourses;
+  } catch (err) {
+    throw generateApplicationError(err, "Error while getting user courses", 500);
   }
 }
 
@@ -140,7 +172,7 @@ export async function updateCourse(payload, id) {
     await course.update(parsedPayloadArrayString);
 
     // Update the chapters
-    await courseMaterialService.updateChapter(parsedCourseChapters, id);
+    await courseChapterService.updateChapter(parsedCourseChapters, id);
 
     const updatedCourse = await courseRepository.getCourseByIdToPreview(id);
 

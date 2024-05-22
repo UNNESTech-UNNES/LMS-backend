@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("User_Course_Enrollments", {
+    await queryInterface.createTable("UserClassStatuses", {
       id: {
         allowNull: false,
         primaryKey: true,
@@ -12,30 +12,15 @@ module.exports = {
       user_id: {
         type: Sequelize.UUID,
         allowNull: false,
-        references: {
-          model: "Users",
-          key: "id",
-        },
       },
       class_id: {
         type: Sequelize.UUID,
         allowNull: false,
-        references: {
-          model: "Classes",
-          key: "id",
-        },
       },
-      course_id: {
-        type: Sequelize.UUID,
-        allowNull: false,
-        references: {
-          model: "Courses",
-          key: "id",
-        },
-        onDelete: "CASCADE",
-      },
-      onboarded: {
+      is_active: {
         type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
       },
       created_at: {
         allowNull: false,
@@ -48,6 +33,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("User_Course_Enrollments");
+    await queryInterface.dropTable("UserClassStatuses");
   },
 };

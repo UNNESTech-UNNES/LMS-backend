@@ -28,6 +28,10 @@ export default (sequelize, DataTypes) => {
       this.hasMany(models.Course, {
         foreignKey: "course_category_id",
       });
+
+      this.hasMany(models.Class, {
+        foreignKey: "course_category_id",
+      });
     }
   }
   CourseCategory.init(

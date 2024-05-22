@@ -47,6 +47,25 @@ export async function getCourseById(req, res) {
 }
 
 /**
+ * @type {Types.AuthorizedController}
+ * @returns {Promise<void>}
+ */
+export async function getUserCourses(req, res) {
+  try {
+    const { id } = res.locals.user;
+    const params = req.query;
+    const data = await courseService.getUserCourses(id, params);
+    res.status(200).json({ data });
+  } catch (err) {
+    if (err instanceof ApplicationError) {
+      res.status(err.statusCode).json({ message: err.message });
+      return;
+    }
+    res.status(500).json({ message: "Internal server error" });
+  }
+}
+
+/**
  * @type {Types.AuthorizedController<typeof uploadCloudinary>}
  * @returns {Promise<void>}
  */

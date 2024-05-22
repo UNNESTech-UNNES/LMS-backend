@@ -1,5 +1,5 @@
 import Sequelize from "sequelize";
-import { sequelize, Course, CourseCategory, CourseChapter, CourseMaterial, CourseContent, CourseMaterialCompletion, Quiz, QuizQuestion, UserCourseEnrollment } from "../models/index.js";
+import { sequelize, Class, Course, CourseCategory, CourseChapter, CourseMaterial, CourseContent, CourseMaterialCompletion, Quiz, QuizQuestion, UserCourseEnrollment } from "../models/index.js";
 import * as Types from "../../libs/types/common.js";
 import * as Models from "../models/course.js";
 import { getUserCourseByUserIdAndCourseId } from "./user_course_enrollment.js";
@@ -128,6 +128,12 @@ export function getUserCourses(userId) {
         as: "user_course_enrollment",
         where: { user_id: userId },
         attributes: [],
+        include: [
+          {
+            model: Class,
+            as: "class",
+          },
+        ],
       },
       {
         model: CourseCategory,
@@ -136,6 +142,40 @@ export function getUserCourses(userId) {
     ],
     attributes: {
       include: [getTotalDuration(true), getTotalMaterials(true), getUserTotalCompletedMaterials()],
+    },
+    replacements: { user_id: userId },
+  });
+}
+
+/**
+ * @param {string} userId
+ * @param {Types.WhereOptions<Course>} whereOptions
+ * @param {boolean} [sortByNewest=false] Default is `false`
+ */
+export function getUserCoursesWithFilter(userId, whereOptions, sortByNewest) {
+  return Course.findAll({
+    where: whereOptions,
+    include: [
+      {
+        model: UserCourseEnrollment,
+        as: "user_course",
+        where: { user_id: userId },
+        attributes: [],
+        include: [
+          {
+            model: Class,
+            as: "class",
+          },
+        ],
+      },
+      {
+        model: CourseCategory,
+        as: "course_category",
+      },
+    ],
+    ...(sortByNewest && { order: [["created_at", "DESC"]] }),
+    attributes: {
+      include: [getTotalDuration(), getTotalMaterials(), getUserTotalCompletedMaterials()],
     },
     replacements: { user_id: userId },
   });

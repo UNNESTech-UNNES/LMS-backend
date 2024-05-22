@@ -15,6 +15,7 @@ export default (app) => {
   app.use("/courses", router);
 
   router.get("/", authMiddleware.isLoggedIn, courseController.getCourses);
+  router.get("/me", authMiddleware.isAuthorized, courseController.getUserCourses);
   router.get("/:id", authMiddleware.isLoggedIn, courseController.getCourseById);
   router.post("/", authMiddleware.isAuthorized, authMiddleware.isAdmin, uploadMiddleware.parseImage, uploadMiddleware.uploadCloudinary, courseController.createCourse);
   router.put("/:id", authMiddleware.isAuthorized, authMiddleware.isAdmin, validationMiddleware.isCourseExists, uploadMiddleware.parseImage, uploadMiddleware.uploadCloudinary, courseController.updateCourse);

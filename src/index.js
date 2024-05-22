@@ -6,6 +6,7 @@ import auth from "./api/routes/auth.js";
 import course from "./api/routes/courses.js";
 import content from "./api/routes/content.js";
 import quiz from "./api/routes/quiz.js";
+import classes from "./api/routes/class.js";
 import courseCategories from "./api/routes/course-categories.js";
 
 function main() {
@@ -17,6 +18,7 @@ function main() {
   course(app);
   content(app);
   quiz(app);
+  classes(app);
   courseCategories(app);
 
   app.listen(HOST_PORT, () => {
