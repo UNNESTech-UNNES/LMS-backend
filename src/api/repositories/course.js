@@ -2,7 +2,6 @@ import Sequelize from "sequelize";
 import { sequelize, Class, Course, CourseCategory, CourseChapter, CourseMaterial, CourseContent, CourseMaterialCompletion, Quiz, QuizQuestion, UserCourseEnrollment } from "../models/index.js";
 import * as Types from "../../libs/types/common.js";
 import * as Models from "../models/course.js";
-import { getUserCourseByUserIdAndCourseId } from "./user_course_enrollment.js";
 
 export function getCourses() {
   return Course.findAll({
@@ -15,18 +14,18 @@ export function getCoursesWithDetails() {
   return Course.findAll({
     order: [
       ["created_at", "DESC"],
-      ["course_chapter", "order_index", "ASC"],
-      ["course_chapter", "course_material", "order_index", "ASC"],
+      ["chapters", "order_index", "ASC"],
+      ["chapters", "materials", "order_index", "ASC"],
     ],
     include: [
       "course_category",
       {
         model: CourseChapter,
-        as: "course_chapter",
+        as: "chapters",
         include: [
           {
             model: CourseMaterial,
-            as: "course_material",
+            as: "materials",
           },
           {
             model: Quiz,
@@ -199,15 +198,15 @@ export function getCourseWithUserStatus(id, userId) {
       "course_category",
       {
         model: CourseChapter,
-        as: "course_chapter",
+        as: "chapters",
         include: [
           {
             model: CourseMaterial,
-            as: "course_material",
+            as: "materials",
             include: [
               {
                 model: CourseMaterialCompletion,
-                as: "course_material_completion",
+                as: "progress",
                 where: { user_id: userId },
               },
             ],
@@ -216,8 +215,8 @@ export function getCourseWithUserStatus(id, userId) {
       },
     ],
     order: [
-      ["course_chapter", "order_index", "ASC"],
-      ["course_chapter", "course_material", "order_index", "ASC"],
+      ["chapters", "order_index", "ASC"],
+      ["chapters", "materials", "order_index", "ASC"],
     ],
     attributes: {
       include: [getTotalDuration(), getTotalQuizzes(), getTotalMaterials(), getUserTotalCompletedMaterials()],

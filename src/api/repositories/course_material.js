@@ -39,9 +39,9 @@ export async function getCourseMaterialByCourseId(courseId) {
     `
       SELECT cm.id
       
-      FROM course_material as cm
+      FROM "Course_materials" as cm
 
-      JOIN course_chapter as cc
+      JOIN "Course_chapters" as cc
         ON cm.course_chapter_id = cc.id
 
       WHERE cc.course_id = :course_id

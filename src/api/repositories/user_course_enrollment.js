@@ -11,6 +11,13 @@ export function createUserCourse(payload, transaction) {
   });
 }
 
+/** @param {string} userCourseId */
+export function getUserCourseById(userCourseId) {
+  return UserCourseEnrollment.findOne({
+    where: { id: userCourseId },
+  });
+}
+
 /**
  * @param {string} userId
  * @param {string} courseId
