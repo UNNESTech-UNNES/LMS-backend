@@ -7,7 +7,7 @@ import { getUserCourseByUserIdAndCourseId } from "./user_course_enrollment.js";
 export function getCourses() {
   return Course.findAll({
     include: ["course_category"],
-    attributes: { include: [getTotalDuration(), getTotalMaterials(), getUserTotalCompletedMaterials()] },
+    attributes: { include: [getTotalDuration(), getTotalQuizzes(), getTotalMaterials(), getUserTotalCompletedMaterials()] },
   });
 }
 
@@ -47,7 +47,15 @@ export async function getCoursesByFilter(whereOptions, sortByNewest) {
     where: whereOptions,
     include: ["course_category"],
     ...(sortByNewest && { order: [["created_at", "DESC"]] }),
-    attributes: { include: [getTotalDuration(), getTotalMaterials(), getUserTotalCompletedMaterials()] },
+    attributes: { include: [getTotalDuration(), getTotalQuizzes(), getTotalMaterials(), getUserTotalCompletedMaterials()] },
+  });
+}
+
+/** @param {string} categoryId */
+export async function getAllCourseIdByCategory(categoryId) {
+  return Course.findAll({
+    where: { course_category_id: categoryId },
+    attributes: ["id"],
   });
 }
 
@@ -75,7 +83,7 @@ export function getCourseById(id) {
       ["chapters", "order_index", "ASC"],
       ["chapters", "materials", "order_index", "ASC"],
     ],
-    attributes: { include: [getTotalDuration(), getTotalMaterials()] },
+    attributes: { include: [getTotalDuration(), getTotalQuizzes(), getTotalMaterials()] },
   });
 }
 
@@ -115,7 +123,7 @@ export function getCourseByIdToPreview(id) {
       ["chapters", "order_index", "ASC"],
       ["chapters", "materials", "order_index", "ASC"],
     ],
-    attributes: { include: [getTotalDuration(), getTotalMaterials()] },
+    attributes: { include: [getTotalDuration(), getTotalQuizzes(), getTotalMaterials()] },
   });
 }
 
@@ -125,13 +133,13 @@ export function getUserCourses(userId) {
     include: [
       {
         model: UserCourseEnrollment,
-        as: "user_course_enrollment",
+        as: "enrollments",
         where: { user_id: userId },
         attributes: [],
         include: [
           {
             model: Class,
-            as: "class",
+            as: "classes",
           },
         ],
       },
@@ -141,7 +149,7 @@ export function getUserCourses(userId) {
       },
     ],
     attributes: {
-      include: [getTotalDuration(true), getTotalMaterials(true), getUserTotalCompletedMaterials()],
+      include: [getTotalDuration(true), getTotalQuizzes(true), getTotalMaterials(true), getUserTotalCompletedMaterials()],
     },
     replacements: { user_id: userId },
   });
@@ -158,13 +166,13 @@ export function getUserCoursesWithFilter(userId, whereOptions, sortByNewest) {
     include: [
       {
         model: UserCourseEnrollment,
-        as: "user_course",
+        as: "enrollments",
         where: { user_id: userId },
         attributes: [],
         include: [
           {
             model: Class,
-            as: "class",
+            as: "classes",
           },
         ],
       },
@@ -175,7 +183,7 @@ export function getUserCoursesWithFilter(userId, whereOptions, sortByNewest) {
     ],
     ...(sortByNewest && { order: [["created_at", "DESC"]] }),
     attributes: {
-      include: [getTotalDuration(), getTotalMaterials(), getUserTotalCompletedMaterials()],
+      include: [getTotalDuration(), getTotalQuizzes(), getTotalMaterials(), getUserTotalCompletedMaterials()],
     },
     replacements: { user_id: userId },
   });
@@ -212,7 +220,7 @@ export function getCourseWithUserStatus(id, userId) {
       ["course_chapter", "course_material", "order_index", "ASC"],
     ],
     attributes: {
-      include: [getTotalDuration(), getTotalMaterials(), getUserTotalCompletedMaterials()],
+      include: [getTotalDuration(), getTotalQuizzes(), getTotalMaterials(), getUserTotalCompletedMaterials()],
     },
     replacements: { user_id: userId },
   });
@@ -270,7 +278,7 @@ export function deleteCourse(id) {
 
 /** @returns {Sequelize.ProjectionAlias} */
 export function getTotalDuration(fromUserPaymentModel = false) {
-  const referencedCourseIdFrom = fromUserPaymentModel ? '"UserPayment".course_id' : '"Course".id';
+  const referencedCourseIdFrom = '"Course".id';
 
   return [
     sequelize.cast(
@@ -289,7 +297,7 @@ export function getTotalDuration(fromUserPaymentModel = false) {
 
 /** @returns {Sequelize.ProjectionAlias} */
 export function getTotalMaterials(fromUserPaymentModel = false) {
-  const referencedCourseIdFrom = fromUserPaymentModel ? '"UserPayment".course_id' : '"Course".id';
+  const referencedCourseIdFrom = '"Course".id';
 
   return [
     sequelize.cast(
@@ -310,6 +318,32 @@ export function getTotalMaterials(fromUserPaymentModel = false) {
       "integer"
     ),
     "total_materials",
+  ];
+}
+
+/** @returns {Sequelize.ProjectionAlias} */
+export function getTotalQuizzes(fromUserPaymentModel = false) {
+  const referencedCourseIdFrom = '"Course".id';
+
+  return [
+    sequelize.cast(
+      sequelize.literal(
+        `(
+          SELECT COUNT(*)
+
+          FROM "Quizzes" AS q
+
+          JOIN "Course_chapters" AS cc
+            ON q.course_chapter_id = cc.id
+
+          JOIN "Courses" AS c
+            ON cc.course_id = c.id
+          WHERE c.id = ${referencedCourseIdFrom}
+        )`
+      ),
+      "integer"
+    ),
+    "total_quizzes",
   ];
 }
 

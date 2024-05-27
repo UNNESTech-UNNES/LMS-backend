@@ -35,6 +35,7 @@ export default (sequelize, DataTypes) => {
 
       this.hasMany(models.UserCourseEnrollment, {
         foreignKey: "class_id",
+        as: "classes",
       });
 
       this.hasMany(models.UserClassStatus, {

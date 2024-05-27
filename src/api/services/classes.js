@@ -1,6 +1,9 @@
+import { sequelize } from "../models/index.js";
 import * as classRepository from "../repositories/classes.js";
 import * as classModels from "../models/class.js";
 import * as userClassStatusModels from "../models/user_class_status.js";
+import * as userEnrollmentRepository from "../repositories/user_course_enrollment.js";
+import * as courseRepository from "../repositories/course.js";
 import * as Types from "../../libs/types/common.js";
 import { ApplicationError, generateApplicationError } from "../../libs/error.js";
 import { omitPropertiesFromObject } from "../../libs/utils.js";
@@ -53,7 +56,28 @@ export async function activateClassStatus(id) {
     if (classStatus.dataValues.is_active === true) {
       throw new ApplicationError("Class status already activated", 400);
     }
-    await classRepository.setTrueClassStatus(id);
+    await sequelize.transaction(async (transaction) => {
+      const [, activatedClassStatus] = await classRepository.setTrueClassStatus(id, transaction);
+      const class_id = activatedClassStatus[0].dataValues.class_id;
+      const user_id = activatedClassStatus[0].dataValues.user_id;
+      const activatedClass = await getClassById(class_id);
+      const categoryId = await activatedClass.dataValues.course_category_id;
+
+      const getAllCourseByCategory = await courseRepository.getAllCourseIdByCategory(categoryId);
+
+      // Backfilling the user enrollment table with the courses of the category
+      for (const courseIndex in getAllCourseByCategory) {
+        const payload = {
+          course_id: getAllCourseByCategory[courseIndex].dataValues.id,
+          class_id: class_id,
+          user_id: user_id,
+        };
+
+        await userEnrollmentRepository.createUserCourse(payload, transaction);
+      }
+    });
+
+    // send notification
   } catch (err) {
     throw generateApplicationError(err, "Error while setting true class status", 500);
   }

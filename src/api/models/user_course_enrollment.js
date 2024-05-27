@@ -37,6 +37,12 @@ export default (sequelize, DataTypes) => {
 
       this.belongsTo(models.Class, {
         foreignKey: "class_id",
+        as: "classes",
+      });
+
+      this.belongsTo(models.UserCourseEnrollment, {
+        foreignKey: "user_id",
+        as: "enrollments",
       });
     }
   }

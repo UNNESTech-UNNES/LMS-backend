@@ -1,3 +1,4 @@
+import Sequelize from "sequelize";
 import { Class, CourseCategory, User, UserClassStatus } from "../models/index.js";
 import * as ClassModels from "../models/class.js";
 import * as UserClassStatusModels from "../models/user_class_status.js";
@@ -47,14 +48,19 @@ export function getAllUnActiveClassesStatus() {
   });
 }
 
-/** @param {string} id */
-export function setTrueClassStatus(id) {
+/**
+ *  @param {string} id
+ *  @param {Sequelize.Transaction} transaction
+ */
+export function setTrueClassStatus(id, transaction) {
   return UserClassStatus.update(
     { is_active: true },
     {
       where: {
         id,
       },
+      returning: true,
+      transaction: transaction,
     }
   );
 }
