@@ -30,6 +30,10 @@ export default (sequelize, DataTypes) => {
      * @param {Record<import('./index.js').ModelName,any>} models
      */
     static associate(models) {
+      this.hasMany(models.CourseMaterialCompletion, {
+        foreignKey: "course_material_id",
+        as: "progress",
+      });
       this.hasMany(models.CourseContent, {
         foreignKey: "course_material_id",
         as: "contents",

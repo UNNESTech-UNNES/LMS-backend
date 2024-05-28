@@ -9,12 +9,6 @@ import course from "../models/course.js";
 export function setCourseMaterialStatus(payload, transaction) {
   return CourseMaterialCompletion.create(payload, { transaction: transaction });
 }
-
-/** @param {string} id */
-export function getCourseMaterialStatusById(id) {
-  return CourseMaterialCompletion.findByPk(id);
-}
-
 /**
  * @param {string} courseId
  * @param {string} courseMaterialId
@@ -42,10 +36,27 @@ export async function backfillCourseMaterialStatus(courseId, courseMaterialId) {
   });
 }
 
-/** @param {string} id */
-export function updateCourseMaterialStatus(id) {
+/**
+ * @param {string} id
+ * @param {number} percentage
+ */
+export function updateCourseMaterialPercentage(id, percentage) {
   return CourseMaterialCompletion.update(
-    { completed: true },
+    { completed: false, percentage },
+    {
+      where: { id: id },
+      returning: true,
+    }
+  );
+}
+
+/**
+ * @param {string} id
+ * @param {number} percentage
+ */
+export function updateCourseMaterialStatus(id, percentage) {
+  return CourseMaterialCompletion.update(
+    { completed: true, percentage },
     {
       where: { id: id },
       returning: true,

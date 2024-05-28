@@ -7,6 +7,8 @@ import * as UserModel from "../models/user.js";
 import * as userService from "../services/user.js";
 import * as CourseMaterialCompletionModel from "../models/course_material_completion.js";
 import * as courseMaterialCompletionService from "../services/course-material-completion.js";
+import * as ClassModel from "../models/class.js";
+import * as classService from "../services/classes.js";
 
 /**
  * Check if valid credentials.
@@ -126,6 +128,27 @@ export async function isCourseExists(req, res, next) {
   try {
     const course = await courseService.getCourseById(id);
     res.locals.course = course.dataValues;
+  } catch (err) {
+    if (err instanceof ApplicationError) {
+      res.status(err.statusCode).json({ message: err.message });
+      return;
+    }
+
+    res.status(500).json({ message: "Internal server error" });
+    return;
+  }
+  next();
+}
+
+/**
+ * @type {Types.Middleware<Types.ExtractLocalsMiddleware<typeof isAdmin> & {class: ClassModel.ClassAttributes}>}
+ * @returns {Promise<void>}
+ */
+export async function isClassExists(req, res, next) {
+  const id = req.params.id || req.body.class_id;
+  try {
+    const existClass = await classService.getClassById(id);
+    res.locals.class = existClass.dataValues;
   } catch (err) {
     if (err instanceof ApplicationError) {
       res.status(err.statusCode).json({ message: err.message });

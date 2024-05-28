@@ -16,6 +16,10 @@ import * as CourseChapterModel from "./course_chapter.js";
  * @property {string} description
  * @property {string[]} target_audience
  * @property {string} telegram
+ * @property {number} total_duration
+ * @property {number} total_materials
+ * @property {number} total_quizzes
+ * @property {number} total_completed_materials
  * @property {Model<CourseChapterModel.CourseChapterAttributes>[]} chapters
  * @property {Date} created_at
  * @property {Date} updated_at
