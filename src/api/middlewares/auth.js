@@ -63,6 +63,29 @@ export function isAdmin(_req, res, next) {
 }
 
 /**
+ * Check if user is superadmin.
+ *
+ * @type {Types.Middleware<
+ *   Types.ExtractLocalsMiddleware<typeof isAuthorized> & {
+ *     role: Models.UserAttributes["role"];
+ *   }
+ * >}
+ * @returns {void}
+ */
+export function isSuperAdmin(_req, res, next) {
+  const { role } = /** @type {Models.UserAttributes} */ (res.locals.user);
+
+  if (role !== "SUPER_ADMIN") {
+    res.status(403).json({ message: "Only super admin is allowed for this endpoint" });
+    return;
+  }
+
+  res.locals.role = role;
+
+  next();
+}
+
+/**
  * Check if user is logged in when access course content.
  *
  * @type {Types.Middleware<{ user: Models.UserAttributes | null }>}

@@ -15,7 +15,7 @@ module.exports = {
       role: "SUPER_ADMIN",
       email: "luthfiyanto1425@gmail.com",
       verified: true,
-      password: "$2b$10$Jw2b0Z1v2j0Q2L5y8m5yXe5XhU7Jb1QqXv4u2Yd6l1zg5b1J2o4Qm", // luthfiyanto
+      password: "$2b$10$JqfYeXyHwsSgZUi7zG9lUuyx.KeO24NEmmDq5aRCsCekSWw8uzqMK", // luthfiyanto
       phone_number: "+6282313735701",
     };
 
