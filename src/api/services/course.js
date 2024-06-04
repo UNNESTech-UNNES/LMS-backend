@@ -74,6 +74,19 @@ export async function getCourseById(id, userId = null) {
   }
 }
 
+/** @param {string} id */
+export async function getCourseByIdToPreview(id) {
+  try {
+    const course = await courseRepository.getCourseByIdToPreview(id);
+    if (!course) {
+      throw new ApplicationError("Course not found", 404);
+    }
+    return course;
+  } catch (err) {
+    throw generateApplicationError(err, "Error while getting course", 500);
+  }
+}
+
 /**
  * @param {string} id
  * @param {Types.RequestQuery} params

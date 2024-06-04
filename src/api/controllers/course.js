@@ -133,3 +133,21 @@ export async function destroyCourse(req, res) {
     }
   }
 }
+
+/**
+ * @type {Types.AuthorizedController}
+ * @returns {Promise<void>}
+ */
+export async function getCoursePreviewData(req, res) {
+  try {
+    const { id } = req.params;
+    const data = await courseService.getCourseByIdToPreview(id);
+    res.status(200).json({ data });
+  } catch (err) {
+    if (err instanceof ApplicationError) {
+      res.status(err.statusCode).json({ message: err.message });
+      return;
+    }
+    res.status(500).json({ message: "Internal server error" });
+  }
+}

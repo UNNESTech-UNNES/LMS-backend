@@ -20,4 +20,6 @@ export default (app) => {
   router.post("/", authMiddleware.isAuthorized, authMiddleware.isAdmin, uploadMiddleware.parseImage, uploadMiddleware.uploadCloudinary, courseController.createCourse);
   router.put("/:id", authMiddleware.isAuthorized, authMiddleware.isAdmin, validationMiddleware.isCourseExists, uploadMiddleware.parseImage, uploadMiddleware.uploadCloudinary, courseController.updateCourse);
   router.delete("/:id", authMiddleware.isAuthorized, authMiddleware.isAdmin, validationMiddleware.isCourseExists, courseController.destroyCourse);
+
+  router.get("/preview-data/:id", authMiddleware.isAuthorized, authMiddleware.isAdmin, validationMiddleware.isCourseExists, courseController.getCoursePreviewData);
 };
