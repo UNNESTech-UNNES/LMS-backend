@@ -1,7 +1,6 @@
 import { ApplicationError } from "../../libs/error.js";
 import * as authService from "../services/auth.js";
 import * as Models from "../models/user.js";
-import * as ModelsI from "../models/instructor.js";
 import * as Types from "../../libs/types/common.js";
 
 /**

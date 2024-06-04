@@ -100,6 +100,18 @@ export async function getAdminUserId() {
   }).then((model) => model?.dataValues.id);
 }
 
+export async function getInstructorUserId() {
+  return User.findOne({
+    where: { role: "INSTRUCTOR", email: "lulufaridaalfani73@gmail.com" },
+  }).then((model) => model?.dataValues.id);
+}
+
+export async function getSecondInstructorUserId() {
+  return User.findOne({
+    where: { role: "INSTRUCTOR", email: "simanjuntak101001@gmail.com" },
+  }).then((model) => model?.dataValues.id);
+}
+
 export async function getNormalUserId() {
   return User.findOne({
     where: { role: "GENERAL", email: "iyandoang219@gmail.com" },

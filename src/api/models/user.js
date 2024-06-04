@@ -48,11 +48,11 @@ export default (sequelize, DataTypes) => {
         foreignKey: "author_id",
       });
 
-      this.hasMany(models.UserCourseEnrollment, {
+      this.hasMany(models.CourseInstructor, {
         foreignKey: "user_id",
       });
 
-      this.hasMany(models.InstructorContribution, {
+      this.hasMany(models.UserCourseEnrollment, {
         foreignKey: "user_id",
       });
 

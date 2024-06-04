@@ -2,22 +2,18 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("InstructorContributions", {
+    await queryInterface.createTable("Course_instructors", {
       id: {
         allowNull: false,
         primaryKey: true,
         type: Sequelize.UUID,
         defaultValue: Sequelize.literal("gen_random_uuid()"),
       },
-      course_id: {
-        type: Sequelize.UUID,
-        allowNull: false,
-      },
       user_id: {
         type: Sequelize.UUID,
         allowNull: false,
       },
-      user_profil: {
+      course_id: {
         type: Sequelize.UUID,
         allowNull: false,
       },
@@ -32,6 +28,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("InstructorContributions");
+    await queryInterface.dropTable("Course_instructors");
   },
 };

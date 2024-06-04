@@ -16,7 +16,7 @@ module.exports = {
         price: 0,
         premium: false,
         author_id: userAdminId,
-        instructor_id: ["12ab32a3-d242-40be-8426-6a1b8d57700f"],
+        // instructor_id: "12ab32a3-d242-40be-8426-6a1b8d57700f",
         course_category_id: await getCategoryIdByName("Sistem Informasi"),
         description: `Design system adalah kumpulan komponen design, code, ataupun dokumentasi yang dapat digunakan sebagai panduan utama yang memunginkan designer serta developer memiliki lebih banyak kontrol atas berbagai platform.
 
@@ -37,7 +37,7 @@ module.exports = {
         price: 280000,
         premium: true,
         author_id: userAdminId,
-        instructor_id: ["12ab32a3-d242-40be-8426-6a1b8d57700f"],
+        // instructor_id: "12ab32a3-d242-40be-8426-6a1b8d57700f",
         course_category_id: await getCategoryIdByName("Sistem Informasi"),
         description: `Sebuah artikel berita baru-baru ini menyebut Manajer Produk sebagai peran terpenting ke-4 dalam perusahaan saat ini, menjadikan manajemen produk sebagai salah satu pekerjaan terpanas di pasar. Namun, kebanyakan orang tidak mengetahui apa yang sebenarnya dilakukan oleh Manajer Produk. 
           
@@ -58,7 +58,7 @@ module.exports = {
         price: 420000,
         premium: true,
         author_id: userAdminId,
-        instructor_id: ["12ab32a3-d242-40be-8426-6a1b8d57700f"],
+        // instructor_id: "12ab32a3-d242-40be-8426-6a1b8d57700f",
         course_category_id: await getCategoryIdByName("Sistem Informasi"),
         description: `Microservice adalah salah satu arsitektur pada Website Development yang digunakan oleh banyak Developer dan perusahaan IT dalam mengembangkan suatu Website. Tujuannya adalah agar Website tersebut lebih stabil dan mudah diperbaiki pada setiap service-nya jika adanya suatu bug pada service tersebut.
           
@@ -68,8 +68,8 @@ module.exports = {
           
           Silakan bergabung dan kami tunggu di kelas. Kelas ini menggunakan tools NextJS versi 9.`,
         target_audience: [
-          // "Cocok untuk yang ingin membangun website kelas online",
-          // "Cocok untuk yang ingin belajar menerapkan arsitektur microservice pada aplikasi",
+          "Cocok untuk yang ingin membangun website kelas online",
+          "Cocok untuk yang ingin belajar menerapkan arsitektur microservice pada aplikasi",
           "Diperuntukkan bagi yang ingin menjadi fullstack developer pada bahasa pemrograman javascript",
         ],
         // onboarding_text:
@@ -81,7 +81,7 @@ module.exports = {
         price: 0,
         premium: false,
         author_id: userAdminId,
-        instructor_id: ["12ab32a3-d242-40be-8426-6a1b8d57700f"],
+        // instructor_id: "12ab32a3-d242-40be-8426-6a1b8d57700f",
         course_category_id: await getCategoryIdByName("Sistem Informasi"),
         description: `Penguasaan front end (user interface) dan back end (business logic) pada saat membangun website adalah hal utama bagi seorang Full Stack Web Developer. Bahkan, akan lebih baik jika didukung oleh skill UI/UX Design dan System Administration agar keseluruhan sistem web dapat berjalan dengan baik.
           
@@ -98,7 +98,7 @@ module.exports = {
         price: 0,
         premium: false,
         author_id: userAdminId,
-        instructor_id: ["12ab32a3-d242-40be-8426-6a1b8d57700f"],
+        // instructor_id: "12ab32a3-d242-40be-8426-6a1b8d57700f",
         course_category_id: await getCategoryIdByName("Sistem Informasi"),
         description: `Pada pengembangan aplikasi, kita tidak akan terlepas dari proses penyimpanan data. Namun, dalam menjaga sebuah data agar dapat mudah digunakan kapan pun diperlukan proses dalam jangka waktu yang lama.
           
@@ -117,7 +117,7 @@ module.exports = {
         price: 350000,
         premium: true,
         author_id: userAdminId,
-        instructor_id: ["12ab32a3-d242-40be-8426-6a1b8d57700f"],
+        // instructor_id: "12ab32a3-d242-40be-8426-6a1b8d57700f",
         course_category_id: await getCategoryIdByName("Sistem Informasi"),
         description: `Faktor pertama yang menjadi alasan pengguna menggunakan aplikasi e-commerce adalah tampilan antarmuka (UI) yang menarik. UI yang dirancang dengan baik dapat menanamkan kepercayaan pada produk yang ditawarkan, yang nantinya berpengaruh penting terhadap kelancaran bisnis produk tersebut. Kelas ini akan membahas proses pengembangan UI pada sisi Front-End secara lengkap, dari mendesain UI dengan Adobe XD sampai slicing desain ke Flutter.
           
@@ -136,7 +136,7 @@ module.exports = {
         price: 500000,
         premium: true,
         author_id: userAdminId,
-        instructor_id: ["12ab32a3-d242-40be-8426-6a1b8d57700f"],
+        // instructor_id: "12ab32a3-d242-40be-8426-6a1b8d57700f",
         course_category_id: await getCategoryIdByName("Sistem Informasi"),
         description: `Di era digital, berbagai perusahaan berlomba untuk mengembangkan situs web dan aplikasi yang user friendly dan responsif. Oleh karena itu, berbagai pekerjaan seputar design dan development sangat dibutuhkan saat ini. Jika kamu menyukai bagaimana melakukan slicing UI ke dalam UI/UX Development, profesi Junior UI/UX Developer atau yang lebih dikenal dengan UI Engineer akan menjadi profesi yang ideal untukmu.
           
@@ -153,7 +153,7 @@ module.exports = {
         price: 300000,
         premium: true,
         author_id: userAdminId,
-        instructor_id: ["12ab32a3-d242-40be-8426-6a1b8d57700f"],
+        // instructor_id: "12ab32a3-d242-40be-8426-6a1b8d57700f",
         course_category_id: await getCategoryIdByName("Sistem Informasi"),
         description: `Charles Bachman menciptakan database agar data memiliki tampilan yang mudah dipahami dan tentunya dapat dikelola oleh banyak pengguna. Data yang tersusun rapi melalui Database Management System (DBMS), dapat memudahkan kebutuhan kita dalam pengembangan aplikasi. Dengan menguasai DBMS, kita dapat dengan mudah mencari atau mengubah data sesuai kebutuhan, mengolah big data, hingga mempercepat kinerja aplikasi secara efisien.
           

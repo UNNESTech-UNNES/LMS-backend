@@ -9,12 +9,11 @@ import config from "../../db/config/database.js";
  * @property {Sequelize} sequelize
  * @property {Sequelize} Sequelize
  * @property {ReturnType<typeof import('./user.js').default>} User
- * @property {ReturnType<typeof import('./instructor.js').default>} Instructor
- * @property {ReturnType<typeof import('./instructor_contribution.js').default>} InstructorContribution
  * @property {ReturnType<typeof import('./class.js').default>} Class
  * @property {ReturnType<typeof import('./user_class_status.js').default>} UserClassStatus
  * @property {ReturnType<typeof import('./course.js').default>} Course
  * @property {ReturnType<typeof import('./course_category.js').default>} CourseCategory
+ * @property {ReturnType<typeof import('./course_instructor.js').default>} CourseInstructor
  * @property {ReturnType<typeof import('./course_chapter.js').default>} CourseChapter
  * @property {ReturnType<typeof import('./course_material.js').default>} CourseMaterial
  * @property {ReturnType<typeof import('./course_content.js').default>} CourseContent
@@ -66,22 +65,5 @@ async function initializeDatabase() {
   return /** @type {Database} */ (/** @type {unknown} */ (db));
 }
 
-export const {
-  sequelize,
-  User,
-  UserCourseEnrollment,
-  Class,
-  UserClassStatus,
-  Course,
-  CourseCategory,
-  CourseChapter,
-  CourseMaterial,
-  CourseContent,
-  CourseMaterialCompletion,
-  Quiz,
-  QuizQuestion,
-  Instructor,
-  InstructorContribution,
-  Otp,
-  PasswordReset,
-} = await initializeDatabase();
+export const { sequelize, User, UserCourseEnrollment, Class, UserClassStatus, Course, CourseCategory, CourseInstructor, CourseChapter, CourseMaterial, CourseContent, CourseMaterialCompletion, Quiz, QuizQuestion, Otp, PasswordReset } =
+  await initializeDatabase();

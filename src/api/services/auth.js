@@ -4,7 +4,6 @@ import { Model } from "sequelize";
 import { JWT_SECRET } from "../../libs/env.js";
 import * as userService from "../services/user.js";
 import * as userRepository from "../repositories/user.js";
-import * as instructorRepository from "../repositories/instructor.js";
 import * as resetPasswordRepository from "../repositories/password-reset.js";
 import * as otpRepository from "../repositories/otp.js";
 import { ApplicationError, generateApplicationError } from "../../libs/error.js";
@@ -118,7 +117,6 @@ export async function verifyOtp(payload) {
     await sequelize.transaction(async (transaction) => {
       await otpRepository.updateUsedOtpVerification(otp, userId, transaction);
       await userRepository.updatedUser(userId, { verified: true }, transaction);
-      await instructorRepository.updatedInstructor(userId, { verified: true }, transaction);
 
       // Notification
     });

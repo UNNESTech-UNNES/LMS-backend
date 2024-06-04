@@ -1,11 +1,24 @@
 import Sequelize from "sequelize";
-import { sequelize, Class, Course, CourseCategory, CourseChapter, CourseMaterial, CourseContent, CourseMaterialCompletion, Quiz, QuizQuestion, UserCourseEnrollment } from "../models/index.js";
+import { sequelize, User, Class, Course, CourseCategory, CourseInstructor, CourseChapter, CourseMaterial, CourseContent, CourseMaterialCompletion, Quiz, QuizQuestion, UserCourseEnrollment } from "../models/index.js";
 import * as Types from "../../libs/types/common.js";
 import * as Models from "../models/course.js";
 
 export function getCourses() {
   return Course.findAll({
-    include: ["course_category"],
+    include: [
+      "course_category",
+      {
+        model: CourseInstructor,
+        as: "course_instructors",
+        include: [
+          {
+            model: User,
+            as: "instructor",
+            attributes: ["id", "name", "email", "phone_number"],
+          },
+        ],
+      },
+    ],
     attributes: { include: [getTotalDuration(), getTotalQuizzes(), getTotalMaterials(), getUserTotalCompletedMaterials()] },
   });
 }
@@ -19,6 +32,17 @@ export function getCoursesWithDetails() {
     ],
     include: [
       "course_category",
+      {
+        model: CourseInstructor,
+        as: "course_instructors",
+        include: [
+          {
+            model: User,
+            as: "instructor",
+            attributes: ["id", "name", "email", "phone_number"],
+          },
+        ],
+      },
       {
         model: CourseChapter,
         as: "chapters",
@@ -44,7 +68,20 @@ export function getCoursesWithDetails() {
 export async function getCoursesByFilter(whereOptions, sortByNewest) {
   return Course.findAll({
     where: whereOptions,
-    include: ["course_category"],
+    include: [
+      "course_category",
+      {
+        model: CourseInstructor,
+        as: "course_instructors",
+        include: [
+          {
+            model: User,
+            as: "instructor",
+            attributes: ["id", "name", "email", "phone_number"],
+          },
+        ],
+      },
+    ],
     ...(sortByNewest && { order: [["created_at", "DESC"]] }),
     attributes: { include: [getTotalDuration(), getTotalQuizzes(), getTotalMaterials(), getUserTotalCompletedMaterials()] },
   });
@@ -63,6 +100,17 @@ export function getCourseById(id) {
   return Course.findByPk(id, {
     include: [
       "course_category",
+      {
+        model: CourseInstructor,
+        as: "course_instructors",
+        include: [
+          {
+            model: User,
+            as: "instructor",
+            attributes: ["id", "name", "email", "phone_number"],
+          },
+        ],
+      },
       {
         model: CourseChapter,
         as: "chapters",
@@ -91,6 +139,17 @@ export function getCourseByIdToPreview(id) {
   return Course.findByPk(id, {
     include: [
       "course_category",
+      {
+        model: CourseInstructor,
+        as: "course_instructors",
+        include: [
+          {
+            model: User,
+            as: "instructor",
+            attributes: ["id", "name", "email", "phone_number"],
+          },
+        ],
+      },
       {
         model: CourseChapter,
         as: "chapters",
@@ -197,6 +256,17 @@ export function getCourseWithUserStatus(id, userId) {
     include: [
       "course_category",
       {
+        model: CourseInstructor,
+        as: "course_instructors",
+        include: [
+          {
+            model: User,
+            as: "instructor",
+            attributes: ["id", "name", "email", "phone_number"],
+          },
+        ],
+      },
+      {
         model: CourseChapter,
         as: "chapters",
         include: [
@@ -229,6 +299,10 @@ export function getCourseWithUserStatus(id, userId) {
 export function createCourse(payload) {
   return Course.create(payload, {
     include: [
+      {
+        model: CourseInstructor,
+        as: "course_instructors",
+      },
       {
         model: CourseChapter,
         as: "chapters",

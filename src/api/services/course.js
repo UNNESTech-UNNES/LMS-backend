@@ -5,12 +5,12 @@ import * as courseRepository from "../repositories/course.js";
 import * as courseChapterRepository from "../repositories/course_chapter.js";
 import * as courseMaterialRepository from "../repositories/course_material.js";
 import * as courseContentRepository from "../repositories/course_content.js";
+import * as courseInstructorRepository from "../repositories/course_instructor.js";
 import * as quizRepository from "../repositories/quiz.js";
 import * as quizQuestionRepository from "../repositories/question.js";
 import * as courseChapterService from "./course-chapter.js";
 import * as userCourseEnrollment from "../repositories/user_course_enrollment.js";
 import * as Types from "../../libs/types/common.js";
-import { da } from "@faker-js/faker";
 
 /**
  * @param {Types.RequestQuery} params
@@ -113,13 +113,20 @@ export async function getUserCourses(id, params) {
 export async function createCourse(payload, userId) {
   const parsedPayload = omitPropertiesFromObject(payload, ["id", "created_at", "updated_at"]);
 
-  const { target_audience, course_chapter } = payload;
+  const { target_audience, course_chapter, instructors } = payload;
 
+  const parsedInstructos = /** @type {any[]} */ (parseArrayStringToArray(instructors));
+  const course_instructors = parsedInstructos.map((instructor) => {
+    return {
+      user_id: instructor,
+    };
+  });
   const parsedPayloadWithCategoryAndUser = {
     ...parsedPayload,
     user_id: userId,
     target_audience: parseArrayStringToArray(target_audience),
     course_chapter: parseArrayStringToArray(course_chapter),
+    course_instructors,
   };
 
   try {
@@ -136,7 +143,7 @@ export async function createCourse(payload, userId) {
  * @param {string} id
  */
 export async function updateCourse(payload, id) {
-  const { chapters, target_audience } = payload;
+  const { chapters, target_audience, instructors } = payload;
 
   const parsedPayload = omitPropertiesFromObject(payload, ["id", "created_at", "updated_at"]);
 
@@ -144,6 +151,13 @@ export async function updateCourse(payload, id) {
     const parsedCourseChapters = /** @type {any[]} */ (parseArrayStringToArray(chapters));
 
     const parsedTargetAudience = /** @type {any[]} */ (parseArrayStringToArray(target_audience));
+
+    const parsedInstructors = /** @type {string[]} */ (parseArrayStringToArray(instructors));
+    const course_instructors = parsedInstructors.map((instructor) => {
+      return {
+        user_id: instructor,
+      };
+    });
 
     const parsedPayloadArrayString = {
       ...parsedPayload,
@@ -156,6 +170,16 @@ export async function updateCourse(payload, id) {
     // Check if course not exists
     if (!course) {
       throw new ApplicationError("Course not found", 404);
+    }
+
+    // Update Course instructors
+    const CourseInstructorIds = await courseInstructorRepository.getCourseInstructorsByCourseId(id);
+    // delete any instructors then create new ones
+    const instructorIdsToDelete = CourseInstructorIds.map(({ dataValues: { id } }) => id);
+    await courseInstructorRepository.destroyCourseInstructor(instructorIdsToDelete);
+
+    for (const instructor of course_instructors) {
+      await courseInstructorRepository.createCourseInstructor({ ...instructor, course_id: id });
     }
 
     // Retrieve the list of chapters from the database

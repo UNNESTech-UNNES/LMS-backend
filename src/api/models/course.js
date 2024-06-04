@@ -1,5 +1,6 @@
 import { Model } from "sequelize";
 import * as CourseChapterModel from "./course_chapter.js";
+import * as UserModel from "./user.js";
 
 /**
  * @typedef CourseAttributes
@@ -11,7 +12,7 @@ import * as CourseChapterModel from "./course_chapter.js";
  * @property {string} image
  * @property {boolean} premium
  * @property {string} author_id
- * @property {string[]} instructor_id
+ * @property {Model<UserModel.UserAttributes>[]} instructor
  * @property {string} course_category_id
  * @property {string} description
  * @property {string[]} target_audience
@@ -51,14 +52,14 @@ export default (sequelize, DataTypes) => {
         as: "chapters",
       });
 
-      this.hasMany(models.InstructorContribution, {
-        foreignKey: "course_id",
-        as: "contributions",
-      });
-
       this.belongsTo(models.User, {
         foreignKey: "author_id",
         as: "author",
+      });
+
+      this.hasMany(models.CourseInstructor, {
+        foreignKey: "course_id",
+        as: "course_instructors",
       });
 
       this.belongsTo(models.CourseCategory, {
@@ -100,10 +101,6 @@ export default (sequelize, DataTypes) => {
       },
       author_id: {
         type: DataTypes.UUID,
-        allowNull: false,
-      },
-      instructor_id: {
-        type: DataTypes.ARRAY(DataTypes.STRING),
         allowNull: false,
       },
       course_category_id: {
