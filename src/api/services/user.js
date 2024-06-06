@@ -7,9 +7,20 @@ import * as Models from "../models/user.js";
 export async function getAllUsers() {
   try {
     const users = await userRepository.getAllUsers();
+    if (users.length === 0) throw new ApplicationError("No user found", 404);
     return users;
   } catch (error) {
     throw generateApplicationError(error, "Error fetching all users", 500);
+  }
+}
+
+export async function getAllInstructor() {
+  try {
+    const instructors = await userRepository.getAllInstructors();
+    if (instructors.length === 0) throw new ApplicationError("No instructor found", 404);
+    return instructors;
+  } catch (error) {
+    throw generateApplicationError(error, "Error fetching all instructors", 500);
   }
 }
 

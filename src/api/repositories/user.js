@@ -77,7 +77,7 @@ export function getAllStudentsAndInstructor() {
   return User.findAll({
     where: {
       role: {
-        [Op.or]: ["USER","STUDENT", "INSTRUCTOR"],
+        [Op.or]: ["USER", "STUDENT", "INSTRUCTOR"],
       },
     },
     attributes: {
@@ -92,7 +92,7 @@ export function getAllInstructors() {
       role: "INSTRUCTOR",
     },
     attributes: {
-      exclude: ["password"],
+      exclude: ["password", "verified"],
     },
   });
 }

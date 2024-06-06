@@ -1,7 +1,6 @@
 import { ApplicationError } from "../../libs/error.js";
 import * as Types from "../../libs/types/common.js";
 import * as userService from "../services/user.js";
-import * as Models from "../models/user.js";
 
 /**
  * @type {Types.AuthorizedController}
@@ -9,8 +8,26 @@ import * as Models from "../models/user.js";
  */
 export async function getAllUsers(req, res) {
   try {
-    const users = await userService.getAllUsers();
-    res.status(200).json(users);
+    const data = await userService.getAllUsers();
+    res.status(200).json({ data });
+    return;
+  } catch (err) {
+    if (err instanceof ApplicationError) {
+      res.status(err.statusCode).json({ message: err.message });
+      return;
+    }
+    res.status(500).json({ message: "Internal server error" });
+  }
+}
+
+/**
+ * @type {Types.Controller}
+ * @returns {void}
+ */
+export async function getAllInstructor(req, res) {
+  try {
+    const data = await userService.getAllInstructor();
+    res.status(200).json({ data });
     return;
   } catch (err) {
     if (err instanceof ApplicationError) {
