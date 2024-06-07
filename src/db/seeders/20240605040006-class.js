@@ -14,6 +14,8 @@ module.exports = {
         image: "https://www.example.com/algorithm.jpg",
         instructor_id: await getInstructorUserId(),
         course_category_id: await getCategoryIdByName("Algorithm and Data Structure"),
+        created_at: new Date(),
+        updated_at: new Date(),
       },
       {
         id: uuid(),
@@ -23,6 +25,8 @@ module.exports = {
         image: "https://www.example.com/information-system.jpg",
         instructor_id: await getSecondInstructorUserId(),
         course_category_id: await getCategoryIdByName("Sistem Informasi Manajemen"),
+        created_at: new Date(),
+        updated_at: new Date(),
       },
       {
         id: uuid(),
@@ -32,6 +36,8 @@ module.exports = {
         image: "https://www.example.com/machine-learning.jpg",
         instructor_id: await getInstructorUserId(),
         course_category_id: await getCategoryIdByName("Machine Learning"),
+        created_at: new Date(),
+        updated_at: new Date(),
       },
       {
         id: uuid(),
@@ -41,6 +47,8 @@ module.exports = {
         image: "https://www.example.com/statistic.jpg",
         instructor_id: await getSecondInstructorUserId(),
         course_category_id: await getCategoryIdByName("Statistics"),
+        created_at: new Date(),
+        updated_at: new Date(),
       },
       {
         id: uuid(),
@@ -50,6 +58,8 @@ module.exports = {
         image: "https://www.example.com/laravel.jpg",
         instructor_id: await getInstructorUserId(),
         course_category_id: await getCategoryIdByName("Web Development"),
+        created_at: new Date(),
+        updated_at: new Date(),
       },
       {
         id: uuid(),
@@ -59,6 +69,8 @@ module.exports = {
         image: "https://www.example.com/security.jpg",
         instructor_id: await getSecondInstructorUserId(),
         course_category_id: await getCategoryIdByName("Cybersecurity"),
+        created_at: new Date(),
+        updated_at: new Date(),
       },
     ];
     await queryInterface.bulkInsert("Classes", data, {});

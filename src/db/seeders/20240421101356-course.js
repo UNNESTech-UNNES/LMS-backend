@@ -170,23 +170,6 @@ module.exports = {
       },
       {
         id: uuid(),
-        name: "Machine Learning dengan PyTorch",
-        price: 0,
-        premium: false,
-        author_id: userAdminId,
-        // instructor_id: [instructorId, secondInstructorId],
-        course_category_id: await getCategoryIdByName("Machine Learning"),
-        description: `Machine Learning dengan PyTorch adalah kelas yang akan membimbing Anda memahami dasar-dasar machine learning dengan pytorch. PyTorch adalah library machine learning open-source yang dikembangkan oleh Facebook.
-
-        Bersama mentor terpercaya, kita akan mempelajari machine learning dengan pytorch dari dasar hingga mahir. Mentor akan memberikan berbagai contoh kasus yang sering ditemui dalam dunia nyata dan bagaimana cara memecahkannya dengan machine learning dengan pytorch.
-
-        Kelas ini sangat cocok untuk Anda yang ingin memahami apa itu machine learning dengan pytorch dan bagaimana cara menerapkannya dalam kehidupan sehari-hari. Tidak hanya ditujukan untuk programmer, kelas ini sangat cocok untuk Anda yang ingin meningkatkan kemampuan berpikir logis dan sistematis.
-
-        Yuk segera daftar dan kami tunggu di kelas ya!`,
-        target_audience: ["Anda yang ingin memahami poin penting machine learning dengan pytorch", "Anda yang ingin latihan membangun machine learning dengan pytorch", "Anda yang ingin mengembangkan Startup"],
-      },
-      {
-        id: uuid(),
         name: "Statistika Dasar",
         price: 0,
         premium: false,
@@ -324,23 +307,6 @@ module.exports = {
       },
       {
         id: uuid(),
-        name: "Implementasi REST API dengan Express.js",
-        price: 0,
-        premium: false,
-        author_id: userAdminId,
-        // instructor_id: [instructorId],
-        course_category_id: await getCategoryIdByName("Web Development"),
-        description: `Implementasi REST API dengan Express.js adalah kelas yang akan membimbing Anda memahami dasar-dasar implementasi REST API dengan Express.js. Express.js adalah framework Node.js yang digunakan untuk membuat aplikasi web.
-
-        Bersama mentor terpercaya, kita akan mempelajari implementasi REST API dengan Express.js dari dasar hingga mahir. Mentor akan memberikan berbagai contoh kasus yang sering ditemui dalam dunia nyata dan bagaimana cara memecahkannya dengan Express.js.
-
-        Kelas ini sangat cocok untuk Anda yang ingin memahami apa itu implementasi REST API dengan Express.js dan bagaimana cara menerapkannya dalam kehidupan sehari-hari. Tidak hanya ditujukan untuk programmer, kelas ini sangat cocok untuk Anda yang ingin meningkatkan kemampuan berpikir logis dan sistematis.
-
-        Yuk segera daftar dan kami tunggu di kelas ya!`,
-        target_audience: ["Anda yang ingin memahami poin penting implementasi REST API dengan Express.js", "Anda yang ingin latihan membangun implementasi REST API dengan Express.js", "Anda yang ingin mengembangkan Startup"],
-      },
-      {
-        id: uuid(),
         name: "Studi Kasus: Membuat Aplikasi Pemesanan Tiket Kereta Api",
         price: 0,
         premium: false,
@@ -427,6 +393,40 @@ module.exports = {
 
         Yuk segera daftar dan kami tunggu di kelas ya!`,
         target_audience: ["Anda yang ingin memahami poin penting digital forensics", "Anda yang ingin latihan membangun digital forensics", "Anda yang ingin mengembangkan Startup"],
+      },
+      {
+        id: uuid(),
+        name: "Penetration Testing",
+        price: 0,
+        premium: false,
+        author_id: userAdminId,
+        // instructor_id: [instructorId, secondInstructorId],
+        course_category_id: await getCategoryIdByName("Cybersecurity"),
+        description: `Penetration Testing adalah kelas yang akan membimbing Anda memahami dasar-dasar penetration testing. Penetration testing adalah proses mengidentifikasi kelemahan dalam sistem komputer dan jaringan.
+
+        Bersama mentor terpercaya, kita akan mempelajari penetration testing dari dasar hingga mahir. Mentor akan memberikan berbagai contoh kasus yang sering ditemui dalam dunia nyata dan bagaimana cara memecahkannya dengan penetration testing.
+
+        Kelas ini sangat cocok untuk Anda yang ingin memahami apa itu penetration testing dan bagaimana cara menerapkannya dalam kehidupan sehari-hari. Tidak hanya ditujukan untuk programmer, kelas ini sangat cocok untuk Anda yang ingin meningkatkan kemampuan berpikir logis dan sistematis.
+
+        Yuk segera daftar dan kami tunggu di kelas ya!`,
+        target_audience: ["Anda yang ingin memahami poin penting penetration testing", "Anda yang ingin latihan membangun penetration testing", "Anda yang ingin mengembangkan Startup"],
+      },
+      {
+        id: uuid(),
+        name: "Keamanan Jaringan",
+        price: 0,
+        premium: false,
+        author_id: userAdminId,
+        // instructor_id: [instructorId, secondInstructorId],
+        course_category_id: await getCategoryIdByName("Cybersecurity"),
+        description: `Keamanan Jaringan adalah kelas yang akan membimbing Anda memahami dasar-dasar keamanan jaringan. Keamanan jaringan adalah proses melindungi sistem komputer dan jaringan dari serangan digital.
+
+        Bersama mentor terpercaya, kita akan mempelajari keamanan jaringan dari dasar hingga mahir. Mentor akan memberikan berbagai contoh kasus yang sering ditemui dalam dunia nyata dan bagaimana cara memecahkannya dengan keamanan jaringan.
+
+        Kelas ini sangat cocok untuk Anda yang ingin memahami apa itu keamanan jaringan dan bagaimana cara menerapkannya dalam kehidupan sehari-hari. Tidak hanya ditujukan untuk programmer, kelas ini sangat cocok untuk Anda yang ingin meningkatkan kemampuan berpikir logis dan sistematis.
+
+        Yuk segera daftar dan kami tunggu di kelas ya!`,
+        target_audience: ["Anda yang ingin memahami poin penting keamanan jaringan", "Anda yang ingin latihan membangun keamanan jaringan", "Anda yang ingin mengembangkan Startup"],
       },
     ];
 

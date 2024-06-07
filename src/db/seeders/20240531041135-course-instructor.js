@@ -9,68 +9,44 @@ module.exports = {
     const instructorUserId = await getInstructorUserId();
     const secondInstructorUserId = await getSecondInstructorUserId();
 
-    const dataCourseInstructor = [
-      {
-        user_id: instructorUserId,
-        course_id: await getCourseIdByName("Intro to Design System"),
-        created_at: new Date(),
-        updated_at: new Date(),
-      },
-      {
-        user_id: secondInstructorUserId,
-        course_id: await getCourseIdByName("Intro to Design System"),
-        created_at: new Date(),
-        updated_at: new Date(),
-      },
-      {
-        user_id: instructorUserId,
-        course_id: await getCourseIdByName("Product Management Fundamentals"),
-        created_at: new Date(),
-        updated_at: new Date(),
-      },
-      {
-        user_id: secondInstructorUserId,
-        course_id: await getCourseIdByName("Web Development Microservice: Website Kelas Online"),
-        created_at: new Date(),
-        updated_at: new Date(),
-      },
-      {
-        user_id: instructorUserId,
-        course_id: await getCourseIdByName("Full-Stack Web Developer"),
-        created_at: new Date(),
-        updated_at: new Date(),
-      },
-      {
-        user_id: instructorUserId,
-        course_id: await getCourseIdByName("SwiftUI & iOS Engineer: The Complete App Development Bootcamp"),
-        created_at: new Date(),
-        updated_at: new Date(),
-      },
-      {
-        user_id: instructorUserId,
-        course_id: await getCourseIdByName("SQL for Beginners: Learn SQL using MySQL and Database Design"),
-        created_at: new Date(),
-        updated_at: new Date(),
-      },
-      {
-        user_id: secondInstructorUserId,
-        course_id: await getCourseIdByName("Full-Stack Web Developer"),
-        created_at: new Date(),
-        updated_at: new Date(),
-      },
-      {
-        user_id: secondInstructorUserId,
-        course_id: await getCourseIdByName("Flutter Developer: Provider State Management"),
-        created_at: new Date(),
-        updated_at: new Date(),
-      },
-      {
-        user_id: secondInstructorUserId,
-        course_id: await getCourseIdByName("Learn Flutter & Adobe XD: Build a Complete Mobile App"),
-        created_at: new Date(),
-        updated_at: new Date(),
-      },
+    const dataCourse = [
+      { name: "Computational Thinking" },
+      { name: "Pemrograman Dasar dengan C++" },
+      { name: "Struktur Data dan Algoritma" },
+      { name: "Pengenalan Sistem Informasi" },
+      { name: "Merancang Arsitektur Sistem Informasi" },
+      { name: "Sistem Informasi Manajemen dalam Industri" },
+      { name: "Pengenalan Machine Learning" },
+      { name: "Pemrograman Python untuk Machine Learning" },
+      { name: "Machine Learning dengan TensorFlow" },
+      { name: "Statistika Dasar" },
+      { name: "Statistika Inferensial" },
+      { name: "Statistika Deskriptif" },
+      { name: "Statistika Probabilitas" },
+      { name: "Pengenalan Web Development dengan HTML dan CSS" },
+      { name: "Pemrograman Web dengan JavaScript" },
+      { name: "Pemrograman Web dengan React" },
+      { name: "Pemrograman Web dengan Node.js" },
+      { name: "Studi Kasus: Membuat Aplikasi Pemesanan Tiket Kereta Api" },
+      { name: "Pengenalan Cybersecurity" },
+      { name: "Pengenalan Kriptografi" },
+      { name: "Pengenalan Ethical Hacking" },
+      { name: "Pengenalan Digital Forensics" },
+      { name: "Penetration Testing" },
+      { name: "Keamanan Jaringan" },
     ];
+
+    const dataCourseInstructor = await Promise.all(
+      dataCourse.map(async (course, index) => {
+        const courseId = /** @type {string} */ (await getCourseIdByName(course.name));
+        return {
+          course_id: courseId,
+          user_id: index % 2 === 0 ? instructorUserId : secondInstructorUserId,
+          created_at: new Date(),
+          updated_at: new Date(),
+        };
+      })
+    );
     await queryInterface.bulkInsert("Course_instructors", dataCourseInstructor, {});
   },
 
