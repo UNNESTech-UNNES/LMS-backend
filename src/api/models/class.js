@@ -7,8 +7,12 @@ import { Model } from "sequelize";
  * @property {string} description
  * @property {string} image
  * @property {string} schedule
+ * @property {number} quota
+ * @property {number} duration
+ * @property {Date} registration_deadline
  * @property {string} instructor_id
  * @property {string} course_category_id
+ * @property {number} total_member
  * @property {Date} created_at
  * @property {Date} updated_at
  */
@@ -65,6 +69,18 @@ export default (sequelize, DataTypes) => {
       },
       schedule: {
         type: DataTypes.STRING,
+        allowNull: false,
+      },
+      quota: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      duration: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      registration_deadline: {
+        type: DataTypes.DATE,
         allowNull: false,
       },
       instructor_id: {

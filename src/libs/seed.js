@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker";
-import { User, Course, CourseCategory, CourseChapter } from "../api/models/index.js";
+import { User, Class, Course, CourseCategory, CourseChapter } from "../api/models/index.js";
 
 export function generateRandomUser() {
   return {
@@ -81,6 +81,13 @@ export async function getCategoryIdByName(name) {
 }
 
 /** @param {string} name */
+export async function getClassIdByName(name) {
+  return Class.findOne({
+    where: { name },
+  }).then((model) => model?.dataValues.id);
+}
+
+/** @param {string} name */
 export async function getCourseIdByName(name) {
   return Course.findOne({
     where: { name },
@@ -114,6 +121,6 @@ export async function getSecondInstructorUserId() {
 
 export async function getNormalUserId() {
   return User.findOne({
-    where: { role: "GENERAL", email: "iyandoang219@gmail.com" },
+    where: { role: "USER", email: "iyandoang219@gmail.com" },
   }).then((model) => model?.dataValues.id);
 }
