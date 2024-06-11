@@ -19,7 +19,7 @@ export function getCourses() {
         ],
       },
     ],
-    attributes: { include: [getTotalDuration(), getTotalQuizzes(), getTotalMaterials(), getUserTotalCompletedMaterials()] },
+    attributes: { include: [getTotalDuration(), getTotalQuizzes(), getTotalMaterials(), getTotalEnrollments()] },
   });
 }
 
@@ -83,7 +83,7 @@ export async function getCoursesByFilter(whereOptions, sortByNewest) {
       },
     ],
     ...(sortByNewest && { order: [["created_at", "DESC"]] }),
-    attributes: { include: [getTotalDuration(), getTotalQuizzes(), getTotalMaterials(), getUserTotalCompletedMaterials()] },
+    attributes: { include: [getTotalDuration(), getTotalQuizzes(), getTotalMaterials(), getTotalEnrollments(), getUserTotalCompletedMaterials()] },
   });
 }
 
@@ -130,7 +130,7 @@ export function getCourseById(id) {
       ["chapters", "order_index", "ASC"],
       ["chapters", "materials", "order_index", "ASC"],
     ],
-    attributes: { include: [getTotalDuration(), getTotalQuizzes(), getTotalMaterials()] },
+    attributes: { include: [getTotalDuration(), getTotalQuizzes(), getTotalMaterials(), getTotalEnrollments()] },
   });
 }
 
@@ -181,7 +181,7 @@ export function getCourseByIdToPreview(id) {
       ["chapters", "order_index", "ASC"],
       ["chapters", "materials", "order_index", "ASC"],
     ],
-    attributes: { include: [getTotalDuration(), getTotalQuizzes(), getTotalMaterials()] },
+    attributes: { include: [getTotalDuration(), getTotalQuizzes(), getTotalMaterials(), getTotalEnrollments()] },
   });
 }
 
@@ -241,7 +241,7 @@ export function getUserCoursesWithFilter(userId, whereOptions, sortByNewest) {
     ],
     ...(sortByNewest && { order: [["created_at", "DESC"]] }),
     attributes: {
-      include: [getTotalDuration(), getTotalQuizzes(), getTotalMaterials(), getUserTotalCompletedMaterials()],
+      include: [getTotalDuration(), getTotalQuizzes(), getTotalMaterials(), getTotalEnrollments(), getUserTotalCompletedMaterials()],
     },
     replacements: { user_id: userId },
   });
@@ -289,7 +289,7 @@ export function getCourseWithUserStatus(id, userId) {
       ["chapters", "materials", "order_index", "ASC"],
     ],
     attributes: {
-      include: [getTotalDuration(), getTotalQuizzes(), getTotalMaterials(), getUserTotalCompletedMaterials()],
+      include: [getTotalDuration(), getTotalQuizzes(), getTotalMaterials(), getTotalEnrollments(), getUserTotalCompletedMaterials()],
     },
     replacements: { user_id: userId },
   });
@@ -417,6 +417,24 @@ export function getTotalQuizzes(fromUserPaymentModel = false) {
       "integer"
     ),
     "total_quizzes",
+  ];
+}
+
+/** @returns {Sequelize.ProjectionAlias} */
+function getTotalEnrollments() {
+  const referencedCourseIdFrom = '"Course".id';
+  return [
+    sequelize.cast(
+      sequelize.literal(
+        `(
+          SELECT COUNT(*)
+          FROM "User_Course_Enrollments" AS uce
+          WHERE uce.course_id = ${referencedCourseIdFrom}
+        )`
+      ),
+      "integer"
+    ),
+    "total_enrollments",
   ];
 }
 

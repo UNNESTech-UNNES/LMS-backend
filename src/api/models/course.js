@@ -20,6 +20,7 @@ import * as UserModel from "./user.js";
  * @property {number} total_duration
  * @property {number} total_materials
  * @property {number} total_quizzes
+ * @property {number} total_enrollments
  * @property {number} total_completed_materials
  * @property {Model<CourseChapterModel.CourseChapterAttributes>[]} chapters
  * @property {Date} created_at
