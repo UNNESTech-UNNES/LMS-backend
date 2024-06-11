@@ -44,6 +44,7 @@ export default (sequelize, DataTypes) => {
 
       this.hasMany(models.UserClassStatus, {
         foreignKey: "class_id",
+        as: "class_status",
       });
 
       this.belongsTo(models.CourseCategory, {

@@ -93,6 +93,36 @@ export function getClassById(id) {
   });
 }
 
+/** @param {string} user_id */
+export function getUserClasses(user_id) {
+  return Class.findAll({
+    include: [
+      {
+        model: UserClassStatus,
+        as: "class_status",
+        where: {
+          user_id,
+          is_active: true,
+        },
+        attributes: [],
+      },
+      {
+        model: User,
+        as: "instructor",
+        attributes: ["id", "name", "email", "phone_number"],
+      },
+      {
+        model: CourseCategory,
+        as: "course_category",
+      },
+    ],
+    attributes: {
+      include: [getTotalMemberInClass()],
+      exclude: ["registration_deadline", "instructor_id", "course_category_id"],
+    },
+  });
+}
+
 /** @param {any} payload */
 export function createClass(payload) {
   return Class.create(payload);

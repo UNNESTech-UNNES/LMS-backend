@@ -97,6 +97,25 @@ export async function getClassById(req, res) {
 }
 
 /**
+ * @type {Types.AuthorizedController}
+ * @returns {void}
+ */
+export async function getUserClasses(req, res) {
+  try {
+    const { id } = res.locals.user;
+    const data = await classService.getUserClasses(id);
+    res.status(200).json({ data });
+  } catch (err) {
+    if (err instanceof ApplicationError) {
+      res.status(err.statusCode).json({ message: err.message });
+      return;
+    }
+    res.status(500).json({ message: "Internal Server Error" });
+    return;
+  }
+}
+
+/**
  * @type {Types.Controller<typeof isAuthorized>}
  * @returns {void}
  */

@@ -194,12 +194,6 @@ export function getUserCourses(userId) {
         as: "enrollments",
         where: { user_id: userId },
         attributes: [],
-        include: [
-          {
-            model: Class,
-            as: "classes",
-          },
-        ],
       },
       {
         model: CourseCategory,
@@ -227,12 +221,6 @@ export function getUserCoursesWithFilter(userId, whereOptions, sortByNewest) {
         as: "enrollments",
         where: { user_id: userId },
         attributes: [],
-        include: [
-          {
-            model: Class,
-            as: "classes",
-          },
-        ],
       },
       {
         model: CourseCategory,
