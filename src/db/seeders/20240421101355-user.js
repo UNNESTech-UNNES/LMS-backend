@@ -15,7 +15,7 @@ module.exports = {
       role: "SUPER_ADMIN",
       email: "luthfiyanto1425@gmail.com",
       verified: true,
-      password: "$2b$10$Jw2b0Z1v2j0Q2L5y8m5yXe5XhU7Jb1QqXv4u2Yd6l1zg5b1J2o4Qm", // luthfiyanto
+      password: "$2b$10$JqfYeXyHwsSgZUi7zG9lUuyx.KeO24NEmmDq5aRCsCekSWw8uzqMK", // luthfiyanto
       phone_number: "+6282313735701",
     };
 
@@ -43,6 +43,18 @@ module.exports = {
       phone_number: "+6285888832098",
     };
 
+    const instructor2User = {
+      ...generateRandomUser(),
+      id: "59a6b19e-bf8c-452c-9b6a-62a0246ba073",
+      name: "Robert Simanjuntak",
+      image: null,
+      role: "INSTRUCTOR",
+      email: "simanjuntak101001@gmail.com",
+      verified: true,
+      password: "$2b$10$dnt/AESRTKIRy9l0lJqOT.TzkNHJb7/6kh1JgO.4HCwG9Ra1.PZZC", //simanjuntak
+      phone_number: "+6285888876298",
+    };
+
     const normalUser = {
       ...generateRandomUser,
       id: "0dbf6cae-b3d4-4a85-adec-5c92ca80acce",
@@ -57,7 +69,7 @@ module.exports = {
       updated_at: new Date(),
     };
 
-    const seedUsers = [superAdminUser, adminUser, instructorUser, normalUser];
+    const seedUsers = [superAdminUser, adminUser, instructorUser, instructor2User, normalUser];
 
     return queryInterface.bulkInsert("Users", seedUsers);
   },

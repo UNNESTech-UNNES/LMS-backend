@@ -15,6 +15,7 @@ export default (app) => {
   app.use("/class", router);
 
   router.get("/", classController.getClasses);
+  router.get("/me", authMiddleware.isAuthorized, classController.getUserClasses);
   router.get("/:id", validationMiddleware.isClassExists, classController.getClassById);
   router.post("/", authMiddleware.isAuthorized, authMiddleware.isAdmin, classController.createClass);
   router.put("/:id", authMiddleware.isAuthorized, authMiddleware.isAdmin, validationMiddleware.isClassExists, classController.updateClass);

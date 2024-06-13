@@ -105,6 +105,19 @@ export async function getClassById(id) {
   }
 }
 
+/** @param {string} id */
+export async function getUserClasses(id) {
+  try {
+    const data = await classRepository.getUserClasses(id);
+    if (data.length === 0) {
+      throw new ApplicationError("No classes found", 404);
+    }
+    return data;
+  } catch (err) {
+    throw generateApplicationError(err, "Error while fetching user classes", 500);
+  }
+}
+
 /** @param {classModels.ClassAttributes} payload */
 export async function createClass(payload) {
   const parsedPayload = omitPropertiesFromObject(payload, ["id", "created_at", "updated_at"]);

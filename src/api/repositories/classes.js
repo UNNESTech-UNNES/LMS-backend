@@ -1,5 +1,5 @@
 import Sequelize from "sequelize";
-import { Class, CourseCategory, User, UserClassStatus } from "../models/index.js";
+import { sequelize, Class, CourseCategory, User, UserClassStatus } from "../models/index.js";
 import * as ClassModels from "../models/class.js";
 import * as UserClassStatusModels from "../models/user_class_status.js";
 
@@ -66,7 +66,11 @@ export function setTrueClassStatus(id, transaction) {
 }
 
 export function getClasses() {
-  return Class.findAll();
+  return Class.findAll({
+    attributes: {
+      include: [getTotalMemberInClass()],
+    },
+  });
 }
 
 /** @param {string} id */
@@ -83,6 +87,39 @@ export function getClassById(id) {
         as: "course_category",
       },
     ],
+    attributes: {
+      include: [getTotalMemberInClass()],
+    },
+  });
+}
+
+/** @param {string} user_id */
+export function getUserClasses(user_id) {
+  return Class.findAll({
+    include: [
+      {
+        model: UserClassStatus,
+        as: "class_status",
+        where: {
+          user_id,
+          is_active: true,
+        },
+        attributes: [],
+      },
+      {
+        model: User,
+        as: "instructor",
+        attributes: ["id", "name", "email", "phone_number"],
+      },
+      {
+        model: CourseCategory,
+        as: "course_category",
+      },
+    ],
+    attributes: {
+      include: [getTotalMemberInClass()],
+      exclude: ["registration_deadline", "instructor_id", "course_category_id"],
+    },
   });
 }
 
@@ -110,4 +147,22 @@ export function deleteClass(id) {
       id,
     },
   });
+}
+
+/** @returns {Sequelize.ProjectionAlias} */
+function getTotalMemberInClass() {
+  const referencedClassIdFrom = '"Class".id';
+  return [
+    sequelize.cast(
+      sequelize.literal(
+        `(
+        SELECT COUNT(*)
+        FROM "UserClassStatuses" AS ucs
+        WHERE ucs.class_id = ${referencedClassIdFrom} AND ucs.is_active = true    
+        )`
+      ),
+      "integer"
+    ),
+    "total_member",
+  ];
 }

@@ -64,3 +64,35 @@ export function updatedUser(id, payload, transaction) {
 export function deleteUser(id) {
   return User.destroy({ where: { id } });
 }
+
+export function getAllUsers() {
+  return User.findAll({
+    attributes: {
+      exclude: ["password"],
+    },
+  });
+}
+
+export function getAllStudentsAndInstructor() {
+  return User.findAll({
+    where: {
+      role: {
+        [Op.or]: ["USER", "STUDENT", "INSTRUCTOR"],
+      },
+    },
+    attributes: {
+      exclude: ["password"],
+    },
+  });
+}
+
+export function getAllInstructors() {
+  return User.findAll({
+    where: {
+      role: "INSTRUCTOR",
+    },
+    attributes: {
+      exclude: ["password", "verified"],
+    },
+  });
+}

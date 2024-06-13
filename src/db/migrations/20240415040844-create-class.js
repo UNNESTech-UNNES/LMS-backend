@@ -25,6 +25,18 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      quota: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
+      duration: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
+      registration_deadline: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      },
       instructor_id: {
         type: Sequelize.UUID,
       },

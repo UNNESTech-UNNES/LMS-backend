@@ -3,6 +3,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
+    const { v4: uuid } = await import("uuid");
     const { getAdminUserId, isTableHasRecords, getCategoryIdByName, generateRandomCourse } = await import("../../libs/seed.js");
 
     if (await isTableHasRecords("Courses", queryInterface)) return;
@@ -11,160 +12,421 @@ module.exports = {
 
     const courses = [
       {
-        id: "c63a172f-4eb1-44b2-8c90-66336b016d8f",
-        name: "Intro to Design System",
+        id: uuid(),
+        name: "Computational Thinking",
         price: 0,
         premium: false,
         author_id: userAdminId,
-        instructor_id: ["12ab32a3-d242-40be-8426-6a1b8d57700f"],
-        course_category_id: await getCategoryIdByName("Sistem Informasi"),
-        description: `Design system adalah kumpulan komponen design, code, ataupun dokumentasi yang dapat digunakan sebagai panduan utama yang memunginkan designer serta developer memiliki lebih banyak kontrol atas berbagai platform.
+        // instructor_id: [instructorId, secondInstructorId],
+        course_category_id: await getCategoryIdByName("Algorithm and Data Structure"),
+        description: `Computational Thinking adalah kemampuan untuk memecahkan masalah, sistematis, dan logis. Kemampuan ini sangat penting dalam dunia teknologi, karena dengan computational thinking, kita dapat memecahkan masalah dengan cara yang lebih efisien.
 
-        Dengan hadirnya design system, dapat menjaga konsistensi tampilan user interface dan meningkatkan user experience menjadi lebih baik. Disisi bisnis, design system sangat berguna dalam menghemat waktu dan biaya ketika mengembangkan suatu produk.
+        Bersama mentor terpercaya, kita akan mempelajari computational thinking dari dasar hingga mahir. Mentor akan memberikan berbagai contoh kasus yang sering ditemui dalam dunia nyata dan bagaimana cara memecahkannya dengan computational thinking.
 
-        Bersama mentor terpercaya, kita akan mempelajari design system dari mulai manfaat, alur kerja pembuatannya, tools yang digunakan, hingga pada akhirnya, kita akan membuat MVP dari design system. Selain itu, mentor juga akan menjelaskan berbagai resource yang dibutuhkan untuk mencari inspirasi mengenai design system.
-        
-        Kelas ini sesuai untuk Anda yang ingin memahami apa itu design system. Tidak hanya ditujukan untuk UI/UX Designer ataupun Developer, kelas ini sangat sesuai untuk stakeholder lain agar dapat memudahkan tim dalam bekerja sama.
+        Kelas ini sangat cocok untuk Anda yang ingin memahami apa itu computational thinking dan bagaimana cara menerapkannya dalam kehidupan sehari-hari. Tidak hanya ditujukan untuk programmer, kelas ini sangat cocok untuk Anda yang ingin meningkatkan kemampuan berpikir logis dan sistematis.
 
         Yuk segera daftar dan kami tunggu di kelas ya!`,
-        target_audience: ["Anda yang ingin memahami poin penting design system", "Anda yang ingin latihan membangun design system", "Anda yang ingin mengembangkan Startup"],
-        // onboarding_text:
-        //   "Mari temukan esensi desain sistem dan bagaimana hal itu menciptakan konsistensi yang kuat dalam setiap elemen. Lalu, nikmati perjalanan visual yang membimbing Anda melalui palet warna yang dirancang dengan hati-hati, tipografi yang memukau, dan ikon-ikon yang memberi sentuhan unik pada setiap tata letak.",
+        target_audience: ["Anda yang ingin memahami poin penting computational thinking", "Anda yang ingin latihan membangun computational thinking", "Anda yang ingin mengembangkan Startup"],
       },
       {
-        id: "5db0a017-6041-4d9a-8f44-5fca03d5378a",
-        name: "Product Management Fundamentals",
-        price: 280000,
-        premium: true,
+        id: uuid(),
+        name: "Pemrograman Dasar dengan C++",
+        price: 0,
+        premium: false,
         author_id: userAdminId,
-        instructor_id: ["12ab32a3-d242-40be-8426-6a1b8d57700f"],
-        course_category_id: await getCategoryIdByName("Sistem Informasi"),
-        description: `Sebuah artikel berita baru-baru ini menyebut Manajer Produk sebagai peran terpenting ke-4 dalam perusahaan saat ini, menjadikan manajemen produk sebagai salah satu pekerjaan terpanas di pasar. Namun, kebanyakan orang tidak mengetahui apa yang sebenarnya dilakukan oleh Manajer Produk. 
-          
-          Apakah peran tersebut membutuhkan keterampilan teknis atau keterampilan bisnis? Dan apa yang dimaksud dengan peran yang menuntut empati yang tinggi terhadap pelanggan? Kursus e-learning dari Institute of Product Leadership ini adalah kursus dasar yang mengungkap peran tersebut.
-          
-          Dimulai dari dasar-dasar "Apa itu produk?", kurikulum kursus ini memperkenalkan siswa pada proses pembuatan produk dan keterampilan serta kerangka kerja seperti Analisis Pasar, Perencanaan Strategis, Perencanaan Produk, Masuk ke Pasar, dan Pemberdayaan Penjualan yang diperlukan untuk merancang, meluncurkan, dan memelihara produk.
-          
-          Siswa juga akan diperkenalkan dengan peran dan jenjang karier seorang Manajer Produk dan konteks bisnis, teknologi, dan pelanggan yang perlu dikuasai seseorang untuk menjadi Manajer Produk yang baik.
-          
-          Meskipun tidak diperlukan pengetahuan sebelumnya, apresiasi atau pengalaman langsung tentang bagaimana perusahaan produk dan layanan beroperasi akan sangat membantu.`,
-        target_audience: ["Anda yang ingin bekerja dalam peran Manajemen Produk", "Anda yang ingin memahami tentang Manajemen Produk", "Anda yang ingin menjadi seorang Profesional di Industri Jasa dan Produk"],
-        // onboarding_text:
-        //   "Anda akan memulai perjalanan menuju pemahaman yang mendalam tentang dasar-dasar manajemen produk. Dengan desain yang ramah pengguna dan panduan yang jelas, kami akan membimbing Anda melalui konsep-konsep kunci, praktik terbaik, dan alat yang diperlukan untuk menjadi seorang ahli dalam mengelola produk.",
+        // instructor_id: [instructorId],
+        course_category_id: await getCategoryIdByName("Algorithm and Data Structure"),
+        description: `Pemrograman Dasar dengan C++ adalah kelas yang akan membimbing Anda memahami dasar-dasar pemrograman menggunakan bahasa pemrograman C++. Bahasa
+        pemrograman C++ adalah bahasa pemrograman yang sangat
+        populer dan banyak digunakan dalam dunia teknologi.
+
+        Bersama mentor terpercaya, kita akan mempelajari pemrograman dasar dengan C++ dari dasar hingga mahir. Mentor akan memberikan berbagai contoh kasus yang sering ditemui dalam dunia nyata dan bagaimana cara memecahkannya dengan C++.
+
+        Kelas ini sangat cocok untuk Anda yang ingin memahami apa itu pemrograman dasar dengan C++ dan bagaimana cara menerapkannya dalam kehidupan sehari-hari. Tidak hanya ditujukan untuk programmer, kelas ini sangat cocok untuk Anda yang ingin meningkatkan kemampuan berpikir logis dan sistematis.
+
+        Yuk segera daftar dan kami tunggu di kelas ya!`,
+        target_audience: ["Anda yang ingin memahami poin penting pemrograman dasar dengan C++", "Anda yang ingin latihan membangun pemrograman dasar dengan C++", "Anda yang ingin mengembangkan Startup"],
       },
       {
-        id: "0d7925a7-0c68-4c25-9c9a-c1f346bdc9fc",
-        name: "Web Development Microservice: Website Kelas Online",
-        price: 420000,
-        premium: true,
+        id: uuid(),
+        name: "Struktur Data dan Algoritma",
+        price: 0,
+        premium: false,
         author_id: userAdminId,
-        instructor_id: ["12ab32a3-d242-40be-8426-6a1b8d57700f"],
-        course_category_id: await getCategoryIdByName("Sistem Informasi"),
-        description: `Microservice adalah salah satu arsitektur pada Website Development yang digunakan oleh banyak Developer dan perusahaan IT dalam mengembangkan suatu Website. Tujuannya adalah agar Website tersebut lebih stabil dan mudah diperbaiki pada setiap service-nya jika adanya suatu bug pada service tersebut.
-          
-          Projek yang dibangun adalah website untuk belajar online (kelas digital) untuk siapa saja yang ingin upgrade skill dalam dunia IT atau juga self-improvement. Dimulai dari slicing design website dari Figma menggunakan React JavaScript Framework dan dibantu juga dengan Tailwind CSS.
-          
-          Setelah itu kita akan coba menggunakan API (per service) yang telah kita buat menggunakan Laravel dan Express JS. Jika kamu tertarik untuk belajar web development lebih dalam silakan bergabung di kelas ini dan kami akan mengarahkan dengan secara terstruktur dan rapih.
-          
-          Silakan bergabung dan kami tunggu di kelas. Kelas ini menggunakan tools NextJS versi 9.`,
+        // instructor_id: [instructorId],
+        course_category_id: await getCategoryIdByName("Algorithm and Data Structure"),
+        description: `Struktur Data dan Algoritma adalah kelas yang akan membimbing Anda memahami dasar-dasar struktur data dan algoritma. Struktur data dan algoritma adalah dasar dari ilmu komputer yang sangat penting untuk dipahami.
+
+        Bersama mentor terpercaya, kita akan mempelajari struktur data dan algoritma dari dasar hingga mahir. Mentor akan memberikan berbagai contoh kasus yang sering ditemui dalam dunia nyata dan bagaimana cara memecahkannya dengan struktur data dan algoritma.
+
+        Kelas ini sangat cocok untuk Anda yang ingin memahami apa itu struktur data dan algoritma dan bagaimana cara menerapkannya dalam kehidupan sehari-hari. Tidak hanya ditujukan untuk programmer, kelas ini sangat cocok untuk Anda yang ingin meningkatkan kemampuan berpikir logis dan sistematis.
+
+        Yuk segera daftar dan kami tunggu di kelas ya!`,
+        target_audience: ["Anda yang ingin memahami poin penting struktur data dan algoritma", "Anda yang ingin latihan membangun struktur data dan algoritma", "Anda yang ingin mengembangkan Startup"],
+      },
+      {
+        id: uuid(),
+        name: "Pengenalan Sistem Informasi",
+        price: 0,
+        premium: false,
+        author_id: userAdminId,
+        // instructor_id: [secondInstructorId],
+        course_category_id: await getCategoryIdByName("Sistem Informasi Manajemen"),
+        description: `Pengenalan Sistem Informasi adalah kelas yang akan membimbing Anda memahami dasar-dasar sistem informasi. Sistem informasi adalah sistem yang digunakan untuk mengelola informasi dalam suatu organisasi.
+
+        Bersama mentor terpercaya, kita akan mempelajari pengenalan sistem informasi dari dasar hingga mahir. Mentor akan memberikan berbagai contoh kasus yang sering ditemui dalam dunia nyata dan bagaimana cara memecahkannya dengan sistem informasi.
+
+        Kelas ini sangat cocok untuk Anda yang ingin memahami apa itu sistem informasi dan bagaimana cara menerapkannya dalam kehidupan sehari-hari. Tidak hanya ditujukan untuk programmer, kelas ini sangat cocok untuk Anda yang ingin meningkatkan kemampuan berpikir logis dan sistematis.
+
+        Yuk segera daftar dan kami tunggu di kelas ya!`,
+        target_audience: ["Anda yang ingin memahami poin penting sistem informasi", "Anda yang ingin latihan membangun sistem informasi", "Anda yang ingin mengembangkan Startup"],
+      },
+      {
+        id: uuid(),
+        name: "Merancang Arsitektur Sistem Informasi",
+        price: 0,
+        premium: false,
+        author_id: userAdminId,
+        // instructor_id: [secondInstructorId],
+        course_category_id: await getCategoryIdByName("Sistem Informasi Manajemen"),
+        description: `Merancang Arsitektur Sistem Informasi adalah kelas yang akan membimbing Anda memahami dasar-dasar arsitektur sistem informasi. Arsitektur sistem informasi adalah arsitektur yang digunakan untuk mengelola informasi dalam suatu organisasi.
+
+        Bersama mentor terpercaya, kita akan mempelajari merancang arsitektur sistem informasi dari dasar hingga mahir. Mentor akan memberikan berbagai contoh kasus yang sering ditemui dalam dunia nyata dan bagaimana cara memecahkannya dengan arsitektur sistem informasi.
+
+        Kelas ini sangat cocok untuk Anda yang ingin memahami apa itu arsitektur sistem informasi dan bagaimana cara menerapkannya dalam kehidupan sehari-hari. Tidak hanya ditujukan untuk programmer, kelas ini sangat cocok untuk Anda yang ingin meningkatkan kemampuan berpikir logis dan sistematis.
+
+        Yuk segera daftar dan kami tunggu di kelas ya!`,
+        target_audience: ["Anda yang ingin memahami poin penting arsitektur sistem informasi", "Anda yang ingin latihan membangun arsitektur sistem informasi", "Anda yang ingin mengembangkan Startup"],
+      },
+      {
+        id: uuid(),
+        name: "Sistem Informasi Manajemen dalam Industri",
+        price: 0,
+        premium: false,
+        author_id: userAdminId,
+        // instructor_id: [secondInstructorId],
+        course_category_id: await getCategoryIdByName("Sistem Informasi Manajemen"),
+        description: `Sistem Informasi Manajemen dalam Industri adalah kelas yang akan membimbing Anda memahami dasar-dasar
+
+        sistem informasi manajemen dalam industri. Sistem informasi manajemen adalah sistem yang digunakan untuk mengelola informasi dalam suatu organisasi.
+
+        Bersama mentor terpercaya, kita akan mempelajari sistem informasi manajemen dalam industri dari dasar hingga mahir. Mentor akan memberikan berbagai contoh kasus yang sering ditemui dalam dunia nyata dan bagaimana cara memecahkannya dengan sistem informasi manajemen dalam industri.
+
+        Kelas ini sangat cocok untuk Anda yang ingin memahami apa itu sistem informasi manajemen dalam industri dan bagaimana cara menerapkannya dalam kehidupan sehari-hari. Tidak hanya ditujukan untuk programmer, kelas ini sangat cocok untuk Anda yang ingin meningkatkan kemampuan berpikir logis dan sistematis.
+
+        Yuk segera daftar dan kami tunggu di kelas ya!`,
+        target_audience: ["Anda yang ingin memahami poin penting sistem informasi manajemen dalam industri", "Anda yang ingin latihan membangun sistem informasi manajemen dalam industri", "Anda yang ingin mengembangkan Startup"],
+      },
+      {
+        id: uuid(),
+        name: "Pengenalan Machine Learning",
+        price: 0,
+        premium: false,
+        author_id: userAdminId,
+        // instructor_id: [instructorId, secondInstructorId],
+        course_category_id: await getCategoryIdByName("Machine Learning"),
+        description: `Pengenalan Machine Learning adalah kelas yang akan membimbing Anda memahami dasar-dasar machine learning. Machine learning adalah cabang dari kecerdasan buatan yang memungkinkan komputer untuk belajar tanpa diprogram secara eksplisit.
+
+        Bersama mentor terpercaya, kita akan mempelajari pengenalan machine learning dari dasar hingga mahir. Mentor akan memberikan berbagai contoh kasus yang sering ditemui dalam dunia nyata dan bagaimana cara memecahkannya dengan machine learning.
+
+        Kelas ini sangat cocok untuk Anda yang ingin memahami apa itu machine learning dan bagaimana cara menerapkannya dalam kehidupan sehari-hari. Tidak hanya ditujukan untuk programmer, kelas ini sangat cocok untuk Anda yang ingin meningkatkan kemampuan berpikir logis dan sistematis.
+
+        Yuk segera daftar dan kami tunggu di kelas ya!`,
+        target_audience: ["Anda yang ingin memahami poin penting machine learning", "Anda yang ingin latihan membangun machine learning", "Anda yang ingin mengembangkan Startup"],
+      },
+      {
+        id: uuid(),
+        name: "Pemrograman Python untuk Machine Learning",
+        price: 0,
+        premium: false,
+        author_id: userAdminId,
+        // instructor_id: [instructorId, secondInstructorId],
+        course_category_id: await getCategoryIdByName("Machine Learning"),
+        description: `Pemrograman Python untuk Machine Learning adalah kelas yang akan membimbing Anda memahami dasar-dasar pemrograman python untuk machine learning. Python adalah bahasa pemrograman yang sangat populer dan banyak digunakan dalam dunia teknologi.
+
+        Bersama mentor terpercaya, kita akan mempelajari pemrograman python untuk machine learning dari dasar hingga mahir. Mentor akan memberikan berbagai contoh kasus yang sering ditemui dalam dunia nyata dan bagaimana cara memecahkannya dengan python untuk machine learning.
+        
+        Kelas ini sangat cocok untuk Anda yang ingin memahami apa itu pemrograman python untuk machine learning dan bagaimana cara menerapkannya dalam kehidupan sehari-hari. Tidak hanya ditujukan untuk programmer, kelas ini sangat cocok untuk Anda yang ingin meningkatkan kemampuan berpikir logis dan sistematis.
+
+        Yuk segera daftar dan kami tunggu di kelas ya!`,
+        target_audience: ["Anda yang ingin memahami poin penting pemrograman python untuk machine learning", "Anda yang ingin latihan membangun pemrograman python untuk machine learning", "Anda yang ingin mengembangkan Startup"],
+      },
+      {
+        id: uuid(),
+        name: "Machine Learning dengan TensorFlow",
+        price: 0,
+        premium: false,
+        author_id: userAdminId,
+        // instructor_id: [instructorId, secondInstructorId],
+        course_category_id: await getCategoryIdByName("Machine Learning"),
+        description: `Machine Learning dengan TensorFlow adalah kelas yang akan membimbing Anda memahami dasar-dasar machine learning dengan tensorflow. TensorFlow adalah library machine learning open-source yang dikembangkan oleh Google.
+
+        Bersama mentor terpercaya, kita akan mempelajari machine learning dengan tensorflow dari dasar hingga mahir. Mentor akan memberikan berbagai contoh kasus yang sering ditemui dalam dunia nyata dan bagaimana cara memecahkannya dengan machine learning dengan tensorflow.
+
+        Kelas ini sangat cocok untuk Anda yang ingin memahami apa itu machine learning dengan tensorflow dan bagaimana cara menerapkannya dalam kehidupan sehari-hari. Tidak hanya ditujukan untuk programmer, kelas ini sangat cocok untuk Anda yang ingin meningkatkan kemampuan berpikir logis dan sistematis.
+
+        Yuk segera daftar dan kami tunggu di kelas ya!`,
+        target_audience: ["Anda yang ingin memahami poin penting machine learning dengan tensorflow", "Anda yang ingin latihan membangun machine learning dengan tensorflow", "Anda yang ingin mengembangkan Startup"],
+      },
+      {
+        id: uuid(),
+        name: "Statistika Dasar",
+        price: 0,
+        premium: false,
+        author_id: userAdminId,
+        // instructor_id: [instructorId],
+        course_category_id: await getCategoryIdByName("Statistics"),
+        description: `Statistika Dasar adalah kelas yang akan membimbing Anda memahami dasar-dasar statistika. Statistika adalah ilmu yang mempelajari cara pengumpulan, analisis, interpretasi, dan penyajian data.
+
+        Bersama mentor terpercaya, kita akan mempelajari statistika dasar dari dasar hingga mahir. Mentor akan memberikan berbagai contoh kasus yang sering ditemui dalam dunia nyata dan bagaimana cara memecahkannya dengan statistika.
+
+        Kelas ini sangat cocok untuk Anda yang ingin memahami apa itu statistika dan bagaimana cara menerapkannya dalam kehidupan sehari-hari. Tidak hanya ditujukan untuk programmer, kelas ini sangat cocok untuk Anda yang ingin meningkatkan kemampuan berpikir logis dan sistematis.
+
+        Yuk segera daftar dan kami tunggu di kelas ya!`,
+        target_audience: ["Anda yang ingin memahami poin penting statistika", "Anda yang ingin latihan membangun statistika", "Anda yang ingin mengembangkan Startup"],
+      },
+      {
+        id: uuid(),
+        name: "Statistika Inferensial",
+        price: 0,
+        premium: false,
+        author_id: userAdminId,
+        // instructor_id: [secondInstructorId],
+        course_category_id: await getCategoryIdByName("Statistics"),
+        description: `Statistika Inferensial adalah kelas yang akan membimbing Anda memahami dasar-dasar statistika inferensial. Statistika inferensial adalah cabang dari statistika yang mempelajari cara melakukan generalisasi dari sampel ke populasi.
+
+        Bersama mentor terpercaya, kita akan mempelajari statistika inferensial dari dasar hingga mahir. Mentor akan memberikan berbagai contoh kasus yang sering ditemui dalam dunia nyata dan bagaimana cara memecahkannya dengan statistika inferensial.
+
+        Kelas ini sangat cocok untuk Anda yang ingin memahami apa itu statistika inferensial dan bagaimana cara menerapkannya dalam kehidupan sehari-hari. Tidak hanya ditujukan untuk programmer, kelas ini sangat cocok untuk Anda yang ingin meningkatkan kemampuan berpikir logis dan sistematis.
+
+        Yuk segera daftar dan kami tunggu di kelas ya!`,
+        target_audience: ["Anda yang ingin memahami poin penting statistika inferensial", "Anda yang ingin latihan membangun statistika inferensial", "Anda yang ingin mengembangkan Startup"],
+      },
+      {
+        id: uuid(),
+        name: "Statistika Deskriptif",
+        price: 0,
+        premium: false,
+        author_id: userAdminId,
+        // instructor_id: [instructorId],
+        course_category_id: await getCategoryIdByName("Statistics"),
+        description: `Statistika Deskriptif adalah kelas yang akan membimbing Anda memahami dasar-dasar statistika deskriptif. Statistika deskriptif adalah cabang dari statistika yang mempelajari cara menggambarkan data.
+
+        Bersama mentor terpercaya, kita akan mempelajari statistika deskriptif dari dasar hingga mahir. Mentor akan memberikan berbagai contoh kasus yang sering ditemui dalam dunia nyata dan bagaimana cara memecahkannya dengan statistika deskriptif.
+
+        Kelas ini sangat cocok untuk Anda yang ingin memahami apa itu statistika deskriptif dan bagaimana cara menerapkannya dalam kehidupan sehari-hari. Tidak hanya ditujukan untuk programmer, kelas ini sangat cocok untuk Anda yang ingin meningkatkan kemampuan berpikir logis dan sistematis.
+
+        Yuk segera daftar dan kami tunggu di kelas ya!`,
+        target_audience: ["Anda yang ingin memahami poin penting statistika deskriptif", "Anda yang ingin latihan membangun statistika deskriptif", "Anda yang ingin mengembangkan Startup"],
+      },
+      {
+        id: uuid(),
+        name: "Statistika Probabilitas",
+        price: 0,
+        premium: false,
+        author_id: userAdminId,
+        // instructor_id: [secondInstructorId],
+        course_category_id: await getCategoryIdByName("Statistics"),
+        description: `Statistika Probabilitas adalah kelas yang akan membimbing Anda memahami dasar-dasar statistika probabilitas. Statistika probabilitas adalah cabang dari statistika yang mempelajari cara menghitung peluang suatu kejadian.
+
+        Bersama mentor terpercaya, kita akan mempelajari statistika probabilitas dari dasar hingga mahir. Mentor akan memberikan berbagai contoh kasus yang sering ditemui dalam dunia nyata dan bagaimana cara memecahkannya dengan statistika probabilitas.
+
+        Kelas ini sangat cocok untuk Anda yang ingin memahami apa itu statistika probabilitas dan bagaimana cara menerapkannya dalam kehidupan sehari-hari. Tidak hanya ditujukan untuk programmer, kelas ini sangat cocok untuk Anda yang ingin meningkatkan kemampuan berpikir logis dan sistematis.
+
+        Yuk segera daftar dan kami tunggu di kelas ya!`,
+        target_audience: ["Anda yang ingin memahami poin penting statistika probabilitas", "Anda yang ingin latihan membangun statistika probabilitas", "Anda yang ingin mengembangkan Startup"],
+      },
+      {
+        id: uuid(),
+        name: "Pengenalan Web Development dengan HTML dan CSS",
+        price: 0,
+        premium: false,
+        author_id: userAdminId,
+        // instructor_id: [instructorId],
+        course_category_id: await getCategoryIdByName("Web Development"),
+        description: `Pengenalan Web Development dengan HTML dan CSS adalah kelas yang akan membimbing Anda memahami dasar-dasar web development dengan HTML dan CSS. HTML dan CSS adalah bahasa pemrograman yang digunakan untuk membuat halaman web.
+
+        Bersama mentor terpercaya, kita akan mempelajari pengenalan web development dengan HTML dan CSS dari dasar hingga mahir. Mentor akan memberikan berbagai contoh kasus yang sering ditemui dalam dunia nyata dan bagaimana cara memecahkannya dengan HTML dan CSS.
+
+        Kelas ini sangat cocok untuk Anda yang ingin memahami apa itu web development dengan HTML dan CSS dan bagaimana cara menerapkannya dalam kehidupan sehari-hari. Tidak hanya ditujukan untuk programmer, kelas ini sangat cocok untuk Anda yang ingin meningkatkan kemampuan berpikir logis dan sistematis.
+
+        Yuk segera daftar dan kami tunggu di kelas ya!`,
+        target_audience: ["Anda yang ingin memahami poin penting web development dengan HTML dan CSS", "Anda yang ingin latihan membangun web development dengan HTML dan CSS", "Anda yang ingin mengembangkan Startup"],
+      },
+      {
+        id: uuid(),
+        name: "Pemrograman Web dengan JavaScript",
+        price: 0,
+        premium: false,
+        author_id: userAdminId,
+        // instructor_id: [instructorId],
+        course_category_id: await getCategoryIdByName("Web Development"),
+        description: `Pemrograman Web dengan JavaScript adalah kelas yang akan membimbing Anda memahami dasar-dasar pemrograman web dengan JavaScript. JavaScript adalah bahasa pemrograman yang digunakan untuk membuat halaman web menjadi
+        interaktif.
+
+        Bersama mentor terpercaya, kita akan mempelajari pemrograman web dengan JavaScript dari dasar hingga mahir. Mentor akan memberikan berbagai contoh kasus yang sering ditemui dalam dunia nyata dan bagaimana cara memecahkannya dengan JavaScript.
+
+        Kelas ini sangat cocok untuk Anda yang ingin memahami apa itu pemrograman web dengan JavaScript dan bagaimana cara menerapkannya dalam kehidupan sehari-hari. Tidak hanya ditujukan untuk programmer, kelas ini sangat cocok untuk Anda yang ingin meningkatkan kemampuan berpikir logis dan sistematis.
+
+        Yuk segera daftar dan kami tunggu di kelas ya!`,
+        target_audience: ["Anda yang ingin memahami poin penting pemrograman web dengan JavaScript", "Anda yang ingin latihan membangun pemrograman web dengan JavaScript", "Anda yang ingin mengembangkan Startup"],
+      },
+      {
+        id: uuid(),
+        name: "Pemrograman Web dengan React",
+        price: 0,
+        premium: false,
+        author_id: userAdminId,
+        // instructor_id: [instructorId],
+        course_category_id: await getCategoryIdByName("Web Development"),
+        description: `Pemrograman Web dengan React adalah kelas yang akan membimbing Anda memahami dasar-dasar pemrograman web dengan React. React adalah library JavaScript yang digunakan untuk membuat antarmuka pengguna.
+
+        Bersama mentor terpercaya, kita akan mempelajari pemrograman web dengan React dari dasar hingga mahir. Mentor akan memberikan berbagai contoh kasus yang sering ditemui dalam dunia nyata dan bagaimana cara memecahkannya dengan React.
+
+        Kelas ini sangat cocok untuk Anda yang ingin memahami apa itu pemrograman web dengan React dan bagaimana cara menerapkannya dalam kehidupan sehari-hari. Tidak hanya ditujukan untuk programmer, kelas ini sangat cocok untuk Anda yang ingin meningkatkan kemampuan berpikir logis dan sistematis.
+
+        Yuk segera daftar dan kami tunggu di kelas ya!`,
+        target_audience: ["Anda yang ingin memahami poin penting pemrograman web dengan React", "Anda yang ingin latihan membangun pemrograman web dengan React", "Anda yang ingin mengembangkan Startup"],
+      },
+      {
+        id: uuid(),
+        name: "Pemrograman Web dengan Node.js",
+        price: 0,
+        premium: false,
+        author_id: userAdminId,
+        // instructor_id: [instructorId],
+        course_category_id: await getCategoryIdByName("Web Development"),
+        description: `Pemrograman Web dengan Node.js adalah kelas yang akan membimbing Anda memahami dasar-dasar pemrograman web dengan Node.js. Node.js adalah runtime JavaScript yang digunakan untuk membuat aplikasi web.
+
+        Bersama mentor terpercaya, kita akan mempelajari pemrograman web dengan Node.js dari dasar hingga mahir. Mentor akan memberikan berbagai contoh kasus yang sering ditemui dalam dunia nyata dan bagaimana cara memecahkannya dengan Node.js.
+
+        Kelas ini sangat cocok untuk Anda yang ingin memahami apa itu pemrograman web dengan Node.js dan bagaimana cara menerapkannya dalam kehidupan sehari-hari. Tidak hanya ditujukan untuk programmer, kelas ini sangat cocok untuk Anda yang ingin meningkatkan kemampuan berpikir logis dan sistematis.
+
+        Yuk segera daftar dan kami tunggu di kelas ya!`,
+        target_audience: ["Anda yang ingin memahami poin penting pemrograman web dengan Node.js", "Anda yang ingin latihan membangun pemrograman web dengan Node.js", "Anda yang ingin mengembangkan Startup"],
+      },
+      {
+        id: uuid(),
+        name: "Studi Kasus: Membuat Aplikasi Pemesanan Tiket Kereta Api",
+        price: 0,
+        premium: false,
+        author_id: userAdminId,
+        // instructor_id: [instructorId],
+        course_category_id: await getCategoryIdByName("Web Development"),
+        description: `Studi Kasus: Membuat Aplikasi Pemesanan Tiket Kereta Api adalah kelas yang akan membimbing Anda memahami dasar-dasar membuat aplikasi pemesanan tiket kereta api. Aplikasi ini akan dibuat menggunakan Express.js dan React.
+
+        Bersama mentor terpercaya, kita akan mempelajari studi kasus membuat aplikasi pemesanan tiket kereta api dari dasar hingga mahir. Mentor akan memberikan berbagai contoh kasus yang sering ditemui dalam dunia nyata dan bagaimana cara memecahkannya dengan Express.js dan React.
+
+        Kelas ini sangat cocok untuk Anda yang ingin memahami apa itu studi kasus membuat aplikasi pemesanan tiket kereta api dan bagaimana cara menerapkannya dalam kehidupan sehari-hari. Tidak hanya ditujukan untuk programmer, kelas ini sangat cocok untuk Anda yang ingin meningkatkan kemampuan berpikir logis dan sistematis.
+
+        Yuk segera daftar dan kami tunggu di kelas ya!`,
         target_audience: [
-          // "Cocok untuk yang ingin membangun website kelas online",
-          // "Cocok untuk yang ingin belajar menerapkan arsitektur microservice pada aplikasi",
-          "Diperuntukkan bagi yang ingin menjadi fullstack developer pada bahasa pemrograman javascript",
+          "Anda yang ingin memahami poin penting studi kasus membuat aplikasi pemesanan tiket kereta api",
+          "Anda yang ingin latihan membangun studi kasus membuat aplikasi pemesanan tiket kereta api",
+          "Anda yang ingin mengembangkan Startup",
         ],
-        // onboarding_text:
-        //   "Ikuti proyek praktis yang dirancang khusus untuk memberi Anda pengalaman langsung dalam mengimplementasikan microservice. Dengan demikian, Anda dapat mengaplikasikan pengetahuan yang telah Anda pelajari secara langsung. Selamat mengeksplorasi dunia yang menarik dan dinamis dari pengembangan web dengan arsitektur microservice!",
       },
       {
-        id: "14b3347c-bc8a-4cee-b2fd-b41764c3db10",
-        name: "Full-Stack Web Developer",
+        id: uuid(),
+        name: "Pengenalan Cybersecurity",
         price: 0,
         premium: false,
         author_id: userAdminId,
-        instructor_id: ["12ab32a3-d242-40be-8426-6a1b8d57700f"],
-        course_category_id: await getCategoryIdByName("Sistem Informasi"),
-        description: `Penguasaan front end (user interface) dan back end (business logic) pada saat membangun website adalah hal utama bagi seorang Full Stack Web Developer. Bahkan, akan lebih baik jika didukung oleh skill UI/UX Design dan System Administration agar keseluruhan sistem web dapat berjalan dengan baik.
-          
-          Di kelas ini, mentor kami akan menjelaskan UX design, UI design, dan pengembangan web menggunakan Bootstrap dan Laravel secara terperinci. Kelas ini cocok bagi Anda yang sedang bingung menentukan spesialisasi karir di bidang teknologi. Banyak ilmu yang bisa didapatkan dan bisa menjadi bekal untuk menjadi developer yang handal. Kelas ini menggunakan tools Laravel 6 dan PHP ≥ 7.2.
-          
-          Setelah menyelesaikan kelas ini, Anda dapat lebih fokus memilih bidang sesuai dengan minat dan kemampuan. Segera daftar dan kami tunggu di kelas!`,
-        target_audience: ["Anda yang ingin mempelajari Prototype", "Anda yang ingin menguasai pengembangan web", "Anda yang ingin mempelajari backend Laravel"],
-        // onboarding_text:
-        //   "Nikmati navigasi yang ramah pengguna, video tutorial interaktif, dan sumber daya bermanfaat untuk memahami konsep fundamental, bahasa pemrograman, dan framework yang relevan dalam pengembangan web. Melalui langkah-langkah yang terstruktur, Anda akan belajar cara mengembangkan aplikasi web yang responsif, aman, dan dapat berskala.",
+        // instructor_id: [instructorId, secondInstructorId],
+        course_category_id: await getCategoryIdByName("Cybersecurity"),
+        description: `Pengenalan Cybersecurity adalah kelas yang akan membimbing Anda memahami dasar-dasar cybersecurity. Cybersecurity adalah praktik melindungi sistem, jaringan, dan program dari serangan digital.
+
+        Bersama mentor terpercaya, kita akan mempelajari pengenalan cybersecurity dari dasar hingga mahir. Mentor akan memberikan berbagai contoh kasus yang sering ditemui dalam dunia nyata dan bagaimana cara memecahkannya dengan cybersecurity.
+
+        Kelas ini sangat cocok untuk Anda yang ingin memahami apa itu cybersecurity dan bagaimana cara menerapkannya dalam kehidupan sehari-hari. Tidak hanya ditujukan untuk programmer, kelas ini sangat cocok untuk Anda yang ingin meningkatkan kemampuan berpikir logis dan sistematis.
+
+        Yuk segera daftar dan kami tunggu di kelas ya!`,
+        target_audience: ["Anda yang ingin memahami poin penting cybersecurity", "Anda yang ingin latihan membangun cybersecurity", "Anda yang ingin mengembangkan Startup"],
       },
       {
-        id: "f3102f7e-9916-4ff8-a50c-60048f7b634c",
-        name: "Flutter Developer: Provider State Management",
+        id: uuid(),
+        name: "Pengenalan Kriptografi",
         price: 0,
         premium: false,
         author_id: userAdminId,
-        instructor_id: ["12ab32a3-d242-40be-8426-6a1b8d57700f"],
-        course_category_id: await getCategoryIdByName("Sistem Informasi"),
-        description: `Pada pengembangan aplikasi, kita tidak akan terlepas dari proses penyimpanan data. Namun, dalam menjaga sebuah data agar dapat mudah digunakan kapan pun diperlukan proses dalam jangka waktu yang lama.
-          
-          Sejak 2019, Flutter SDK telah digunakan oleh banyak perusahaan besar dunia semisal Tencent, Alibaba Group dan BMW. Melalui Flutter, kita dapat mengakses library yang tersedia agar dapat mengelola data atau state pada aplikasi secara efektif.
-          
-          Pada kelas ini, kita akan belajar bagaimana mengimplementasikan State Management dengan menggunakan Provider agar state dapat tersimpan, maintainable dan mudah digunakan kembali di mana pun dan kapan pun saat dibutuhkan. Flutter memberikan kemudahan kepada para developer agar dapat dengan mudah mengelola state sesuai dengan keinginan mereka.
-          
-          Pada case study, kita akan membangun sebuah aplikasi pencarian kerja IT secara online dan mengelola datanya menggunakan State Management. Kelas ini sangat tepat untuk dipelajari bagi Anda yang ingin memperdalam ilmu mengenai State Management. Silahkan bergabung dan kami tunggu di kelas, ya!`,
-        target_audience: ["Anda yang ingin membangun aplikasi mobile menggunakan API", "Anda yang ingin memperdalam State Management Provider pada Flutter", "Anda yang ingin memiliki portfolio yang menjual"],
-        // onboarding_text:
-        //   "Dengan desain yang bersih dan interaktif, Anda akan dihadapkan pada tantangan pengkodean yang menarik, memperdalam pemahaman Anda tentang Provider dan bagaimana mengimplementasikannya dalam proyek Flutter Anda. Temukan manfaat dari manajemen status yang efisien, serta cara mengoptimalkan kinerja aplikasi Anda dengan baik.",
+        // instructor_id: [instructorId, secondInstructorId],
+        course_category_id: await getCategoryIdByName("Cybersecurity"),
+        description: `Pengenalan Kriptografi adalah kelas yang akan membimbing Anda memahami dasar-dasar kriptografi. Kriptografi adalah ilmu dan seni melindungi informasi dengan mengubahnya menjadi bentuk yang tidak dapat dibaca.
+
+        Bersama mentor terpercaya, kita akan mempelajari pengenalan kriptografi dari dasar hingga mahir. Mentor akan memberikan berbagai contoh kasus yang sering ditemui dalam dunia nyata dan bagaimana cara memecahkannya dengan kriptografi.
+
+        Kelas ini sangat cocok untuk Anda yang ingin memahami apa itu kriptografi dan bagaimana cara menerapkannya dalam kehidupan sehari-hari. Tidak hanya ditujukan untuk programmer, kelas ini sangat cocok untuk Anda yang ingin meningkatkan kemampuan berpikir logis dan sistematis.
+
+        Yuk segera daftar dan kami tunggu di kelas ya!`,
+        target_audience: ["Anda yang ingin memahami poin penting kriptografi", "Anda yang ingin latihan membangun kriptografi", "Anda yang ingin mengembangkan Startup"],
       },
       {
-        id: "b4863ea2-0fb8-46ca-97e7-ee8a817b7f70",
-        name: "Learn Flutter & Adobe XD: Build a Complete Mobile App",
-        price: 350000,
-        premium: true,
+        id: uuid(),
+        name: "Pengenalan Ethical Hacking",
+        price: 0,
+        premium: false,
         author_id: userAdminId,
-        instructor_id: ["12ab32a3-d242-40be-8426-6a1b8d57700f"],
-        course_category_id: await getCategoryIdByName("Sistem Informasi"),
-        description: `Faktor pertama yang menjadi alasan pengguna menggunakan aplikasi e-commerce adalah tampilan antarmuka (UI) yang menarik. UI yang dirancang dengan baik dapat menanamkan kepercayaan pada produk yang ditawarkan, yang nantinya berpengaruh penting terhadap kelancaran bisnis produk tersebut. Kelas ini akan membahas proses pengembangan UI pada sisi Front-End secara lengkap, dari mendesain UI dengan Adobe XD sampai slicing desain ke Flutter.
-          
-          Melalui case study “E-Commerce Story”, Adobe XD digunakan untuk membangun komponen UI (icon, tipografi, gambar, warna, dll) menjadi sebuah aplikasi utuh. Dengan Adobe XD, kita bisa menghasilkan high quality design sekaligus prototype guna memeriksa apakah interaksi dan navigasi pilihan kita sudah dirasa sesuai untuk dipakai secara nyata.
-          
-          Setelah desain selesai dibuat, proses berlanjut pada tahapan slicing design asset ke Flutter SDK. Slicing dilakukan untuk menulis coding dalam satu basis kode dengan beragam Widget praktis seperti Scaffold, Drawer, hingga Navigator.
-          
-          Kelas ini cocok bagi Anda yang ingin mendalami desain aplikasi berskala besar. Bila menemukan kendala selama belajar, silakan berkonsultasi dengan para Mentor ahli kami di grup konsultasi. Segera daftar dan kami tunggu di kelas, ya!`,
-        target_audience: ["Anda yang ingin mempelajari proses Design to Code", "Anda yang ingin mempelajari Slicing UI ke Flutter", "Anda yang ingin memiliki portofolio yang menjual"],
-        // onboarding_text:
-        //   "Temukan keajaiban desain dengan Adobe XD, di mana Anda dapat merancang antarmuka pengguna yang menarik dan responsif tanpa batas. Lalu, beralihlah ke Flutter. Dengan gabungan kekuatan kedua platform ini, Anda akan mampu membangun aplikasi seluler yang tidak hanya estetis, tetapi juga berkinerja tinggi.",
+        // instructor_id: [instructorId, secondInstructorId],
+        course_category_id: await getCategoryIdByName("Cybersecurity"),
+        description: `Pengenalan Ethical Hacking adalah kelas yang akan membimbing Anda memahami dasar-dasar ethical hacking. Ethical hacking adalah praktik mencari kelemahan dalam sistem komputer dan jaringan untuk melindungi mereka dari serangan.
+
+        Bersama mentor terpercaya, kita akan mempelajari pengenalan ethical hacking dari dasar hingga mahir. Mentor akan memberikan berbagai contoh kasus yang sering ditemui dalam dunia nyata dan bagaimana cara memecahkannya dengan ethical hacking.
+
+        Kelas ini sangat cocok untuk Anda yang ingin memahami apa itu ethical hacking dan bagaimana cara menerapkannya dalam kehidupan sehari-hari. Tidak hanya ditujukan untuk programmer, kelas ini sangat cocok untuk Anda yang ingin meningkatkan kemampuan berpikir logis dan sistematis.
+
+        Yuk segera daftar dan kami tunggu di kelas ya!`,
+        target_audience: ["Anda yang ingin memahami poin penting ethical hacking", "Anda yang ingin latihan membangun ethical hacking", "Anda yang ingin mengembangkan Startup"],
       },
       {
-        id: "65d6891c-8369-4241-bf8c-18ae3fc0939f",
-        name: "SwiftUI & iOS Engineer: The Complete App Development Bootcamp",
-        price: 500000,
-        premium: true,
+        id: uuid(),
+        name: "Pengenalan Digital Forensics",
+        price: 0,
+        premium: false,
         author_id: userAdminId,
-        instructor_id: ["12ab32a3-d242-40be-8426-6a1b8d57700f"],
-        course_category_id: await getCategoryIdByName("Sistem Informasi"),
-        description: `Di era digital, berbagai perusahaan berlomba untuk mengembangkan situs web dan aplikasi yang user friendly dan responsif. Oleh karena itu, berbagai pekerjaan seputar design dan development sangat dibutuhkan saat ini. Jika kamu menyukai bagaimana melakukan slicing UI ke dalam UI/UX Development, profesi Junior UI/UX Developer atau yang lebih dikenal dengan UI Engineer akan menjadi profesi yang ideal untukmu.
-          
-          Melalui kelas ini, kamu akan berperan sebagai UI Engineer untuk melakukan slicing Food App design dari Figma menggunakan aplikasi Xcode, development tools untuk aplikasi berbasis iOS. Nantinya, mentor tidak hanya akan memberikan panduan untuk melakukan slicing, namun juga akan ada challange untuk kamu melakukan slicing sendiri. Namun jangan khawatir, di akhir kelas kamu bisa mencocokan bagiamana cara kamu dan mentor dalam melakukan slicing page tersebut.
-          
-          Silahkan bergabung untuk upgrade skill slicing kamu dan mendapatkan sertifikat resminya setelah kamu menyelesaikan kelas. Okay people with the spirit of learning semoga bermanfaat dan kami tunggu di kelas ya!`,
-        target_audience: ["Anda yang ingin meningkatkan skill slicing User Interface", "Anda yang ingin mempelajari lebih dalam tools Xcode", "Anda yang ingin mempunyai real world project untuk portfolio"],
-        // onboarding_text:
-        //   "Menyambut peserta kursus ke dunia pengembangan aplikasi iOS dengan menggunakan teknologi terkini seperti SwiftUI. Halaman ini dirancang secara elegan dan responsif, memberikan gambaran singkat tentang kurikulum yang komprehensif dan menyeluruh.",
+        // instructor_id: [instructorId, secondInstructorId],
+        course_category_id: await getCategoryIdByName("Cybersecurity"),
+        description: `Pengenalan Digital Forensics adalah kelas yang akan membimbing Anda memahami dasar-dasar digital forensics. Digital forensics adalah proses mengumpulkan, menganalisis, dan menyajikan bukti digital yang dapat digunakan dalam penyelidikan hukum.
+
+        Bersama mentor terpercaya, kita akan mempelajari pengenalan digital forensics dari dasar hingga mahir. Mentor akan memberikan berbagai contoh kasus yang sering ditemui dalam dunia nyata dan bagaimana cara memecahkannya dengan digital forensics.
+
+        Kelas ini sangat cocok untuk Anda yang ingin memahami apa itu digital forensics dan bagaimana cara menerapkannya dalam kehidupan sehari-hari. Tidak hanya ditujukan untuk programmer, kelas ini sangat cocok untuk Anda yang ingin meningkatkan kemampuan berpikir logis dan sistematis.
+
+        Yuk segera daftar dan kami tunggu di kelas ya!`,
+        target_audience: ["Anda yang ingin memahami poin penting digital forensics", "Anda yang ingin latihan membangun digital forensics", "Anda yang ingin mengembangkan Startup"],
       },
       {
-        id: "bfd0ab17-01f8-4572-bc78-347c635ecf38",
-        name: "SQL for Beginners: Learn SQL using MySQL and Database Design",
-        price: 300000,
-        premium: true,
+        id: uuid(),
+        name: "Penetration Testing",
+        price: 0,
+        premium: false,
         author_id: userAdminId,
-        instructor_id: ["12ab32a3-d242-40be-8426-6a1b8d57700f"],
-        course_category_id: await getCategoryIdByName("Sistem Informasi"),
-        description: `Charles Bachman menciptakan database agar data memiliki tampilan yang mudah dipahami dan tentunya dapat dikelola oleh banyak pengguna. Data yang tersusun rapi melalui Database Management System (DBMS), dapat memudahkan kebutuhan kita dalam pengembangan aplikasi. Dengan menguasai DBMS, kita dapat dengan mudah mencari atau mengubah data sesuai kebutuhan, mengolah big data, hingga mempercepat kinerja aplikasi secara efisien.
-          
-          Pada kelas ini, Mentor akan menjelaskan database management dengan MySQL. Kita akan mulai dengan pengenalan dasar-dasar database (data, DBMS, SQL) dan storage engine pada DBMS. Pada software MySQL, kita akan membangun database “Flying” dimulai dari menyiapkan tabel, mengatur field dan mengisi tipe data.
-          
-          Selain itu juga kita menggunakan TablePlus karena bahasa query lebih fleksibel dan hasil database mudah dipahami melalui tampilan yang user friendly. Kelas ini menggunakan tools XAMPP, Beekeeper Studio, Dbeaver, Mamp, Table Plus dan MySQL 5.7.
-          
-          Kelas ini cocok bagi Anda yang ingin mendalami database management dalam pengembangan aplikasi. Mentor ahli kami pun siap membantumu melalui grup konsultasi. Silakan daftar dan sampai jumpa di kelas!`,
-        target_audience: ["Anda yang ingin mempelajari MySQL", "Anda yang ingin mengelola big data secara efisien", "Anda yang ingin mempelajari DBMS"],
-        // onboarding_text:
-        //   "Anda akan memulai perjalanan mengagumkan Anda dalam dunia SQL dan desain database. Dengan panduan interaktif dan mudah dipahami, kami akan membantu Anda memahami dasar-dasar SQL menggunakan MySQL, salah satu sistem manajemen basis data paling populer.",
+        // instructor_id: [instructorId, secondInstructorId],
+        course_category_id: await getCategoryIdByName("Cybersecurity"),
+        description: `Penetration Testing adalah kelas yang akan membimbing Anda memahami dasar-dasar penetration testing. Penetration testing adalah proses mengidentifikasi kelemahan dalam sistem komputer dan jaringan.
+
+        Bersama mentor terpercaya, kita akan mempelajari penetration testing dari dasar hingga mahir. Mentor akan memberikan berbagai contoh kasus yang sering ditemui dalam dunia nyata dan bagaimana cara memecahkannya dengan penetration testing.
+
+        Kelas ini sangat cocok untuk Anda yang ingin memahami apa itu penetration testing dan bagaimana cara menerapkannya dalam kehidupan sehari-hari. Tidak hanya ditujukan untuk programmer, kelas ini sangat cocok untuk Anda yang ingin meningkatkan kemampuan berpikir logis dan sistematis.
+
+        Yuk segera daftar dan kami tunggu di kelas ya!`,
+        target_audience: ["Anda yang ingin memahami poin penting penetration testing", "Anda yang ingin latihan membangun penetration testing", "Anda yang ingin mengembangkan Startup"],
+      },
+      {
+        id: uuid(),
+        name: "Keamanan Jaringan",
+        price: 0,
+        premium: false,
+        author_id: userAdminId,
+        // instructor_id: [instructorId, secondInstructorId],
+        course_category_id: await getCategoryIdByName("Cybersecurity"),
+        description: `Keamanan Jaringan adalah kelas yang akan membimbing Anda memahami dasar-dasar keamanan jaringan. Keamanan jaringan adalah proses melindungi sistem komputer dan jaringan dari serangan digital.
+
+        Bersama mentor terpercaya, kita akan mempelajari keamanan jaringan dari dasar hingga mahir. Mentor akan memberikan berbagai contoh kasus yang sering ditemui dalam dunia nyata dan bagaimana cara memecahkannya dengan keamanan jaringan.
+
+        Kelas ini sangat cocok untuk Anda yang ingin memahami apa itu keamanan jaringan dan bagaimana cara menerapkannya dalam kehidupan sehari-hari. Tidak hanya ditujukan untuk programmer, kelas ini sangat cocok untuk Anda yang ingin meningkatkan kemampuan berpikir logis dan sistematis.
+
+        Yuk segera daftar dan kami tunggu di kelas ya!`,
+        target_audience: ["Anda yang ingin memahami poin penting keamanan jaringan", "Anda yang ingin latihan membangun keamanan jaringan", "Anda yang ingin mengembangkan Startup"],
       },
     ];
 
@@ -178,12 +440,6 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    /**
-     * Add commands to revert seed here.
-     *
-     * Example:
-     * await queryInterface.bulkDelete('People', null, {});
-     */
     // @ts-ignore
     return queryInterface.bulkDelete("Courses", null, {});
   },

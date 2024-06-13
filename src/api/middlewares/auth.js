@@ -1,7 +1,6 @@
 import { ApplicationError } from "../../libs/error.js";
 import * as authService from "../services/auth.js";
 import * as Models from "../models/user.js";
-import * as ModelsI from "../models/instructor.js";
 import * as Types from "../../libs/types/common.js";
 
 /**
@@ -55,6 +54,29 @@ export function isAdmin(_req, res, next) {
 
   if (role !== "SUPER_ADMIN" && role !== "ADMIN" && role !== "INSTRUCTOR") {
     res.status(403).json({ message: "Only admin is allowed for this endpoint" });
+    return;
+  }
+
+  res.locals.role = role;
+
+  next();
+}
+
+/**
+ * Check if user is superadmin.
+ *
+ * @type {Types.Middleware<
+ *   Types.ExtractLocalsMiddleware<typeof isAuthorized> & {
+ *     role: Models.UserAttributes["role"];
+ *   }
+ * >}
+ * @returns {void}
+ */
+export function isSuperAdmin(_req, res, next) {
+  const { role } = /** @type {Models.UserAttributes} */ (res.locals.user);
+
+  if (role !== "SUPER_ADMIN") {
+    res.status(403).json({ message: "Only super admin is allowed for this endpoint" });
     return;
   }
 

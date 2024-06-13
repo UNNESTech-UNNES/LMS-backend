@@ -42,10 +42,6 @@ module.exports = {
           key: "id",
         },
       },
-      instructor_id: {
-        type: Sequelize.ARRAY(Sequelize.STRING),
-        allowNull: false,
-      },
       course_category_id: {
         type: Sequelize.UUID,
         allowNull: false,

@@ -4,6 +4,35 @@ import * as userRepository from "../repositories/user.js";
 import * as authService from "./auth.js";
 import * as Models from "../models/user.js";
 
+export async function getAllUsers() {
+  try {
+    const users = await userRepository.getAllUsers();
+    if (users.length === 0) throw new ApplicationError("No user found", 404);
+    return users;
+  } catch (error) {
+    throw generateApplicationError(error, "Error fetching all users", 500);
+  }
+}
+
+export async function getAllInstructor() {
+  try {
+    const instructors = await userRepository.getAllInstructors();
+    if (instructors.length === 0) throw new ApplicationError("No instructor found", 404);
+    return instructors;
+  } catch (error) {
+    throw generateApplicationError(error, "Error fetching all instructors", 500);
+  }
+}
+
+export async function getAllStudentsAndInstructor() {
+  try {
+    const users = await userRepository.getAllStudentsAndInstructor();
+    return users;
+  } catch (error) {
+    throw generateApplicationError(error, "Error fetching all students", 500);
+  }
+}
+
 /** @param {string} id */
 export async function getUserById(id) {
   try {
@@ -78,5 +107,34 @@ export async function createUser(payload) {
     return user;
   } catch (error) {
     throw generateApplicationError(error, "Error creating user", 500);
+  }
+}
+
+/** @param {string} id */
+export async function deleteUser(id) {
+  try {
+    const user = await userRepository.getUserById(id);
+    if (!user) {
+      throw new ApplicationError("User not found", 404);
+    }
+    await userRepository.deleteUser(id);
+  } catch (error) {
+    throw generateApplicationError(error, "Error deleting user", 500);
+  }
+}
+
+/** @param {string} id */
+export async function deactiveUser(id) {
+  try {
+    const user = await userRepository.getUserById(id);
+    if (!user) {
+      throw new ApplicationError("User not found", 404);
+    }
+    if (user.dataValues.verified === false) {
+      throw new ApplicationError("User already deactivated", 400);
+    }
+    await userRepository.updatedUser(id, { verified: false });
+  } catch (error) {
+    throw generateApplicationError(error, "Error deactivating user", 500);
   }
 }

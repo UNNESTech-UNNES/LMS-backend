@@ -1,4 +1,5 @@
 import { Router } from "express";
+import * as authMiddleware from "../middlewares/auth.js";
 import * as authController from "../controllers/auth.js";
 import * as Types from "../../libs/types/common.js";
 
@@ -17,7 +18,7 @@ export default (app) => {
   router.post("/register", authController.register);
   router.post("/student/register", authController.registerStudent);
   router.post("/instructor/register", authController.registerInstructor);
-  router.post("/admin/register", authController.registerAdmin);
+  router.post("/admin/register", authMiddleware.isAuthorized, authMiddleware.isSuperAdmin, authController.registerAdmin);
 
   router.post("/otp", authController.sendOtpRequest);
   router.post("/otp/verify", authController.verifyOtp);

@@ -1,23 +1,22 @@
 import { Model } from "sequelize";
 
 /**
- * @typedef InstructorContributionAttributes
+ * @typedef CourseInstructorAttributes
  * @property {string} id
- * @property {string} course_id
  * @property {string} user_id
- * @property {string} user_profil
+ * @property {string} course_id
  * @property {Date} created_at
  * @property {Date} updated_at
  */
 
-const Models = {};
+export const Models = {};
 
 /**
  * @param {import('sequelize').Sequelize} sequelize
  * @param {import('sequelize').DataTypes} DataTypes
  */
 export default (sequelize, DataTypes) => {
-  class InstructorContribution extends Model {
+  class Course_instructor extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -25,40 +24,35 @@ export default (sequelize, DataTypes) => {
      * @param {Record<import('./index.js').ModelName, any>} models
      */
     static associate(models) {
-      this.belongsTo(models.Course, {
-        foreignKey: "course_id",
-        as: "course",
-      });
-
       this.belongsTo(models.User, {
         foreignKey: "user_id",
-        as: "user",
+        as: "instructor",
+      });
+
+      this.belongsTo(models.Course, {
+        foreignKey: "course_id",
       });
     }
   }
-  InstructorContribution.init(
+  Course_instructor.init(
     {
-      course_id: {
-        type: DataTypes.UUID,
-        allowNull: false,
-      },
       user_id: {
         type: DataTypes.UUID,
         allowNull: false,
       },
-      user_profil: {
+      course_id: {
         type: DataTypes.UUID,
         allowNull: false,
       },
     },
     {
       sequelize,
-      modelName: "InstructorContribution",
-      tableName: "InstructorContributions",
+      modelName: "CourseInstructor",
+      tableName: "Course_instructors",
       underscored: true,
       createdAt: "created_at",
       updatedAt: "updated_at",
     }
   );
-  return InstructorContribution;
+  return Course_instructor;
 };
