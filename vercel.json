@@ -1,0 +1,11 @@
+{
+  "version": "1.7",
+  "builds": [
+    {
+      "src": "index.js",
+      "use": "@vercel/node",
+      "config": { "maxLambdaSize": "10mb" }
+    }
+  ],
+  "routes": [{ "src": "/.*", "dest": "index.js" }]
+}
