@@ -22,7 +22,7 @@ export const Models = {};
  */
 
 export default (sequelize, DataTypes) => {
-  /** @extends {Model<CourseContentAttributes} */
+  /** @extends {Model<CourseContentAttributes>} */
   class Course_content extends Model {
     /**
      * Helper method for defining associations.
