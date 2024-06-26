@@ -269,12 +269,17 @@ export function getCourseWithUserStatus(id, userId) {
               },
             ],
           },
+          {
+            model: Quiz,
+            as: "quizzes",
+          },
         ],
       },
     ],
     order: [
       ["chapters", "order_index", "ASC"],
       ["chapters", "materials", "order_index", "ASC"],
+      ["chapters", "quizzes", "order_index", "ASC"],
     ],
     attributes: {
       include: [getTotalDuration(), getTotalQuizzes(), getTotalMaterials(), getTotalEnrollments(), getUserTotalCompletedMaterials()],

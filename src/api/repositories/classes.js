@@ -118,7 +118,7 @@ export function getUserClasses(user_id) {
     ],
     attributes: {
       include: [getTotalMemberInClass()],
-      exclude: ["registration_deadline", "instructor_id", "course_category_id"],
+      exclude: ["registration_deadline", "instructor_id"],
     },
   });
 }
