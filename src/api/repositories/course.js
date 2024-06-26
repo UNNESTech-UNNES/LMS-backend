@@ -269,6 +269,10 @@ export function getCourseWithUserStatus(id, userId) {
               },
             ],
           },
+          {
+            model: Quiz,
+            as: "quizzes",
+          },
         ],
       },
     ],

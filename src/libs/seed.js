@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker";
-import { User, Class, Course, CourseCategory, CourseChapter } from "../api/models/index.js";
+import { User, Class, Course, CourseCategory, CourseChapter, CourseMaterial } from "../api/models/index.js";
 
 export function generateRandomUser() {
   return {
@@ -95,10 +95,24 @@ export async function getCourseIdByName(name) {
 }
 
 /** @param {string} name */
+export async function getCourseIdsByCategoryName(name) {
+  return Course.findAll({
+    where: { course_category_id: await getCategoryIdByName(name) },
+  }).then((models) => models.map((model) => model.dataValues.id));
+}
+
+/** @param {string} name */
 export async function getCourseChapterIdByName(name) {
   return CourseChapter.findOne({
     where: { name },
   }).then((model) => model?.dataValues.id);
+}
+
+/** @param {string} name */
+export async function getAllCourseMaterialIdsByCourseChapterName(name) {
+  return CourseMaterial.findAll({
+    where: { course_chapter_id: await getCourseChapterIdByName(name) },
+  }).then((models) => models.map((model) => model.dataValues.id));
 }
 
 export async function getAdminUserId() {
