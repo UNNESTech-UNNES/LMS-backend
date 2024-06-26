@@ -279,6 +279,7 @@ export function getCourseWithUserStatus(id, userId) {
     order: [
       ["chapters", "order_index", "ASC"],
       ["chapters", "materials", "order_index", "ASC"],
+      ["chapters", "quizzes", "order_index", "ASC"],
     ],
     attributes: {
       include: [getTotalDuration(), getTotalQuizzes(), getTotalMaterials(), getTotalEnrollments(), getUserTotalCompletedMaterials()],
