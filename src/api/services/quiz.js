@@ -67,7 +67,9 @@ async function countQuizScore(submissions) {
     await Promise.all(
       submissions.map(async (/** @type {any} */ submission) => {
         const question = await quizQuestionRepository.getQuestionById(submission.question_id);
-        if (question?.dataValues.correct_option === submission.answer) score++;
+        if (question?.dataValues.correct_option === submission.answer) {
+          score++;
+        }
       })
     );
     const latestScore = Math.round((score / submissions.length) * 100);
