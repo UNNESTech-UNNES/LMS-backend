@@ -13,4 +13,6 @@ export default (app) => {
   app.use("/quiz", router);
 
   router.get("/:id", authMiddleware.isLoggedIn, quizController.getQuizzes);
+  router.post("/submit/:id", authMiddleware.isAuthorized, quizController.submitQuiz);
+  router.get("/history/:id", authMiddleware.isAuthorized, quizController.getHistoryByQuizId);
 };

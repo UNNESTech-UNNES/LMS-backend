@@ -1,14 +1,12 @@
 import { Model } from "sequelize";
 
 /**
- * @typedef QuizQuestionAttributes
+ * @typedef HistoryAttemptAttributes
  * @property {string} id
+ * @property {string} user_id
  * @property {string} quiz_id
- * @property {string} label
- * @property {string} question
- * @property {string[]} options
- * @property {string} correct_option
- * @property {string} summary
+ * @property {number} score
+ * @property {Date} attempted_at
  * @property {Date} created_at
  * @property {Date} updated_at
  */
@@ -20,8 +18,7 @@ export const Models = {};
  * @param {import('sequelize').DataTypes} DataTypes
  */
 export default (sequelize, DataTypes) => {
-  /** @extends {Model<QuizQuestionAttributes>} */
-  class QuizQuestion extends Model {
+  class HistoryAttempt extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -29,52 +26,50 @@ export default (sequelize, DataTypes) => {
      * @param {Record<import('./index.js').ModelName,any>} models
      */
     static associate(models) {
+      this.belongsTo(models.User, {
+        foreignKey: "user_id",
+        as: "user",
+      });
+
       this.belongsTo(models.Quiz, {
         foreignKey: "quiz_id",
         as: "quiz",
       });
 
       this.hasMany(models.QuizSubmission, {
-        foreignKey: "question_id",
+        foreignKey: "attempt_id",
         as: "submissions",
       });
     }
   }
-  QuizQuestion.init(
-    // @ts-ignore
+  HistoryAttempt.init(
     {
+      user_id: {
+        type: DataTypes.UUID,
+        allowNull: false,
+      },
       quiz_id: {
         type: DataTypes.UUID,
         allowNull: false,
       },
-      label: {
-        type: DataTypes.TEXT,
-      },
-      question: {
-        type: DataTypes.TEXT,
+      score: {
+        type: DataTypes.INTEGER,
         allowNull: false,
+        defaultValue: 0,
       },
-      options: {
-        type: DataTypes.ARRAY(DataTypes.TEXT),
+      attempted_at: {
+        type: DataTypes.DATE,
         allowNull: false,
-      },
-      correct_option: {
-        type: DataTypes.TEXT,
-        allowNull: false,
-      },
-      summary: {
-        type: DataTypes.TEXT,
-        allowNull: true,
       },
     },
     {
       sequelize,
-      modelName: "QuizQuestion",
-      tableName: "Quiz_questions",
+      modelName: "HistoryAttempt",
+      tableName: "History_attempts",
       underscored: true,
       createdAt: "created_at",
       updatedAt: "updated_at",
     }
   );
-  return QuizQuestion;
+  return HistoryAttempt;
 };

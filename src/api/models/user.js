@@ -64,6 +64,14 @@ export default (sequelize, DataTypes) => {
       this.hasMany(models.UserClassStatus, {
         foreignKey: "user_id",
       });
+
+      this.hasMany(models.QuizSubmission, {
+        foreignKey: "user_id",
+      });
+
+      this.hasMany(models.HistoryAttempt, {
+        foreignKey: "user_id",
+      });
     }
   }
   User.init(

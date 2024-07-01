@@ -27,8 +27,8 @@ module.exports = {
         allowNull: true,
       },
       image: {
-        type: Sequelize.STRING,
-        allowNull: true,
+        type: Sequelize.TEXT,
+        allowNull: false,
       },
       premium: {
         type: Sequelize.BOOLEAN,

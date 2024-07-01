@@ -1,14 +1,12 @@
 import { Model } from "sequelize";
 
 /**
- * @typedef QuizQuestionAttributes
+ * @typedef QuizSubmissionAttributes
  * @property {string} id
- * @property {string} quiz_id
- * @property {string} label
- * @property {string} question
- * @property {string[]} options
- * @property {string} correct_option
- * @property {string} summary
+ * @property {string} user_id
+ * @property {string} question_id
+ * @property {string} attempt_id
+ * @property {string} answer
  * @property {Date} created_at
  * @property {Date} updated_at
  */
@@ -20,8 +18,7 @@ export const Models = {};
  * @param {import('sequelize').DataTypes} DataTypes
  */
 export default (sequelize, DataTypes) => {
-  /** @extends {Model<QuizQuestionAttributes>} */
-  class QuizQuestion extends Model {
+  class QuizSubmission extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -29,52 +26,49 @@ export default (sequelize, DataTypes) => {
      * @param {Record<import('./index.js').ModelName,any>} models
      */
     static associate(models) {
-      this.belongsTo(models.Quiz, {
-        foreignKey: "quiz_id",
-        as: "quiz",
+      this.belongsTo(models.User, {
+        foreignKey: "user_id",
+        as: "user",
       });
 
-      this.hasMany(models.QuizSubmission, {
+      this.belongsTo(models.QuizQuestion, {
         foreignKey: "question_id",
-        as: "submissions",
+        as: "question",
+      });
+
+      this.belongsTo(models.HistoryAttempt, {
+        foreignKey: "attempt_id",
+        as: "attempt",
       });
     }
   }
-  QuizQuestion.init(
-    // @ts-ignore
+  QuizSubmission.init(
     {
-      quiz_id: {
+      user_id: {
         type: DataTypes.UUID,
         allowNull: false,
       },
-      label: {
-        type: DataTypes.TEXT,
-      },
-      question: {
-        type: DataTypes.TEXT,
+      question_id: {
+        type: DataTypes.UUID,
         allowNull: false,
       },
-      options: {
-        type: DataTypes.ARRAY(DataTypes.TEXT),
+      attempt_id: {
+        type: DataTypes.UUID,
         allowNull: false,
       },
-      correct_option: {
-        type: DataTypes.TEXT,
+      answer: {
+        type: DataTypes.STRING,
         allowNull: false,
-      },
-      summary: {
-        type: DataTypes.TEXT,
-        allowNull: true,
       },
     },
     {
       sequelize,
-      modelName: "QuizQuestion",
-      tableName: "Quiz_questions",
+      modelName: "QuizSubmission",
+      tableName: "Quiz_submissions",
       underscored: true,
       createdAt: "created_at",
       updatedAt: "updated_at",
     }
   );
-  return QuizQuestion;
+  return QuizSubmission;
 };

@@ -40,6 +40,11 @@ export default (sequelize, DataTypes) => {
         foreignKey: "quiz_id",
         as: "questions",
       });
+
+      this.hasMany(models.HistoryAttempt, {
+        foreignKey: "quiz_id",
+        as: "history_attempts",
+      });
     }
   }
   Quiz.init(

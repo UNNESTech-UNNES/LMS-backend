@@ -93,8 +93,8 @@ export default (sequelize, DataTypes) => {
         allowNull: true,
       },
       image: {
-        type: DataTypes.STRING,
-        allowNull: true,
+        type: DataTypes.TEXT,
+        allowNull: false,
       },
       premium: {
         type: DataTypes.BOOLEAN,
