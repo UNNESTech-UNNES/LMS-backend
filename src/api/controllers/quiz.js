@@ -28,8 +28,8 @@ export async function submitQuiz(req, res) {
   try {
     const { id } = req.params;
     const user_id = res.locals.user.id;
-    const { answers } = req.body;
-    await quizService.submitQuiz(id, user_id, answers);
+    const { attempt } = req.body;
+    await quizService.submitQuiz(id, user_id, attempt);
     res.status(200).json({ message: "Quiz submitted successfully" });
   } catch (err) {
     if (err instanceof ApplicationError) {
